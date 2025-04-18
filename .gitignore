@@ -1,0 +1,17 @@
+# Node.js y React
+node_modules/
+dist/
+build/
+
+# Archivos sensibles
+.env
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Configuración del editor
+.vscode/
+
+# Logs
+*.log
