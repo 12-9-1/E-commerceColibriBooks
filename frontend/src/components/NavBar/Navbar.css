@@ -1,0 +1,89 @@
+/* src/components/NavBar/Navbar.css */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 96%;
+    height: 10%;
+    z-index: 90;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: transparent;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar.scrolled {
+    background: rgba(0, 0, 0, 0.8); /* opcional para mejorar visibilidad */
+    backdrop-filter: blur(10px);
+  }
+  
+  .navbar-logo img {
+    width: 80px; /* tamaño normal */
+    margin-top: 25px; /* lo baja */
+    height: auto;
+    transition: width 0.3s ease;
+  }
+  
+  
+  .navbar-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .menu-icon, .cart-icon {
+    font-size: 1.3rem;
+    color: #2C3E50;
+    cursor: pointer;
+  }
+  
+  .cart-icon {
+    position: relative;
+  }
+  
+  .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    font-size: 0.8rem;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 5px;
+  }
+  
+  .user-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid white;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px 20px;
+    border-radius: 10px;
+  }
+  
+  .dropdown-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .dropdown-menu li {
+    padding: 10px 0;
+    cursor: pointer;
+    color: white;
+  }
+  
+  .dropdown-menu li:hover {
+    color: #E8D8C4;
+  }
+  

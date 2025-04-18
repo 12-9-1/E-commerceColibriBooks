@@ -9,8 +9,8 @@ const Home = () => {
     <div className="home-container">
       <div className="home-hero">
         <img src={logoColibri} alt="Colibrí de Letras" className="logo" />
-        <h1>Colibrí de Letras</h1>
-        <p>Donde cada historia despliega sus alas 📖✨</p>
+        <h1>Estación El Colibrí</h1>
+        <p>Boletos para mundos infinitos y reconstrucción infinita. 📖✨</p>
         <div className="home-buttons">
           <button onClick={() => navigate("/auth")}>Iniciar sesión</button>
           <button onClick={() => alert("Explorar libros aún no implementado 😅")}>Explorar libros</button>
