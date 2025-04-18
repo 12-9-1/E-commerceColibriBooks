@@ -26,12 +26,7 @@ const Navbar = ({ cartItems }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    setUser(null);
-    
-    // Añadir un pequeño retraso para garantizar la actualización
-    setTimeout(() => {
-      window.location.reload(); // Esto recargará la página y cargará el nuevo estado
-    }, 200);
+    window.location.reload();
   };
   
 
