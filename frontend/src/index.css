@@ -1,31 +1,66 @@
 :root {
-  --color-bg-body: #FDF8F3;
-  --color-text: #2E2E2E;
-  --color-header: #F7EFE7;
-  --color-border: #F4A259;
-  --color-card-bg: #FBE3E8;
-  --color-btn-bg: #F4A259;
-  --color-btn-hover: #F6D55C;
-  --color-btn-text: white;
-  --color-btn-hover-text: #2E2E2E;
+  --color-bg-body: #ECF0F1;          /* gris claro para fondo general */
+  --color-text: #2C3E50;            /* azul oscuro para texto */
+  --color-header: #2C3E50;          /* mismo azul para header */
+  --color-border: #BDC3C7;          /* gris suave para bordes */
+  --color-card-bg: #FFFFFF;         /* blanco para las cards */
+  --color-btn-bg: #E67E22;          /* naranja para botones */
+  --color-btn-hover: #D35400;       /* naranja más fuerte para hover */
+  --color-btn-text: #FFFFFF;        /* blanco en botones */
+  --color-btn-hover-text: #FFFFFF;  /* blanco también en hover */
+  --color-highlight: #27AE60;       /* verde suave para acentos */
 }
 
 body {
   background-color: var(--color-bg-body);
   color: var(--color-text);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header, .navbar {
+  background-color: var(--color-header);
+  color: var(--color-btn-text);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .card {
   background-color: var(--color-card-bg);
   border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
 }
 
 .card button {
   background-color: var(--color-btn-bg);
   color: var(--color-btn-text);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  margin-top: 0.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .card button:hover {
   background-color: var(--color-btn-hover);
   color: var(--color-btn-hover-text);
+}
+
+a {
+  color: var(--color-highlight);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
