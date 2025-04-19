@@ -19,18 +19,23 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const res = await axios.post("http://localhost:3000/api/auth/login", {
         email: form.email,
         password: form.password
       });
-
-      
+  
       if (res.data?.user) {
         localStorage.setItem("user", JSON.stringify(res.data.user));
         setUser(res.data.user);
-        navigate("/home");
+  
+        if (res.data.user.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+  
         alert("Login exitoso");
       } else {
         alert("Credenciales incorrectas");
@@ -40,6 +45,7 @@ const Login = () => {
       alert(error.response?.data?.message || "Error al iniciar sesión");
     }
   };
+  
 
   return (
     <div className="auth-container">
