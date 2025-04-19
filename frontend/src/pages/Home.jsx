@@ -4,8 +4,10 @@ import logoColibri from "../assets/logoColibri.png"; // fijate que sea .png
 import { useUser } from "../context/UserContext";
 
 const Home = () => {
-  const { user } = useUser();
+  const { user, userLoaded } = useUser();
   const navigate = useNavigate();
+
+  if (!userLoaded) return null; // o un loader si querés
 
   return (
     <div className="home-container">

@@ -7,7 +7,7 @@ import "./Navbar.css";
 import logoColibri from "../../assets/logoColibri.png"; // fijate que sea .png
 
 const Navbar = ({ cartItems }) => {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -26,8 +26,10 @@ const Navbar = ({ cartItems }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    window.location.reload();
+    setUser(null); // importante
+    navigate("/"); // te lleva al home sin recargar
   };
+  
   
 
   return (

@@ -25,3 +25,8 @@ connectDB(); // conecta a Mongo
 
 const authRoutes = require('./routers/auth.routes');
 app.use('/api/auth', authRoutes);
+
+const userRoutes = require('./routers/user.routes');
+app.use('/api/user', userRoutes); // 👈 esta línea
+
+

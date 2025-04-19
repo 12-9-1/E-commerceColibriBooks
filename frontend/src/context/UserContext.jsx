@@ -7,14 +7,21 @@ export const UserProvider = ({ children }) => {
   const [userLoaded, setUserLoaded] = useState(false);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      console.log("Usuario cargado desde localStorage:", JSON.parse(storedUser));  // Verificar que el usuario está cargado
+    try {
+      const storedUser = localStorage.getItem("user");
+
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+        console.log("Usuario cargado desde localStorage:", parsedUser);
+      }
+    } catch (error) {
+      console.error("Error al parsear el usuario del localStorage:", error);
+      localStorage.removeItem("user"); // limpia si estaba corrupto
     }
+
     setUserLoaded(true);
   }, []);
-  
 
   return (
     <UserContext.Provider value={{ user, setUser, userLoaded }}>
