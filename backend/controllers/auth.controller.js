@@ -15,10 +15,14 @@ const register = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ email, password: hashedPassword });
+
+    // 👇 Lógica para detectar si es el email del admin
+    const role = email === 'admin@libros.com' ? 'admin' : 'user';
+
+    const newUser = new User({ email, password: hashedPassword, role });
     await newUser.save();
 
-    res.status(201).json({ message: 'Usuario registrado exitosamente' });
+    res.status(201).json({ message: 'Usuario registrado exitosamente', role });
   } catch (error) {
     res.status(500).json({ message: 'Error en el registro', error });
   }
@@ -34,10 +38,22 @@ const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: 'Contraseña incorrecta' });
 
-    res.status(200).json({ message: 'Login exitoso', user: { email: user.email } });
+    res.status(200).json({
+      message: 'Login exitoso',
+      user: {
+        _id: user._id,
+        email: user.email,
+        role: user.role,
+        nickname: user.nickname || '',
+        avatar: user.avatar || ''
+      }
+    });
+    
+    
   } catch (error) {
     res.status(500).json({ message: 'Error en el login', error });
   }
 };
+
 
 module.exports = { register, login };
