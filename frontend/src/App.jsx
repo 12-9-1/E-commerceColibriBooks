@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar/Navbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AdminDashboard from './pages/AdminDashboard';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         <Route path="/auth" element={<AuthPage />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
     </UserProvider>
