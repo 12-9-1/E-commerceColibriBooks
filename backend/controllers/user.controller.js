@@ -35,8 +35,35 @@ const updateUserRole = async (req, res) => {
   }
 };
 
+
+const getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id, '-password');
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener perfil', error });
+  }
+};
+
+const updateUserProfile = async (req, res) => {
+  try {
+    const { nickname, avatar } = req.body;
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { nickname, avatar },
+      { new: true }
+    );
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al actualizar perfil', error });
+  }
+};
+
+
 module.exports = {
   getAllUsers,
   deleteUser,
-  updateUserRole
+  updateUserRole,
+  getUserProfile,
+  updateUserProfile
 };

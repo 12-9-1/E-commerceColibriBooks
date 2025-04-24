@@ -41,10 +41,15 @@ const login = async (req, res) => {
     res.status(200).json({
       message: 'Login exitoso',
       user: {
+        _id: user._id,
         email: user.email,
-        role: user.role // 👈 acá devolvés el rol
+        role: user.role,
+        nickname: user.nickname || '',
+        avatar: user.avatar || ''
       }
     });
+    
+    
   } catch (error) {
     res.status(500).json({ message: 'Error en el login', error });
   }
