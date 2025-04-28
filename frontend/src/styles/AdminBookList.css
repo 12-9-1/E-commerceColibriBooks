@@ -1,0 +1,287 @@
+:root {
+  --color-bg-body: #ECF0F1; /* gris claro para fondo general */
+  --color-text: #2C3E50; /* azul oscuro para texto */
+  --color-header: #2C3E50; /* mismo azul para header */
+  --color-border: #BDC3C7; /* gris suave para bordes */
+  --color-card-bg: #FFFFFF; /* blanco para las cards */
+  --color-btn-bg: #E67E22; /* naranja para botones */
+  --color-btn-hover: #D35400; /* naranja más fuerte para hover */
+  --color-btn-text: #FFFFFF; /* blanco en botones */
+  --color-btn-hover-text: #FFFFFF; /* blanco también en hover */
+  --color-highlight: #27AE60; /* verde suave para acentos */
+}
+
+.admin-book-list {
+  padding: 2rem;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.admin-book-list h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #333;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Más consistente */
+  gap: 1rem;
+  align-items: start; /* Los elementos se alinean arriba */
+}
+
+.book-item {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.book-item img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+.book-info {
+  padding: 1rem;
+  width: 100%;
+  height: 100px;
+
+}
+
+.book-info h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  color: #222;
+}
+
+.book-info p {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.book-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem;
+}
+
+.book-actions button {
+  background: #218838;
+  border: none;
+  color: white;
+  padding: 1px 1px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.book-actions button:hover {
+  background: #27AE60;
+}
+
+.add-new-book {
+  background:#2C3E50;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+.add-icon {
+  display: flex;
+  justify-content: center; /* centra horizontalmente */
+  align-items: center;     /* centra verticalmente */
+  font-size: 5rem;
+  margin-bottom: 1rem;
+  color: var(--color-highlight);
+}
+
+.add-new-book p {
+  font-size: 200%;
+  color: #fafafa;
+  text-align: center;
+  
+}
+
+.add-new-book p:hover {
+  color: #2C3E50;
+}
+
+.add-new-book:hover {
+  background: linear-gradient(135deg, #ff7e5f, #feb47b, #91eae4, #27AE60);
+}
+
+
+.modal-edit,
+.modal-upload {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  overflow-y: auto; /* Para que si hay mucho contenido puedas scrollear */
+  padding: 1rem;
+}
+
+.modal-content {
+  background: var(--color-card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px; /* Ahora más estrecho */
+  max-height: 80vh; /* Más compacto */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  animation: fadeInZoom 0.4s ease;
+  overflow-y: auto;
+}
+
+
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-content h3 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 90%;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.modal-content textarea {
+  resize: vertical;
+}
+
+.modal-content button {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  background: #28a745;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-content button:hover {
+  background: #218838;
+}
+
+.modal-content .upload-form button {
+  background: #218838;
+}
+
+.modal-content .upload-form button:hover {
+  background: #27AE60;
+}
+
+.modal-content > button:last-child {
+  background: #dc3545;
+  margin-top: 1rem;
+}
+
+.modal-content > button:last-child:hover {
+  background: #c82333;
+}
+
+
+@media (max-width: 768px) {
+  .book-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .book-item img {
+    height: 220px;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-book-list h2 {
+    font-size: 1.5rem;
+  }
+
+  .book-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+
+  .book-item img {
+    height: 180px;
+  }
+
+  .book-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .book-actions button {
+    width: 100%;
+    font-size: 0.85rem;
+  }
+
+  .add-icon {
+    font-size: 3rem;
+  }
+
+  .modal-content {
+    padding: 1rem;
+  }
+}
+
+
+@keyframes fadeInZoom {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
