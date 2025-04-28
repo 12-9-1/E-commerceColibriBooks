@@ -48,3 +48,15 @@
   color: var(--color-btn-hover-text);
   transform: scale(1.05);
 }
+
+.book-section {
+  padding: 2rem;
+  text-align: center;
+}
+
+.book-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}

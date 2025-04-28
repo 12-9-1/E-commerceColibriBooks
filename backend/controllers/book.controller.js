@@ -1,0 +1,126 @@
+// controllers/book.controller.js
+const Book = require('../models/modelBook'); 
+const streamifier = require('streamifier');
+const cloudinary = require('../utils/utilsCloudinary');
+
+const createBook = async (req, res) => {
+  try {
+    const { title, genre, preview, price, trailer, cover, pdf } = req.body;
+
+    const newBook = new Book({
+      title,
+      genre,
+      preview,
+      price,
+      trailer,
+      cover,
+      pdf,
+    });
+
+    await newBook.save();
+    res.status(201).json({ message: 'Libro creado con éxito', book: newBook });
+  } catch (error) {
+    console.error('Error al crear el libro:', error);
+    res.status(500).json({ message: 'Error al crear el libro' });
+  }
+};
+
+const getAllBooks = async (req, res) => {
+  try {
+    const books = await Book.find().sort({ createdAt: -1 });
+    res.json(books);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener los libros' });
+  }
+};
+
+
+const uploadImageController = async (req, res) => {
+  try {
+    if (!req.file || !req.file.buffer) {
+      return res.status(400).json({ message: 'No se encontró el archivo.' });
+    }
+
+    const streamUpload = () => {
+      return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: 'colibri_books', resource_type: 'auto' },
+          (error, result) => {
+            if (result) {
+              resolve(result);
+            } else {
+              reject(error);
+            }
+          }
+        );
+        streamifier.createReadStream(req.file.buffer).pipe(stream);
+      });
+    };
+
+    const result = await streamUpload();
+    res.status(200).json({ secure_url: result.secure_url });
+
+  } catch (err) {
+    console.error('Error interno al subir archivo:', err);
+    res.status(500).json({ message: 'Error interno al subir el archivo', error: err.message });
+  }
+};
+
+
+
+const deleteBook = async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id);
+
+    if (!book) {
+      return res.status(404).json({ message: 'Libro no encontrado' });
+    }
+
+    // Eliminar imagen de Cloudinary
+    if (book.cover) {
+      const publicIdCover = book.cover.split('/').pop().split('.')[0]; // Sacamos el public_id
+      await cloudinary.uploader.destroy(`colibri_books/${publicIdCover}`);
+    }
+
+    // Eliminar PDF de Cloudinary (si existe)
+    if (book.pdf) {
+      const publicIdPdf = book.pdf.split('/').pop().split('.')[0];
+      await cloudinary.uploader.destroy(`colibri_books/${publicIdPdf}`, { resource_type: "raw" });
+    }
+
+    // Eliminar de MongoDB
+    await book.deleteOne();
+
+    res.json({ message: 'Libro eliminado correctamente' });
+
+  } catch (error) {
+    console.error('Error al eliminar el libro:', error);
+    res.status(500).json({ message: 'Error al eliminar el libro' });
+  }
+};
+
+
+const updateBook = async (req, res) => {
+  try {
+    const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+    if (!updatedBook) {
+      return res.status(404).json({ message: 'Libro no encontrado' });
+    }
+
+    res.json({ message: 'Libro actualizado', book: updatedBook });
+
+  } catch (error) {
+    console.error('Error al actualizar el libro:', error);
+    res.status(500).json({ message: 'Error al actualizar el libro' });
+  }
+};
+
+
+module.exports = {
+  createBook,
+  getAllBooks,
+  uploadImageController,
+  deleteBook,
+  updateBook,
+};

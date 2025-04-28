@@ -1,3 +1,4 @@
+// File: backend/appjs
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
@@ -28,5 +29,8 @@ app.use('/api/auth', authRoutes);
 
 const userRoutes = require('./routers/user.routes');
 app.use('/api/user', userRoutes); // 👈 esta línea
+
+const bookRoutes = require('./routers/book.routes');
+app.use('/api/books', bookRoutes);
 
 
