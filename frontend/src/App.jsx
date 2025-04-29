@@ -3,7 +3,7 @@ import Home from "./pages/Home"; // agregar al inicio
 import AuthPage from "./pages/AuthPage";
 import './App.css';
 import { UserProvider } from "./context/UserContext";
-import NavBar from "./components/NavBar/Navbar";
+import NavBar from "./components/Navbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AdminDashboard from './pages/AdminDashboard';
@@ -11,6 +11,7 @@ import Profile from './pages/Profile';
 import AdminProfileCard from './pages/AdminProfileCard';
 import BookPreviewCard from './components/BookPreviewCard';
 import AdminBookList from './pages/AdminBookList';
+import Library from './pages/Library';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/admin" element={<AdminProfileCard />} />
         <Route path="/book/:id" element={<BookPreviewCard />} />
         <Route path="/adminbooks" element={<AdminBookList />} />
+        <Route path="/library" element={<Library />} />
       </Routes>
     </Router>
     </UserProvider>

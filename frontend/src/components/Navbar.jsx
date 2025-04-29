@@ -1,10 +1,10 @@
 // src/components/NavBar/Navbar.jsx
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../context/UserContext";
+import { useUser } from "../context/UserContext";
 import { FaShoppingCart, FaBars } from "react-icons/fa";
-import "./Navbar.css";
-import logoColibri from "../../assets/logoColibri.png"; // fijate que sea .png
+import "../styles/Navbar.css"; 
+import logoColibri from "../assets/logoColibri.png"; 
 
 const Navbar = ({ cartItems }) => {
   const { user, setUser } = useUser();

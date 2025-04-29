@@ -155,7 +155,7 @@ const AdminBookList = () => {
         <p>Cargando libros...</p>
       ) : (
         <div className="book-grid">
-                    <div className="add-new-book" onClick={() => setShowUploadModal(true)}>
+            <div className="add-new-book" onClick={() => setShowUploadModal(true)}>
             <div className="add-icon">+</div>
             <p>Añadir Libro</p>
           </div>
