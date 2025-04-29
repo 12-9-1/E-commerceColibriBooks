@@ -26,9 +26,9 @@
 
 .book-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Más consistente */
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
   gap: 1rem;
-  align-items: start; /* Los elementos se alinean arriba */
+  align-items: start; 
 }
 
 .book-item {
