@@ -5,7 +5,10 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // tu frontend
+  credentials: true
+}));
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -19,7 +22,7 @@ app.listen(PORT, () => {
 
 
 const dotenv = require('dotenv');
-dotenv.config(); // esto carga el .env
+
 
 const connectDB = require('./config/db');
 connectDB(); // conecta a Mongo
@@ -28,9 +31,12 @@ const authRoutes = require('./routers/auth.routes');
 app.use('/api/auth', authRoutes);
 
 const userRoutes = require('./routers/user.routes');
-app.use('/api/user', userRoutes); // 👈 esta línea
+app.use('/api/user', userRoutes); 
 
 const bookRoutes = require('./routers/book.routes');
 app.use('/api/books', bookRoutes);
+
+const purchaseRoutes = require("./routers/purchase.routes");
+app.use("/api/purchases", purchaseRoutes);
 
 
