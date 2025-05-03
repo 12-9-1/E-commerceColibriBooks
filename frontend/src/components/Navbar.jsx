@@ -2,15 +2,18 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
+import { useCart } from "../context/CartContext";
 import { FaShoppingCart, FaBars } from "react-icons/fa";
 import "../styles/Navbar.css"; 
 import logoColibri from "../assets/logoColibri.png"; 
 
-const Navbar = ({ cartItems }) => {
+
+const Navbar = ({ onCartClick }) => {
   const { user, setUser } = useUser();
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const { cartItems } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,13 +44,12 @@ const Navbar = ({ cartItems }) => {
       <div className="navbar-icons">
         <FaBars className="menu-icon" onClick={handleMenuToggle} />
         
-        <div className="cart-icon" onClick={() => navigate("/cart")}>
-          <FaShoppingCart />
-          {Array.isArray(cartItems) && cartItems.length > 0 && (
-  <span className="cart-count">{cartItems.length}</span>
-)}
-
-        </div>
+        <div className="cart-icon" onClick={onCartClick}> {/* ✅ cambia esto */}
+    <FaShoppingCart />
+    {Array.isArray(cartItems) && cartItems.length > 0 && (
+      <span className="cart-count">{cartItems.length}</span>
+    )}
+  </div>
 
         {user && (
           <img

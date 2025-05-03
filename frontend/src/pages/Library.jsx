@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
+import { useCart } from "../context/CartContext";
 import '../styles/AdminBookDashboard.css';
 import BookPreviewCard from "../components/BookPreviewCard";
 
@@ -9,9 +10,11 @@ const Library = () => {
   const { user, userLoaded } = useUser();
   const navigate = useNavigate();
   const [books, setBooks] = useState([]);
-  const [selectedBook, setSelectedBook] = useState(null); // para modal info
-  const [cartBook, setCartBook] = useState(null);         // para modal carrito
-
+  const [selectedBook, setSelectedBook] = useState(null); 
+  const [cartBook, setCartBook] = useState(null);         
+  const { addToCart } = useCart();
+  
+  
   useEffect(() => {
     const fetchBooks = async () => {
       try {
@@ -70,27 +73,29 @@ const Library = () => {
 
       {/* Modal Carrito */}
       {cartBook && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>¿Agregar al carrito?</h3>
-            <img src={cartBook.cover} alt={cartBook.title} />
-            <p>{cartBook.title}</p>
-            <p>${cartBook.price}</p>
-            <div className="modal-buttons">
-              <button
-                onClick={() => {
-                  console.log("Libro agregado al carrito:", cartBook.title);
-                  setCartBook(null);
-                }}
-                className="btn-confirm"
-              >
-                Sí
-              </button>
-              <button onClick={() => setCartBook(null)} className="btn-cancel">Cancelar</button>
-            </div>
-          </div>
+    <div className="modal-overlay">
+      <div className="modal">
+        <h3>¿Agregar al carrito?</h3>
+        <img src={cartBook.cover} alt={cartBook.title} />
+        <p>{cartBook.title}</p>
+        <p>${cartBook.price}</p>
+        <div className="modal-buttons">
+          <button
+            onClick={() => {
+              addToCart(cartBook); 
+              setCartBook(null);
+            }}
+            className="btn-confirm"
+          >
+            Sí
+          </button>
+          <button onClick={() => setCartBook(null)} className="btn-cancel">
+            Cancelar
+          </button>
         </div>
-      )}
+      </div>
+    </div>
+  )}
     </div>
   );
 };

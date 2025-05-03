@@ -1,5 +1,6 @@
 const User = require('../models/modelUser')
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
   try {
@@ -38,6 +39,14 @@ const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: 'Contraseña incorrecta' });
 
+    // 👇 Generamos el token con el ID del usuario y la clave secreta
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    // 👇 Devolvemos el token junto con los datos del usuario
     res.status(200).json({
       message: 'Login exitoso',
       user: {
@@ -46,14 +55,12 @@ const login = async (req, res) => {
         role: user.role,
         nickname: user.nickname || '',
         avatar: user.avatar || ''
-      }
+      },
+      token // 👈 importante
     });
-    
-    
+
   } catch (error) {
     res.status(500).json({ message: 'Error en el login', error });
   }
 };
-
-
 module.exports = { register, login };
