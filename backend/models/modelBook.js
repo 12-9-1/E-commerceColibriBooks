@@ -1,17 +1,15 @@
-
+//moldels/modelBook.js
 const mongoose = require('mongoose');
 
 const bookSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  author: String,
-  description: String,
-  price: Number,
-  stock: Number,
-  category: String,
-  coverUrl: String,   // URL de la imagen en Cloudinary
-  pdfUrl: String,     // URL del PDF en Cloudinary
-}, {
-  timestamps: true
+  genre: { type: String, required: true },
+  preview: { type: String, required: true }, // descripción corta
+  price: { type: Number, required: true },
+  trailer: { type: String }, // puede ser un link a YouTube, opcional
+  cover: { type: String, required: true }, // URL de Cloudinary
+  pdf: { type: String }, // si decidís subirlo a Cloudinary o guardarlo en tu server
+  createdAt: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('Book', bookSchema);

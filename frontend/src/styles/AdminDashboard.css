@@ -1,6 +1,7 @@
+/* AdminDashboard.css*/
 .admin-container {
-    padding: 2rem;
-    background-color: #f5f5f5;
+    padding: 7rem;
+    background-color: #F6EDDC;
     min-height: 100vh;
     font-family: 'Segoe UI', sans-serif;
   }
