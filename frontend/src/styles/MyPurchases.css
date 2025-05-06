@@ -1,0 +1,132 @@
+.purchase-card {
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .purchase-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .purchase-card img {
+    border-radius: 4px;
+  }
+  
+  button {
+    background-color: var(--color-btn-bg);
+    color: var(--color-btn-text);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: var(--color-btn-hover);
+    color: var(--color-btn-hover-text);
+  }
+  
+
+  /* ========== MODAL ========= */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal img {
+  width: 120px;
+  height: auto;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}
+
+.modal h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.modal p {
+  color: var(--color-text);
+  margin: 0.5rem 0;
+}
+
+.modal a {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--color-highlight);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.modal a:hover {
+  text-decoration: underline;
+}
+
+.modal-buttons {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-confirm,
+.btn-cancel {
+  padding: 0.5rem 1.2rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-confirm {
+  background-color: var(--color-highlight);
+  color: white;
+}
+
+.btn-cancel {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background-color: #c0392b;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -32,9 +32,9 @@ const Library = () => {
   if (!userLoaded) return null;
 
   return (
-    <div className="home-container">
+    <div className="home">
       <div className="book-section">
-        <h2>Libros destacados</h2>
+        <h2>Libros</h2>
         <div className="book-grid">
           {books.map((book) => (
             <BookPreviewCard

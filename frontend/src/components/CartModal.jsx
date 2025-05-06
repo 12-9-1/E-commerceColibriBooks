@@ -15,7 +15,17 @@ const CartModal = ({ onClose }) => {
   const handleConfirm = async () => {
     try {
       const token = localStorage.getItem("token");
-  
+
+      if (token) {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        const isExpired = Date.now() >= payload.exp * 1000;
+      
+        if (isExpired) {
+          localStorage.removeItem("token");
+          window.location.href = "/login"; // Redirigir a login
+        }
+      }
+      
       const calculatedTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   
       const response = await fetch("http://localhost:3000/api/purchases", {

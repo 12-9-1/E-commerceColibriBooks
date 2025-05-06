@@ -28,7 +28,6 @@ function App() {
       <Router>
   <NavBar onCartClick={() => setShowCart(true)} />
   {showCart && <CartModal onClose={() => setShowCart(false)} />} 
-
   <Routes>
     <Route path="/" element={<Home />} />
     <Route path="/adminusers" element={<AdminDashboard />} />
@@ -42,8 +41,6 @@ function App() {
     <Route path="/library" element={<Library />} />
     <Route path="/purchases" element={<MyPurchases />} />
   </Routes>
-
-  {/* ❗ ToastContainer va fuera de Routes */}
   <ToastContainer position="top-right" autoClose={3000} />
 </Router>
 

@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(var(--color-bg-body), #ffffff);
+  background: linear-gradient(var(--color-bg-body), #F6EDDC);
   text-align: center;
 }
 
@@ -47,16 +47,4 @@
   background: var(--color-btn-hover);
   color: var(--color-btn-hover-text);
   transform: scale(1.05);
-}
-
-.book-section {
-  padding: 2rem;
-  text-align: center;
-}
-
-.book-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
 }
