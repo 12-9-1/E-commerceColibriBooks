@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Home.css";
 import logoColibri from "../assets/logoColibri.png"; // fijate que sea .png

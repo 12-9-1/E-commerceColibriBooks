@@ -5,14 +5,14 @@ const purchaseSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",  // Relacionamos la compra con el usuario
+      ref: "User", 
       required: true,
     },
     books: [
       {
         bookId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Book",  // Relacionamos la compra con el libro
+          ref: "Book",  
           required: true,
         },
         title: String,

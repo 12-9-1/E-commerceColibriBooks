@@ -1,19 +1,19 @@
 :root {
-  --color-bg-body: #ECF0F1; /* gris claro para fondo general */
-  --color-text: #2C3E50; /* azul oscuro para texto */
-  --color-header: #2C3E50; /* mismo azul para header */
-  --color-border: #BDC3C7; /* gris suave para bordes */
-  --color-card-bg: #FFFFFF; /* blanco para las cards */
-  --color-btn-bg: #E67E22; /* naranja para botones */
-  --color-btn-hover: #D35400; /* naranja más fuerte para hover */
-  --color-btn-text: #FFFFFF; /* blanco en botones */
-  --color-btn-hover-text: #FFFFFF; /* blanco también en hover */
-  --color-highlight: #27AE60; /* verde suave para acentos */
+  --color-bg-body: #F6EDDC; 
+  --color-text: #2C3E50;
+  --color-header: #2C3E50; 
+  --color-border: #BDC3C7; 
+  --color-card-bg: #FFFFFF;
+  --color-btn-bg: #E67E22; 
+  --color-btn-hover: #D35400; 
+  --color-btn-text: #FFFFFF; 
+  --color-btn-hover-text: #FFFFFF;
+  --color-highlight: #27AE60; 
 }
 
 .admin-book-list {
-  padding: 2rem;
-  background: #f8f9fa;
+  padding: 5rem;
+  background: #F6EDDC;
   min-height: 100vh;
 }
 
@@ -32,7 +32,7 @@
 }
 
 .book-item {
-  background: white;
+  background: #F6EDDC;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
