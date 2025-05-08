@@ -7,7 +7,7 @@ import '../styles/AdminBookDashboard.css';
 import BookPreviewCard from "../components/BookPreviewCard";
 
 const Library = () => {
-  const { user, userLoaded } = useUser();
+  const { user, userLoaded, favorites, wishlist } = useUser();
   const navigate = useNavigate();
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null); 
@@ -29,7 +29,8 @@ const Library = () => {
     fetchBooks();
   }, []);
 
-  if (!userLoaded) return null;
+  if (!userLoaded || !Array.isArray(favorites) || !Array.isArray(wishlist)) return null;
+
 
   return (
     <div className="home">
@@ -37,17 +38,22 @@ const Library = () => {
         <h2>Libros</h2>
         <div className="book-grid">
           {books.map((book) => (
-            <BookPreviewCard
-              key={book._id}
-              title={book.title}
-              cover={book.cover}
-              price={book.price}
-              pdf={book.pdf}
-              trailer={book.trailer}
-              preview={book.preview}
-              onShowInfo={() => setSelectedBook(book)}
-              onShowCart={() => setCartBook(book)}
-            />
+        <BookPreviewCard
+        key={book._id}
+        title={book.title}
+        cover={book.cover}
+        price={book.price}
+        pdf={book.pdf}
+        trailer={book.trailer}
+        preview={book.preview}
+        onShowInfo={() => setSelectedBook(book)}
+        onShowCart={() => setCartBook(book)}
+        _id={book._id}
+        isFavorite={favorites.includes(book._id)}
+        isWishlisted={wishlist.includes(book._id)}
+      />
+      
+            
           ))}
         </div>
       </div>
