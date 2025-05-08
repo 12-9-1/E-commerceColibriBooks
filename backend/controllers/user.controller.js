@@ -60,10 +60,95 @@ const updateUserProfile = async (req, res) => {
 };
 
 
+
+// Agregar libro a favoritos
+const addToFavorites = async (req, res) => {
+  try {
+    const { id, bookId } = req.params;
+    const user = await User.findByIdAndUpdate(
+      id,
+      { $addToSet: { favorites: bookId } },
+      { new: true }
+    ).populate('favorites');
+    res.json(user.favorites);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al agregar a favoritos', error });
+  }
+};
+
+// Eliminar libro de favoritos
+const removeFromFavorites = async (req, res) => {
+  try {
+    const { id, bookId } = req.params;
+    const user = await User.findByIdAndUpdate(
+      id,
+      { $pull: { favorites: bookId } },
+      { new: true }
+    ).populate('favorites');
+    res.json(user.favorites);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al eliminar de favoritos', error });
+  }
+};
+
+// Obtener favoritos
+const getFavorites = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).populate('favorites');
+    res.json(user.favorites);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener favoritos', error });
+  }
+};
+
+// Lo mismo para wishlist
+const addToWishlist = async (req, res) => {
+  try {
+    const { id, bookId } = req.params;
+    const user = await User.findByIdAndUpdate(
+      id,
+      { $addToSet: { wishlist: bookId } },
+      { new: true }
+    ).populate('wishlist');
+    res.json(user.wishlist);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al agregar a lista de deseos', error });
+  }
+};
+
+const removeFromWishlist = async (req, res) => {
+  try {
+    const { id, bookId } = req.params;
+    const user = await User.findByIdAndUpdate(
+      id,
+      { $pull: { wishlist: bookId } },
+      { new: true }
+    ).populate('wishlist');
+    res.json(user.wishlist);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al eliminar de lista de deseos', error });
+  }
+};
+
+const getWishlist = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).populate('wishlist');
+    res.json(user.wishlist);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener lista de deseos', error });
+  }
+};
+
 module.exports = {
   getAllUsers,
   deleteUser,
   updateUserRole,
   getUserProfile,
-  updateUserProfile
+  updateUserProfile,
+  addToFavorites,
+  removeFromFavorites,
+  getFavorites,
+  addToWishlist,
+  removeFromWishlist,
+  getWishlist
 };

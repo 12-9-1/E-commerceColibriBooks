@@ -78,34 +78,100 @@
 }
 
 /* ========== BOTONES ========= */
-.book-buttons {
+.buttons-book {
   margin-top: 0.5rem;
   display: flex;
-  justify-content: center;
-  gap: 0.4rem;
+  gap: 0.1rem;
 }
 
 .btn-cart,
-.btn-info {
+.btn-info, 
+.btn-wishlist {
   background-color: var(--color-btn-bg);
   color: var(--color-btn-text);
   border: none;
-  padding: 0.3rem 0.5rem;
+  padding: 0.3rem 0.4rem;
   border-radius: 50px;
   cursor: pointer;
-  font-size: 0.9rem;
-  display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s ease;
-  width: 36px;
-  height: 36px;
+  width: 35px;
+  height: 35px;
 }
 
 .btn-cart:hover,
-.btn-info:hover {
+.btn-info:hover,
+.btn-wishlist:hover {
   background-color: var(--color-btn-hover);
 }
+.btn-fav {
+  font-size: 20px;
+  padding: 0.3rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-fav.favorited {
+  color: red;
+}
+
+
+.image-container {
+  position: relative;
+  width: 100%;
+}
+
+.btn-fav {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 22px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  padding: 0.4rem;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease;
+}
+
+.btn-fav:hover {
+  transform: scale(1.1);
+}
+
+.btn-fav.favorited {
+  color: red;
+}
+
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(0.95); }
+  75% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.heartbeat {
+  animation: heartbeat 0.3s ease-in-out;
+}
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 0px rgba(255, 255, 0, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 12px 4px rgba(255, 255, 0, 0.9);
+  }
+  100% {
+    box-shadow: 0 0 0px rgba(255, 255, 0, 0.7);
+  }
+}
+
+.glow {
+  animation: glow 0.4s ease-in-out;
+}
+
 
 /* ========== MODAL ========= */
 .modal-overlay {

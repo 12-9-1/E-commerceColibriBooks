@@ -29,8 +29,8 @@ const Navbar = ({ onCartClick }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    setUser(null); // importante
-    navigate("/"); // te lleva al home sin recargar
+    setUser(null); 
+    navigate("/"); 
   };
   
   
@@ -44,7 +44,7 @@ const Navbar = ({ onCartClick }) => {
       <div className="navbar-icons">
         <FaBars className="menu-icon" onClick={handleMenuToggle} />
         
-        <div className="cart-icon" onClick={onCartClick}> {/* ✅ cambia esto */}
+        <div className="cart-icon" onClick={onCartClick}> 
     <FaShoppingCart />
     {Array.isArray(cartItems) && cartItems.length > 0 && (
       <span className="cart-count">{cartItems.length}</span>
@@ -64,7 +64,8 @@ const Navbar = ({ onCartClick }) => {
       {showMenu && (
         <div className="dropdown-menu">
           <ul>
-            <li onClick={() => navigate("/favorites")}>⭐ Favoritos</li>
+            <li onClick={() => navigate("/favorites")}>❤️ Favoritos</li>
+            <li onClick={() => navigate("/wishlist")}>⭐ Lista de deseos </li>
             <li onClick={() => navigate("/purchases")}>🛒 Mis Compras</li>
             <li onClick={() => navigate("/about")}>ℹ️ Sobre Nosotros</li>
             {user && <li onClick={handleLogout}>🚪 Cerrar Sesión</li>}
