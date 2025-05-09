@@ -78,34 +78,146 @@
 }
 
 /* ========== BOTONES ========= */
-.book-buttons {
+.buttons-book {
   margin-top: 0.5rem;
   display: flex;
-  justify-content: center;
-  gap: 0.4rem;
+  gap: 0.1rem;
 }
 
 .btn-cart,
-.btn-info {
+.btn-info, 
+.btn-wishlist {
   background-color: var(--color-btn-bg);
   color: var(--color-btn-text);
   border: none;
-  padding: 0.3rem 0.5rem;
+  padding: 0.3rem 0.4rem;
   border-radius: 50px;
   cursor: pointer;
-  font-size: 0.9rem;
-  display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s ease;
-  width: 36px;
-  height: 36px;
+  width: 35px;
+  height: 35px;
 }
 
 .btn-cart:hover,
-.btn-info:hover {
+.btn-info:hover,
+.btn-wishlist:hover {
   background-color: var(--color-btn-hover);
 }
+.btn-fav {
+  font-size: 20px;
+  padding: 0.3rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-fav.favorited {
+  color: red;
+}
+
+
+.image-container {
+  position: relative;
+  width: 100%;
+}
+
+.btn-fav {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 22px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  padding: 0.4rem;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease;
+}
+
+.btn-fav:hover {
+  transform: scale(1.1);
+}
+
+.btn-fav.favorited {
+  color: red;
+}
+
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(0.95); }
+  75% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.heartbeat {
+  animation: heartbeat 0.3s ease-in-out;
+}
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 0px rgba(255, 255, 0, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 12px 4px rgba(255, 255, 0, 0.9);
+  }
+  100% {
+    box-shadow: 0 0 0px rgba(255, 255, 0, 0.7);
+  }
+}
+
+.glow {
+  animation: glow 0.4s ease-in-out;
+}
+
+/* ========== BUSCADOR ========= */
+.search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  justify-content: center;
+}
+
+.search-bar input,
+.search-bar select {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-bar input:focus,
+.search-bar select:focus {
+  outline: none;
+  border-color: var(--color-highlight);
+  box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+}
+
+.search-bar button {
+  background-color: var(--color-btn-bg);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+  background-color: var(--color-btn-hover);
+}
+
 
 /* ========== MODAL ========= */
 .modal-overlay {
@@ -121,6 +233,62 @@
   z-index: 1000;
   backdrop-filter: blur(4px);
 }
+
+.horizontal-modal {
+  max-width: 800px;
+}
+
+.book-modal-content {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.book-cover-large {
+  width: 200px;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.book-info-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.book-description2 {
+  margin-top: 1rem;
+  color: #555;
+  font-style: italic;
+  overflow-y: auto;
+}
+
+.btn-preview {
+  background-color: #f0ad4e;
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn-description {
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-description:hover {
+  background-color: #5848d3;
+}
+
 
 .modal {
   background: #fff;

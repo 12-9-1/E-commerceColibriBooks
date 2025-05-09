@@ -1,26 +1,31 @@
+// routes/user.routes.js
 const express = require('express');
 const router = express.Router();
 const {
   getAllUsers,
   deleteUser,
   updateUserRole,
-  getUserProfile, 
-  updateUserProfile
+  getUserProfile,
+  updateUserProfile,
+  addToFavorites,
+  removeFromFavorites,
+  getFavorites,
+  addToWishlist,
+  removeFromWishlist,
+  getWishlist
 } = require('../controllers/user.controller');
 
-// GET todos los usuarios
+// Rutas 
 router.get('/', getAllUsers);
-
-// DELETE usuario por ID
 router.delete('/:id', deleteUser);
-
-// PUT cambiar rol
 router.put('/:id/role', updateUserRole);
-
-// GET perfil del usuario por ID
 router.get('/:id/profile', getUserProfile);
-
-// PUT actualizar perfil del usuario
 router.put('/:id/profile', updateUserProfile);
+router.post('/:id/favorites/:bookId', addToFavorites);
+router.delete('/:id/favorites/:bookId', removeFromFavorites);
+router.get('/:id/favorites', getFavorites);
+router.post('/:id/wishlist/:bookId', addToWishlist);
+router.delete('/:id/wishlist/:bookId', removeFromWishlist);
+router.get('/:id/wishlist', getWishlist);
 
 module.exports = router;

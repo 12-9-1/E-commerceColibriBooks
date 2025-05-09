@@ -1,3 +1,4 @@
+// context/UserContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 
 const UserContext = createContext();
@@ -5,6 +6,8 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userLoaded, setUserLoaded] = useState(false);
+  const [favorites, setFavorites] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
     try {
@@ -17,18 +20,70 @@ export const UserProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error al parsear el usuario del localStorage:", error);
-      localStorage.removeItem("user"); // limpia si estaba corrupto
+      localStorage.removeItem("user");
     }
 
     setUserLoaded(true);
   }, []);
 
+  useEffect(() => {
+    if (user) {
+      fetchUserFavorites();
+      fetchUserWishlist();
+    }
+  }, [user]);
+  
+
+  const fetchUserFavorites = async () => {
+    if (!user) return;
+    const res = await fetch(`http://localhost:3000/api/user/${user._id}/favorites`);
+    const data = await res.json();
+    setFavorites(data);
+  };
+
+
+  const fetchUserWishlist = async () => {
+    if (!user) return;
+    const res = await fetch(`http://localhost:3000/api/user/${user._id}/wishlist`);
+    const data = await res.json();
+    setWishlist(data);
+  };
+
+  const updateFavorites = async (bookId, action) => {
+    if (!user) return;
+    const method = action === "add" ? "POST" : "DELETE";
+    await fetch(`http://localhost:3000/api/user/${user._id}/favorites/${bookId}`, {
+      method,
+    });
+    fetchUserFavorites(); 
+  };
+
+  const updateWishlist = async (bookId, action) => {
+    if (!user) return;
+    const method = action === "add" ? "POST" : "DELETE";
+    await fetch(`http://localhost:3000/api/user/${user._id}/wishlist/${bookId}`, {
+      method,
+    });
+    fetchUserWishlist(); 
+  };
+
   return (
-    <UserContext.Provider value={{ user, setUser, userLoaded }}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        userLoaded,
+        favorites,
+        wishlist,
+        updateFavorites,
+        updateWishlist,
+        fetchUserFavorites,
+        fetchUserWishlist,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
 };
 
-const useUser = () => useContext(UserContext);
-export { useUser };
+export const useUser = () => useContext(UserContext);

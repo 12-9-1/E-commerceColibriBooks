@@ -18,6 +18,10 @@ import AdminBookList from './pages/AdminBookList';
 import Library from './pages/Library';
 import MyPurchases from "./pages/MyPurchases";
 import CartModal from "./components/CartModal"; // Asegúrate de importarlo también
+import Favorites from "./pages/Favorites";
+import Wishlist from "./pages/Wishlist";
+
+
 
 function App() {
   const [showCart, setShowCart] = useState(false); // ⬅️ Estado agregado
@@ -40,6 +44,9 @@ function App() {
     <Route path="/adminbooks" element={<AdminBookList />} />
     <Route path="/library" element={<Library />} />
     <Route path="/purchases" element={<MyPurchases />} />
+    <Route path="/favorites" element={<Favorites />} />
+    <Route path="/wishlist" element={<Wishlist />} />
+
   </Routes>
   <ToastContainer position="top-right" autoClose={3000} />
 </Router>
