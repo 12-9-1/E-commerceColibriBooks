@@ -17,7 +17,7 @@ const BookPreviewCard = ({
   const [animateFav, setAnimateFav] = useState(false);
   const [animateWish, setAnimateWish] = useState(false);
 
-  // 🧠 Esta parte es CLAVE para que se mantenga al recargar
+
   useEffect(() => {
     setIsFavorite(propIsFavorite);
   }, [propIsFavorite]);

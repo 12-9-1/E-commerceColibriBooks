@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../styles/AdminBookList.css'; // Usaremos el mismo CSS (luego te paso mejoras si quieres)
+import '../styles/AdminBookList.css'; 
 
 const AdminBookList = () => {
   const [books, setBooks] = useState([]);
@@ -11,6 +11,7 @@ const AdminBookList = () => {
   const [updating, setUpdating] = useState(false);
   const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
+    author: '',
     title: '',
     genre: '',
     preview: '',
@@ -18,9 +19,10 @@ const AdminBookList = () => {
     trailer: '',
   });
 
-  const [showUploadModal, setShowUploadModal] = useState(false); // 👈 Para abrir/cerrar modal de subir libro
-  const [uploading, setUploading] = useState(false); // Para loading del upload
+  const [showUploadModal, setShowUploadModal] = useState(false); 
+  const [uploading, setUploading] = useState(false); 
   const [uploadForm, setUploadForm] = useState({
+    author: '',
     title: '',
     genre: '',
     preview: '',
@@ -58,6 +60,7 @@ const AdminBookList = () => {
   const openEditModal = (book) => {
     setEditBook(book);
     setFormData({
+      author: book.author,
       title: book.title,
       genre: book.genre,
       preview: book.preview,
@@ -117,6 +120,7 @@ const AdminBookList = () => {
     }
 
     const newBookData = {
+      author: uploadForm.author,
       title: uploadForm.title,
       genre: uploadForm.genre,
       preview: uploadForm.preview,
@@ -130,8 +134,8 @@ const AdminBookList = () => {
       await axios.post('http://localhost:3000/api/books', newBookData);
       setShowUploadModal(false);
       fetchBooks();
-      // Reseteamos formulario
       setUploadForm({
+        author: '',
         title: '',
         genre: '',
         preview: '',
@@ -166,6 +170,7 @@ const AdminBookList = () => {
               <div className="book-info">
                 <h3>{book.title}</h3>
                 <p>Precio: ${book.price}</p>
+                <p>Autor: {book.author}</p>
                 <p>Género: {book.genre}</p>
               </div>
               <div className="book-actions">
@@ -182,6 +187,12 @@ const AdminBookList = () => {
         <div className="modal-edit">
           <div className="modal-content">
             <h3>Editar Libro</h3>
+            <input
+              type="text"
+              value={formData.author}
+              onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+              placeholder="Autor"
+            />
             <input
               type="text"
               value={formData.title}
@@ -235,6 +246,7 @@ const AdminBookList = () => {
           <div className="modal-content">
             <h3>Subir Nuevo Libro 📘</h3>
             <form onSubmit={handleUploadSubmit} className="upload-form">
+            <input type="text" placeholder="Autor"value={uploadForm.author} onChange={(e) => setUploadForm({...uploadForm, author: e.target.value})}required/>
               <input type="text" placeholder="Título" value={uploadForm.title} onChange={(e) => setUploadForm({...uploadForm, title: e.target.value})} required />
               <input type="text" placeholder="Género" value={uploadForm.genre} onChange={(e) => setUploadForm({...uploadForm, genre: e.target.value})} required />
               <textarea placeholder="Vista previa" value={uploadForm.preview} onChange={(e) => setUploadForm({...uploadForm, preview: e.target.value})} required />

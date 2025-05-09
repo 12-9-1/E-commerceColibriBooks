@@ -5,9 +5,10 @@ const cloudinary = require('../utils/utilsCloudinary');
 
 const createBook = async (req, res) => {
   try {
-    const { title, genre, preview, price, trailer, cover, pdf } = req.body;
+    const {  author, title, genre, preview, price, trailer, cover, pdf } = req.body;
 
     const newBook = new Book({
+      author,
       title,
       genre,
       preview,
@@ -116,6 +117,24 @@ const updateBook = async (req, res) => {
   }
 };
 
+const searchBooks = async (req, res) => {
+
+  const { title, author, genre } = req.query;
+  const query = {};
+
+  if (title) query.title = { $regex: title, $options: "i" };
+  if (author) query.author = { $regex: author, $options: "i" };
+   if (genre) query.genre = { $regex: genre, $options: "i" };
+
+  try {
+    const books = await Book.find(query);
+    res.json(books);
+  } catch (error) {
+    res.status(500).json({ message: "Error al buscar libros" });
+  }
+};
+
+
 
 module.exports = {
   createBook,
@@ -123,4 +142,5 @@ module.exports = {
   uploadImageController,
   deleteBook,
   updateBook,
+  searchBooks,
 };

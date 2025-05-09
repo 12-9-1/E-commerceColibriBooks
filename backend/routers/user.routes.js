@@ -21,13 +21,9 @@ router.delete('/:id', deleteUser);
 router.put('/:id/role', updateUserRole);
 router.get('/:id/profile', getUserProfile);
 router.put('/:id/profile', updateUserProfile);
-
-// Favoritos
 router.post('/:id/favorites/:bookId', addToFavorites);
 router.delete('/:id/favorites/:bookId', removeFromFavorites);
 router.get('/:id/favorites', getFavorites);
-
-//  Lista de deseos
 router.post('/:id/wishlist/:bookId', addToWishlist);
 router.delete('/:id/wishlist/:bookId', removeFromWishlist);
 router.get('/:id/wishlist', getWishlist);
