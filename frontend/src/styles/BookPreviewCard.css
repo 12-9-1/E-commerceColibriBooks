@@ -172,6 +172,52 @@
   animation: glow 0.4s ease-in-out;
 }
 
+/* ========== BUSCADOR ========= */
+.search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  justify-content: center;
+}
+
+.search-bar input,
+.search-bar select {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-bar input:focus,
+.search-bar select:focus {
+  outline: none;
+  border-color: var(--color-highlight);
+  box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+}
+
+.search-bar button {
+  background-color: var(--color-btn-bg);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+  background-color: var(--color-btn-hover);
+}
+
 
 /* ========== MODAL ========= */
 .modal-overlay {
@@ -187,6 +233,62 @@
   z-index: 1000;
   backdrop-filter: blur(4px);
 }
+
+.horizontal-modal {
+  max-width: 800px;
+}
+
+.book-modal-content {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.book-cover-large {
+  width: 200px;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.book-info-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.book-description2 {
+  margin-top: 1rem;
+  color: #555;
+  font-style: italic;
+  overflow-y: auto;
+}
+
+.btn-preview {
+  background-color: #f0ad4e;
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn-description {
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-description:hover {
+  background-color: #5848d3;
+}
+
 
 .modal {
   background: #fff;
