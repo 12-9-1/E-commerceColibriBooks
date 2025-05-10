@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { FaCheckCircle, FaExclamationTriangle, FaSpinner } from 'react-icons/fa';
 import { useUser } from '../context/UserContext';
@@ -12,7 +13,7 @@ const Profile = () => {
   const [avatar, setAvatar] = useState('');
   const [editMode, setEditMode] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
-
+ const navigate = useNavigate();
 
   useEffect(() => {
     if (!userLoaded || !user?._id) return;
@@ -37,7 +38,7 @@ const Profile = () => {
       setEditMode(false);
   
       setTimeout(() => {
-        setMessage({ text: '', type: '' }); // Borramos el mensaje luego de 3s
+        setMessage({ text: '', type: '' }); 
       }, 3000);
     })
     .catch(err => {

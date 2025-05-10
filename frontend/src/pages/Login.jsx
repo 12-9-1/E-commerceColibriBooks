@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/AuthPage.css";
 import { useUser } from "../context/UserContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -38,13 +40,13 @@ const Login = () => {
           navigate("/");
         }
   
-        alert("Login exitoso");
+        toast.success("Login exitoso");
       } else {
-        alert("Credenciales incorrectas");
+        toast.warning("Credenciales incorrectas");
       }
     } catch (error) {
       console.error("Error en el login", error);
-      alert(error.response?.data?.message || "Error al iniciar sesión");
+      toast.error(error.response?.data?.message || "Error al iniciar sesión");
     }
   };
   
