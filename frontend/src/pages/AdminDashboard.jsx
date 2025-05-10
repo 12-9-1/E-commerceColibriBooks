@@ -76,7 +76,7 @@ const handleConfirmedAction = async () => {
         ))}
       </div>
   
-      {/* 👇👇 Aca va el modal, dentro del return */}
+      
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">

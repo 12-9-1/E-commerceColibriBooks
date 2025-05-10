@@ -14,13 +14,13 @@
   }
   
   .navbar.scrolled {
-    background: rgba(0, 0, 0, 0.8); /* opcional para mejorar visibilidad */
+    background: rgba(0, 0, 0, 0.8); 
     backdrop-filter: blur(10px);
   }
   
   .navbar-logo img {
-    width: 80px; /* tamaño normal */
-    margin-top: 25px; /* lo baja */
+    width: 80px; 
+    margin-top: 25px;
     height: auto;
     transition: width 0.3s ease;
   }
@@ -87,3 +87,29 @@
     color: #E8D8C4;
   }
   
+.avatar-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+.avatar-wrapper.admin .user-avatar {
+  border: 2px solid gold;
+  padding: 2px;
+}
+
+
+.admin-crown {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  font-size: 14px;
+}
