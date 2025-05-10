@@ -10,12 +10,13 @@ const BookPreviewCard = ({
   isWishlisted: propIsWishlisted = false,
   onRemovedFromFavorites,
 }) => {
-  const { updateFavorites, updateWishlist } = useUser();
+  const { user, updateFavorites, updateWishlist } = useUser();
 
   const [isFavorite, setIsFavorite] = useState(propIsFavorite);
   const [isWishlisted, setIsWishlisted] = useState(propIsWishlisted);
   const [animateFav, setAnimateFav] = useState(false);
   const [animateWish, setAnimateWish] = useState(false);
+const [showLoginModal, setShowLoginModal] = useState(false);
 
 
   useEffect(() => {
@@ -73,7 +74,8 @@ const BookPreviewCard = ({
         </div>
       </div>
     </div>
-  );
+  
+);
 };
 
 export default BookPreviewCard;

@@ -6,8 +6,6 @@ import { toast } from 'react-toastify';
 
 const CartModal = ({ onClose }) => {
   const { cartItems, total, clearCart } = useCart();
-
-
   const { user } = useUser();
   if (!user) return <p>Necesitás iniciar sesión para comprar</p>;
   
@@ -22,7 +20,7 @@ const CartModal = ({ onClose }) => {
       
         if (isExpired) {
           localStorage.removeItem("token");
-          window.location.href = "/login"; // Redirigir a login
+          window.location.href = "/login"; 
         }
       }
       
@@ -59,7 +57,22 @@ const CartModal = ({ onClose }) => {
     }
   };
   
-  
+  if (customContent) {
+    return (
+      <div className="modal-overlay">
+        <div className="modal">
+          {customContent}
+          <div className="modal-buttons">
+            <button onClick={() => window.location.href = "/login"}>Iniciar sesión</button>
+            <button onClick={() => window.location.href = "/register"}>Registrarse</button>
+            <button onClick={onClose}>Cancelar</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) return null;
 
   return (
     <div className="modal-overlay">
