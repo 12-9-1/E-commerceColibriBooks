@@ -1,16 +1,21 @@
-// src/components/CartModal.jsx
+import { useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { useUser } from "../context/UserContext"; 
-import { toast } from 'react-toastify';
-
+import { toast } from "react-toastify";
 
 const CartModal = ({ onClose }) => {
   const { cartItems, total, clearCart } = useCart();
-
-
   const { user } = useUser();
-  if (!user) return <p>Necesitás iniciar sesión para comprar</p>;
-  
+
+  useEffect(() => {
+    if (!user) {
+      toast.error("Necesitás iniciar sesión para comprar");
+      onClose();
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000); // Espera 2 segundos antes de redirigir
+    }
+  }, [user, onClose]);
 
   const handleConfirm = async () => {
     try {
@@ -19,15 +24,15 @@ const CartModal = ({ onClose }) => {
       if (token) {
         const payload = JSON.parse(atob(token.split(".")[1]));
         const isExpired = Date.now() >= payload.exp * 1000;
-      
+
         if (isExpired) {
           localStorage.removeItem("token");
-          window.location.href = "/login"; // Redirigir a login
+          window.location.href = "/login"; 
         }
       }
-      
+
       const calculatedTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  
+
       const response = await fetch("http://localhost:3000/api/purchases", {
         method: "POST",
         headers: {
@@ -44,22 +49,22 @@ const CartModal = ({ onClose }) => {
           total: calculatedTotal,
         })
       });
-  
+
       if (!response.ok) throw new Error("Error al procesar la compra");
       const data = await response.json();
       console.log("Compra registrada:", data);
-  
+
       toast.success("¡Compra realizada con éxito! 🎉");
 
       clearCart();
       onClose();
     } catch (error) {
       console.error(error);
-      alert("Hubo un error al procesar la compra.");
+      toast.error("Hubo un error al procesar la compra.");
     }
   };
-  
-  
+
+  if (!user) return null;
 
   return (
     <div className="modal-overlay">

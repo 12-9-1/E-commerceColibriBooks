@@ -14,7 +14,7 @@ const Home = () => {
   return (
     <div className="home-container">
     <div className="home-hero">
-      <img src={logoColibri} alt="Colibrí de Letras" className="logo" />
+      <img src={logoColibri} alt="Colibrí de Letras" className="logo2" />
       <h1>¡Bienvenido a Estación El Colibrí!</h1>
       <p>Boletos para mundos infinitos y reconstrucción infinita. 📖✨</p>
       <div className="home-buttons">

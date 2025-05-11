@@ -38,7 +38,7 @@ const Navbar = ({ onCartClick }) => {
   return (
 <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
   <div className="navbar-logo" onClick={() => navigate("/")}>
-    <img src={logoColibri} alt="Colibrí de Letras" className="logo" />
+    <img src={logoColibri} alt="Colibrí" className="logo1" />
   </div>
 
       <div className="navbar-icons">
@@ -52,21 +52,28 @@ const Navbar = ({ onCartClick }) => {
   </div>
 
         {user && (
-          <img
-            src={user.avatar || "/default-avatar.png"}
-            alt="avatar"
-            className="user-avatar"
-            onClick={() => navigate("/profile")}
-          />
+        <div
+            className={`avatar-wrapper ${user.role === "admin" ? "admin" : ""}`}
+            onClick={() => navigate(user.role === "admin" ? "/admin" : "/profile")}
+          >
+            <img
+              src={user.avatar || "/default-avatar.png"}
+              alt="avatar"
+              className="user-avatar"
+            />
+            {user.role === "admin" && (
+              <span className="admin-crown">👑</span>
+            )}
+          </div>
         )}
       </div>
 
       {showMenu && (
         <div className="dropdown-menu">
           <ul>
-            <li onClick={() => navigate("/favorites")}>❤️ Favoritos</li>
-            <li onClick={() => navigate("/wishlist")}>⭐ Lista de deseos </li>
-            <li onClick={() => navigate("/purchases")}>🛒 Mis Compras</li>
+            {user &&<li onClick={() => navigate("/favorites")}>❤️ Favoritos</li>}
+            {user &&<li onClick={() => navigate("/wishlist")}>⭐ Lista de deseos </li>}
+            {user &&<li onClick={() => navigate("/purchases")}>🛒 Mis Compras</li>}
             <li onClick={() => navigate("/about")}>ℹ️ Sobre Nosotros</li>
             {user && <li onClick={handleLogout}>🚪 Cerrar Sesión</li>}
           </ul>

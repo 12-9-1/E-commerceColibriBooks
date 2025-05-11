@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/AuthPage.css";
 import { useUser } from "../context/UserContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ const Register = () => {
     e.preventDefault();
 
     if (form.password !== form.confirmPassword) {
-      alert("Las contraseñas no coinciden");
+      toast.warning("Las contraseñas no coinciden");
       return;
     }
 
@@ -40,14 +42,14 @@ const Register = () => {
         localStorage.setItem("user", JSON.stringify(res.data.user));
         setUser(res.data.user);
         console.log("Usuario registrado y guardado en localStorage:", res.data.user);  // Agregar este log
-        alert("Registro exitoso");
+        toast.success("Registro exitoso");
         navigate("/login");
       } else {
-        alert("Ocurrió un error al registrarse");
+        toast.info("Ocurrió un error al registrarse");
       }
     } catch (error) {
       console.error("Error en el registro", error);
-      alert(error.response?.data?.message || "Error al registrar");
+      toast.error(error.response?.data?.message || "Error al registrar");
     }
   };
 
