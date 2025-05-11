@@ -20,7 +20,7 @@ import MyPurchases from "./pages/MyPurchases";
 import CartModal from "./components/CartModal"; // Asegúrate de importarlo también
 import Favorites from "./pages/Favorites";
 import Wishlist from "./pages/Wishlist";
-
+import Footer from './components/Footer';
 
 
 function App() {
@@ -46,8 +46,8 @@ function App() {
     <Route path="/purchases" element={<MyPurchases />} />
     <Route path="/favorites" element={<Favorites />} />
     <Route path="/wishlist" element={<Wishlist />} />
-
   </Routes>
+    <Footer />
   <ToastContainer position="top-right" autoClose={3000} />
 </Router>
 
