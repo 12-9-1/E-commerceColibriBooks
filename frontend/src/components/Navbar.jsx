@@ -38,7 +38,7 @@ const Navbar = ({ onCartClick }) => {
   return (
 <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
   <div className="navbar-logo" onClick={() => navigate("/")}>
-    <img src={logoColibri} alt="Colibrí de Letras" className="logo" />
+    <img src={logoColibri} alt="Colibrí" className="logo1" />
   </div>
 
       <div className="navbar-icons">

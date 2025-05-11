@@ -24,7 +24,10 @@
     height: auto;
     transition: width 0.3s ease;
   }
-  
+  .logo1 {
+  width: 120px;
+  margin-bottom: 20px;
+}
   
   .navbar-icons {
     display: flex;
