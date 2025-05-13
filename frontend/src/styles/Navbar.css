@@ -109,10 +109,30 @@
   padding: 2px;
 }
 
+.avatar-nickname {
+  display: block;
+  font-size: 0.7rem;
+  color: #6c63ff;
+  text-align: center;
+  margin-top: 4px;
+}
 
 .admin-crown {
   position: absolute;
   top: -5px;
   right: -5px;
   font-size: 14px;
+}
+
+.auth-button{
+  background-color:#27AE60;
+  color: #fdfdfd;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.auth-button:hover{
+   background-color: #6c63ff;
 }
