@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../styles/AuthPage.css";
 import { useUser } from "../context/UserContext";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Login = () => {
+const Login = ({ closeModal, onToggleForm }) => {
   const navigate = useNavigate();
   const { setUser } = useUser();
 
@@ -41,6 +40,7 @@ const Login = () => {
         }
   
         toast.success("Login exitoso");
+        closeModal?.();
       } else {
         toast.warning("Credenciales incorrectas");
       }
@@ -52,29 +52,29 @@ const Login = () => {
   
 
   return (
-    <div className="auth-container">
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <h2>Iniciar Sesión</h2>
-        <input
-          type="email"
-          name="email"
-          placeholder="Correo electrónico"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Contraseña"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Ingresar</button>
-        <p>¿No tenés cuenta? <span onClick={() => navigate("/register")}>Registrate</span></p>
-      </form>
-    </div>
+    <form className="auth-form" onSubmit={handleSubmit}>
+      <h3>Iniciar Sesión</h3>
+      <input
+        type="email"
+        name="email"
+        placeholder="Correo electrónico"
+        value={form.email}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder="Contraseña"
+        value={form.password}
+        onChange={handleChange}
+        required
+      />
+      <button type="submit" className="btn-confirm">Ingresar</button>
+      <p className="auth-toggle">
+        ¿No tenés cuenta? <span onClick={onToggleForm}>Registrate</span>
+      </p>
+    </form>
   );
 };
 

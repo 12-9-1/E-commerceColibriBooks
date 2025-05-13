@@ -13,7 +13,7 @@ const Wishlist = () => {
   if (!userLoaded) return null;
 
   return (
-    <div className="wishlist-page">
+    <div className="home">
       <h2>Mi Lista de Deseos</h2>
       <div className="book-grid">
         {wishlist.length === 0 ? (
