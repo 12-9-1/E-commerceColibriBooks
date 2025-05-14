@@ -43,7 +43,10 @@ const Library = () => {
     fetchBooks(query);
   };
 
-  if (!userLoaded || !Array.isArray(favorites) || !Array.isArray(wishlist)) return null;
+  const isDataReady = userLoaded && Array.isArray(favorites) && Array.isArray(wishlist);
+
+if (!isDataReady) return <div className="loading">Cargando libros...</div>;
+
 
   return (
     <div className="home">

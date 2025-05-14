@@ -13,7 +13,7 @@ const CartModal = ({ onClose }) => {
       onClose();
       setTimeout(() => {
         window.location.href = "/login";
-      }, 2000); // Espera 2 segundos antes de redirigir
+      }, 2000); 
     }
   }, [user, onClose]);
 

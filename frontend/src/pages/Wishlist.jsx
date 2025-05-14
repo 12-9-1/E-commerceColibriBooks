@@ -1,16 +1,26 @@
 // src/pages/Wishlist.jsx
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext";
 import BookPreviewCard from "../components/BookPreviewCard";
 
 const Wishlist = () => {
-  const { wishlist, fetchUserWishlist, userLoaded } = useUser();
+  const { user } = useUser();
+  const [wishlist, setwishlist] = useState([]);
+  const [message, setMessage] = useState("");
+  const [feedback, setFeedback] = useState("");
 
-  useEffect(() => {
-    fetchUserWishlist();
-  }, []);
 
-  if (!userLoaded) return null;
+
+    useEffect(() => {
+    const fetchwishlist = async () => {
+      const res = await fetch(`http://localhost:3000/api/user/${user._id}/wishlist`);
+      const data = await res.json();
+      setwishlist(data);
+    };
+  
+
+     if (user) fetchwishlist();
+  }, [user]);
 
   return (
     <div className="home">
