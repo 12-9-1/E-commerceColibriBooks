@@ -3,12 +3,12 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { useCart } from "../context/CartContext";
-import { FaShoppingCart, FaBars } from "react-icons/fa";
+import { useMessages } from "../context/MessageContext";
 import "../styles/Navbar.css"; 
 import logoColibri from "../assets/logoColibri.png"; 
 import AuthModal from "./AuthModal"; 
-
-
+import { FaShoppingCart, FaBars, FaHeart } from "react-icons/fa";
+import { IoMailUnread } from "react-icons/io5"; 
 
 const Navbar = ({ onCartClick }) => {
   const { user, setUser } = useUser();
@@ -17,7 +17,8 @@ const Navbar = ({ onCartClick }) => {
   const [showMenu, setShowMenu] = useState(false);
   const { cartItems } = useCart();
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  
+  const { favorites } = useUser();
+  const { unreadCount } = useMessages();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -74,9 +75,16 @@ useEffect(() => {
         isOpen={authModalOpen}
         onRequestClose={() => setAuthModalOpen(false)}
       />
-
-
         <FaBars className="menu-icon" onClick={handleMenuToggle} />
+   {user && (     
+ <div className="favorites-icon" onClick={() => navigate("/favorites")}>
+  
+  <FaHeart />
+  {Array.isArray(favorites) && favorites.length > 0 && (
+    <span className="favorites-count">{favorites.length}</span>
+  )}
+</div>
+   )}
         
       <div className="cart-icon" onClick={onCartClick}> 
         <FaShoppingCart />
@@ -84,6 +92,13 @@ useEffect(() => {
           <span className="cart-count">{cartItems.length}</span>
         )}
       </div>
+
+      {user?.role === "admin" && (
+  <div className="message-icon" onClick={() => navigate("/admin/messages")}>
+    <IoMailUnread />
+    {unreadCount > 0 && <span className="message-count">{unreadCount}</span>}
+  </div>
+)}
 
       {user && (
         <div

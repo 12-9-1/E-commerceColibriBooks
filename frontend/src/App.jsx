@@ -17,18 +17,22 @@ import BookPreviewCard from './components/BookPreviewCard';
 import AdminBookList from './pages/AdminBookList';
 import Library from './pages/Library';
 import MyPurchases from "./pages/MyPurchases";
-import CartModal from "./components/CartModal"; // Asegúrate de importarlo también
+import CartModal from "./components/CartModal"; 
 import Favorites from "./pages/Favorites";
 import Wishlist from "./pages/Wishlist";
 import Footer from './components/Footer';
+import AuthModal from "./components/AuthModal";
+import { MessageProvider } from "./context/MessageContext";
+
 
 
 function App() {
-  const [showCart, setShowCart] = useState(false); // ⬅️ Estado agregado
+  const [showCart, setShowCart] = useState(false); 
 
   return (
     <UserProvider>
       <CartProvider> 
+      <MessageProvider>
       <Router>
   <NavBar onCartClick={() => setShowCart(true)} />
   {showCart && <CartModal onClose={() => setShowCart(false)} />} 
@@ -49,9 +53,9 @@ function App() {
   </Routes>
     <Footer />
   <ToastContainer position="top-right" autoClose={3000} />
-</Router>
-
-      </CartProvider> 
+  </Router>
+  </MessageProvider>
+    </CartProvider> 
     </UserProvider>
   );
 }

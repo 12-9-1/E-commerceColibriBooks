@@ -38,7 +38,8 @@ export const UserProvider = ({ children }) => {
     if (!user) return;
     const res = await fetch(`http://localhost:3000/api/user/${user._id}/favorites`);
     const data = await res.json();
-    setFavorites(data);
+    const ids = data.map(book => book._id);
+    setFavorites(ids);
   };
 
 
@@ -46,7 +47,8 @@ export const UserProvider = ({ children }) => {
     if (!user) return;
     const res = await fetch(`http://localhost:3000/api/user/${user._id}/wishlist`);
     const data = await res.json();
-    setWishlist(data);
+    const ids = data.map(book => book._id);
+    setWishlist(ids); 
   };
 
   const updateFavorites = async (bookId, action) => {
@@ -66,6 +68,7 @@ export const UserProvider = ({ children }) => {
     });
     fetchUserWishlist(); 
   };
+  
 
   return (
     <UserContext.Provider
@@ -87,3 +90,4 @@ export const UserProvider = ({ children }) => {
 };
 
 export const useUser = () => useContext(UserContext);
+
