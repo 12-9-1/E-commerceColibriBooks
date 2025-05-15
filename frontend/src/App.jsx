@@ -23,7 +23,8 @@ import Wishlist from "./pages/Wishlist";
 import Footer from './components/Footer';
 import AuthModal from "./components/AuthModal";
 import { MessageProvider } from "./context/MessageContext";
-
+import AdminInbox from "./pages/AdminInbox";
+import UserMessages from "./pages/UserMessages";
 
 
 function App() {
@@ -50,6 +51,8 @@ function App() {
     <Route path="/purchases" element={<MyPurchases />} />
     <Route path="/favorites" element={<Favorites />} />
     <Route path="/wishlist" element={<Wishlist />} />
+    <Route path="/admininbox" element={<AdminInbox />} />
+    <Route path="/usermessages" element={<UserMessages />} />
   </Routes>
     <Footer />
   <ToastContainer position="top-right" autoClose={3000} />

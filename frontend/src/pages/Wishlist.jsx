@@ -1,48 +1,66 @@
 // src/pages/Wishlist.jsx
 import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext";
+import { useMessages } from '../context/MessageContext';
+import { toast } from "react-toastify";
 import BookPreviewCard from "../components/BookPreviewCard";
+import MessageModal from "../components/MessageModal";
 
 const Wishlist = () => {
   const { user } = useUser();
+  const { fetchMessages } = useMessages();
   const [wishlist, setwishlist] = useState([]);
-  const [message, setMessage] = useState("");
-  const [feedback, setFeedback] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedBookId, setSelectedBookId] = useState(null);
 
-
-
-    useEffect(() => {
+  useEffect(() => {
     const fetchwishlist = async () => {
       const res = await fetch(`http://localhost:3000/api/user/${user._id}/wishlist`);
       const data = await res.json();
       setwishlist(data);
     };
-  
 
-     if (user) fetchwishlist();
+    if (user) fetchwishlist();
   }, [user]);
+
+  const openModal = (bookId = null) => {
+    setSelectedBookId(bookId); 
+    setModalOpen(true);
+  };
 
   return (
     <div className="home">
       <h2>Mi Lista de Deseos</h2>
+
       <div className="book-grid">
         {wishlist.length === 0 ? (
           <p>No hay libros en tu lista de deseos.</p>
         ) : (
           wishlist.map((book) => (
             <BookPreviewCard
-            key={book._id}
-            title={book.title}
-            cover={book.cover}
-            price={book.price}
-            trailer={book.trailer}
-            preview={book.preview}
-            _id={book._id}
-            isWishlisted={true}
-          />          
+              key={book._id}
+              title={book.title}
+              cover={book.cover}
+              price={book.price}
+              trailer={book.trailer}
+              preview={book.preview}
+              _id={book._id}
+              isWishlisted={true}
+              onMessageRequest={() => openModal(book._id)} 
+            />
           ))
         )}
       </div>
+
+      <p>¿Deseas pedir un deseo a la Biblioteca el Colibrí?</p>
+      <button onClick={() => openModal()}>Pedir deseo</button>
+
+      <MessageModal
+        isOpen={modalOpen}
+        onRequestClose={() => setModalOpen(false)}
+        userId={user._id}
+        bookId={selectedBookId} // puede ser null si no aplica a un libro
+      />
     </div>
   );
 };

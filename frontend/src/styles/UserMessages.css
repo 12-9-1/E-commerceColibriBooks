@@ -1,0 +1,26 @@
+.user-messages {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.message-card {
+  background: #fff;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.message-card p {
+  margin: 0.5rem 0;
+}
+
+.admin-response {
+  background-color: #f0fdf4;
+  border-left: 4px solid #22c55e;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border-radius: 4px;
+}

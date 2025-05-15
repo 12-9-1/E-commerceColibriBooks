@@ -2,13 +2,14 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import { toast } from "react-toastify";
+import BookPreviewCard from "../components/BookPreviewCard";
 
 const MessageModal = ({ isOpen, onRequestClose, userId, bookId }) => {
   const [mensaje, setMensaje] = useState("");
 
   const handleSend = async () => {
     if (!mensaje.trim()) return toast.error("Escribe un mensaje");
-    await fetch("http://localhost:3000/api/messages", {
+    await fetch("http://localhost:3000/api/message", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user: userId, book: bookId, content: mensaje }),
