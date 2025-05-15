@@ -39,4 +39,5 @@ app.use('/api/books', bookRoutes);
 const purchaseRoutes = require("./routers/purchase.routes");
 app.use("/api/purchases", purchaseRoutes);
 
-
+const messageRoutes = require("./routers/message.routes");
+app.use("/api/message", messageRoutes);

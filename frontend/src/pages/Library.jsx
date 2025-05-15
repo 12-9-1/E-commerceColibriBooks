@@ -5,6 +5,7 @@ import { useUser } from "../context/UserContext";
 import { useCart } from "../context/CartContext";
 import '../styles/AdminBookDashboard.css';
 import BookPreviewCard from "../components/BookPreviewCard";
+import { useLocation } from "react-router-dom";
 
 const Library = () => {
   const { user, userLoaded, favorites, wishlist } = useUser();
@@ -19,6 +20,8 @@ const Library = () => {
   const [searchTitle, setSearchTitle] = useState("");
   const [searchAuthor, setSearchAuthor] = useState("");
   const [searchGenre, setSearchGenre] = useState("");
+  const location = useLocation();
+
 
   const fetchBooks = async (query = "") => {
     try {
@@ -43,6 +46,21 @@ const Library = () => {
     fetchBooks(query);
   };
 
+  useEffect(() => {
+  const searchParams = new URLSearchParams(location.search);
+  const title = searchParams.get("title") || "";
+  const author = searchParams.get("author") || "";
+  const genre = searchParams.get("genre") || "";
+
+  setSearchTitle(title);
+  setSearchAuthor(author);
+  setSearchGenre(genre);
+
+  const query = searchParams.toString() ? `/search?${searchParams}` : "";
+  fetchBooks(query);
+}, [location.search]);
+
+
   const isDataReady = userLoaded && Array.isArray(favorites) && Array.isArray(wishlist);
 
 if (!isDataReady) return <div className="loading">Cargando libros...</div>;
@@ -50,29 +68,6 @@ if (!isDataReady) return <div className="loading">Cargando libros...</div>;
 
   return (
     <div className="home">
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Buscar por título"
-          value={searchTitle}
-          onChange={(e) => setSearchTitle(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Buscar por autor"
-          value={searchAuthor}
-          onChange={(e) => setSearchAuthor(e.target.value)}
-        />
-        <select value={searchGenre} onChange={(e) => setSearchGenre(e.target.value)}>
-          <option value="">Todos los géneros</option>
-          <option value="fantasía">Fantasía</option>
-          <option value="ciencia ficción">Ciencia ficción</option>
-          <option value="romance">Romance</option>
-          <option value="terror">Terror</option>
-        </select>
-        <button onClick={handleSearch}>Buscar</button>
-      </div>
-
       <div className="book-section">
         <h2>Libros</h2>
         <div className="book-grid">
