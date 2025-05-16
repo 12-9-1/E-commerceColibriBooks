@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useUser } from "../context/UserContext"; // ✅ corregido
+import { useUser } from "../context/UserContext"; 
 import "../styles/UserMessages.css";
 
 const UserMessages = () => {
-  const { user } = useUser(); // ✅ corregido
+  const { user } = useUser(); 
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {

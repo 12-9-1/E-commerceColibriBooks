@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { useCart } from "../context/CartContext";
 import { useMessages } from "../context/MessageContext";
+import MessagesPreviewModal from "./MessagesPreviewModal";
 import "../styles/Navbar.css"; 
 import logoColibri from "../assets/logoColibri.png"; 
 import AuthModal from "./AuthModal"; 
@@ -23,6 +24,9 @@ const Navbar = ({ onCartClick }) => {
   const [searchTitle, setSearchTitle] = useState("");
   const [searchAuthor, setSearchAuthor] = useState("");
   const [searchGenre, setSearchGenre] = useState("");
+
+  const [showMessageModal, setShowMessageModal] = useState(false);
+
 
   const toggleSearch = () => setShowSearch(!showSearch);
 
@@ -103,12 +107,19 @@ const Navbar = ({ onCartClick }) => {
           )}
         </div>
 
-        {user?.role === "admin" && (
-          <div className="message-icon" onClick={() => navigate("/admin/messages")}>
-            <IoMailUnread />
-            {unreadCount > 0 && <span className="message-count">{unreadCount}</span>}
-          </div>
+        {user && (
+          <div className="message-icon" onClick={() => setShowMessageModal(true)}>
+          <IoMailUnread />
+          {unreadCount > 0 && <span className="message-count">{unreadCount}</span>}
+        </div>
         )}
+        
+        <MessagesPreviewModal
+          isOpen={showMessageModal}
+          onRequestClose={() => setShowMessageModal(false)}
+          isAdmin={user?.role === "admin"}
+        />
+
 
         {user && (
           <div

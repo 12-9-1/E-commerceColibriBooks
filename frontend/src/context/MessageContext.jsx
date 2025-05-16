@@ -1,26 +1,32 @@
 // src/context/MessageContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
+import { useUser } from "./UserContext";
 
 const MessageContext = createContext();
 
 export const MessageProvider = ({ children }) => {
+  const { user } = useUser(); // ✅ mover aquí
   const [messages, setMessages] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
 
   const fetchMessages = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/message");
-      const data = await res.json();
-      setMessages(data);
-      setUnreadCount(data.filter(msg => msg.status === "pendiente").length);
-    } catch (error) {
-      console.error("Error al obtener mensajes", error);
-    }
+    if (!user) return;
+
+    const endpoint = user.role === "admin"
+      ? "http://localhost:3000/api/message"
+      : `http://localhost:3000/api/message/user/${user._id}`;
+
+    const res = await fetch(endpoint);
+    const data = await res.json();
+    setMessages(data);
+
+    const unread = data.filter((m) => m.status === "pendiente").length;
+    setUnreadCount(unread);
   };
 
   useEffect(() => {
     fetchMessages();
-  }, []);
+  }, [user]); // ⚠️ importante: esperar a que `user` esté listo
 
   return (
     <MessageContext.Provider value={{ messages, unreadCount, fetchMessages }}>
