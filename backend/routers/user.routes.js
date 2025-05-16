@@ -12,7 +12,9 @@ const {
   getFavorites,
   addToWishlist,
   removeFromWishlist,
-  getWishlist
+  getWishlist,
+  forgotPassword,
+  resetPassword
 } = require('../controllers/user.controller');
 
 // Rutas 
@@ -27,5 +29,8 @@ router.get('/:id/favorites', getFavorites);
 router.post('/:id/wishlist/:bookId', addToWishlist);
 router.delete('/:id/wishlist/:bookId', removeFromWishlist);
 router.get('/:id/wishlist', getWishlist);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password/:token', resetPassword);
+
 
 module.exports = router;

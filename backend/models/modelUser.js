@@ -9,7 +9,9 @@ const userSchema = new mongoose.Schema({
   nickname: { type: String, default: 'Usuario' },
   createdAt: { type: Date, default: Date.now },
   favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
-  wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }]
+  wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
+  resetPasswordToken: String,
+resetPasswordExpires: Date,
 });
 
 module.exports = mongoose.model('User', userSchema);
