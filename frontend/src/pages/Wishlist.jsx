@@ -59,7 +59,7 @@ const Wishlist = () => {
         isOpen={modalOpen}
         onRequestClose={() => setModalOpen(false)}
         userId={user._id}
-        bookId={selectedBookId} // puede ser null si no aplica a un libro
+        bookId={selectedBookId} 
       />
     </div>
   );

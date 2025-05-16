@@ -16,11 +16,19 @@ const Library = () => {
   const { addToCart } = useCart();
   const [showPreview, setShowPreview] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
-
   const [searchTitle, setSearchTitle] = useState("");
   const [searchAuthor, setSearchAuthor] = useState("");
   const [searchGenre, setSearchGenre] = useState("");
   const location = useLocation();
+  const [currentPage, setCurrentPage] = useState(1);
+
+
+
+  const booksPerPage = 8;
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+  const totalPages = Math.ceil(books.length / booksPerPage);
 
 
   const fetchBooks = async (query = "") => {
@@ -71,7 +79,7 @@ if (!isDataReady) return <div className="loading">Cargando libros...</div>;
       <div className="book-section">
         <h2>Libros</h2>
         <div className="book-grid">
-          {books.map((book) => (
+          {currentBooks.map((book) => (
             <BookPreviewCard
               key={book._id}
               author={book.author}
@@ -91,6 +99,16 @@ if (!isDataReady) return <div className="loading">Cargando libros...</div>;
           ))}
         </div>
       </div>
+      <div className="pagination">
+  <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+    ◀ Anterior
+  </button>
+  <span>Página {currentPage} de {totalPages}</span>
+  <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
+    Siguiente ▶
+  </button>
+</div>
+
 
      {/* Modal Info Mejorado */}
 {selectedBook && (

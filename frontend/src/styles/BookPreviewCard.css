@@ -175,6 +175,30 @@
   animation: glow 0.4s ease-in-out;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.pagination button {
+  background-color: #ff914d;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: default;
+}
+
+
 /* ========== BUSCADOR ========= */
 .search-bar {
   display: flex;
