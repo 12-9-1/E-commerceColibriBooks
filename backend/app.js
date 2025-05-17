@@ -1,10 +1,11 @@
 // File: backend/appjs
+
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const app = express();
 
+const app = express();
 app.use(cors({
   origin: 'http://localhost:5173', // tu frontend
   credentials: true

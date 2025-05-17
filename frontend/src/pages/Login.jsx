@@ -74,7 +74,12 @@ const Login = ({ closeModal, onToggleForm }) => {
       <p className="auth-toggle">
         ¿No tenés cuenta? <span onClick={onToggleForm}>Registrate</span>
       </p>
+      <p className="auth-toggle">
+      <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
+      </p>
+
     </form>
+    
   );
 };
 

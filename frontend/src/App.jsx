@@ -25,6 +25,7 @@ import AuthModal from "./components/AuthModal";
 import { MessageProvider } from "./context/MessageContext";
 import AdminInbox from "./pages/AdminInbox";
 import UserMessages from "./pages/UserMessages";
+import ForgotPassword from "./pages/ForgotPassword";
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
     <Route path="/wishlist" element={<Wishlist />} />
     <Route path="/admininbox" element={<AdminInbox />} />
     <Route path="/usermessages" element={<UserMessages />} />
+    <Route path="/forgot-password" element={<ForgotPassword />} />
   </Routes>
     <Footer />
   <ToastContainer position="top-right" autoClose={3000} />

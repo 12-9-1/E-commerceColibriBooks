@@ -1,4 +1,7 @@
 const User = require('../models/modelUser');
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
+
 
 // Obtener todos los usuarios
 const getAllUsers = async (req, res) => {
@@ -139,6 +142,65 @@ const getWishlist = async (req, res) => {
   }
 };
 
+// Solicitar recuperación
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+
+    const token = crypto.randomBytes(20).toString("hex");
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hora
+    await user.save();
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER, // ✅ mejor con variables de entorno
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      to: user.email,
+      from: process.env.EMAIL_USER,
+      subject: "Recuperación de contraseña",
+      text: `Hacé clic en este enlace para cambiar tu contraseña:\n\nhttp://localhost:5173/reset-password/${token}`,
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.json({ message: "Correo enviado con instrucciones" });
+  } catch (error) {
+    console.error("Error al enviar correo:", error);
+    res.status(500).json({ message: "Error al enviar correo", error });
+  }
+};
+
+// Cambiar contraseña usando token
+const resetPassword = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      resetPasswordToken: req.params.token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
+
+    if (!user) return res.status(400).json({ message: 'Token inválido o expirado' });
+
+    const { password } = req.body;
+    user.password = password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.json({ message: 'Contraseña actualizada correctamente' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al cambiar contraseña', error });
+  }
+};
+
+
+
 module.exports = {
   getAllUsers,
   deleteUser,
@@ -150,5 +212,7 @@ module.exports = {
   getFavorites,
   addToWishlist,
   removeFromWishlist,
-  getWishlist
+  getWishlist,
+  forgotPassword,
+  resetPassword
 };
