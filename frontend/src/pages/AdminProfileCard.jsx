@@ -128,6 +128,11 @@ const AdminBookDashboard = () => {
       <p>Gestiona los libros disponibles.</p>
       <button onClick={() => navigate("/adminbooks")}>Ver libros</button>
     </div>
+    <div className="book-page">
+      <h4>Mensajes</h4>
+      <p>Revisa y responde los mensajes enviados por usuarios.</p>
+      <button onClick={() => navigate("/admininbox")}>Bandeja de mensajes</button>
+    </div>
   </div>
   
 </motion.div>

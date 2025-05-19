@@ -1,15 +1,15 @@
 // src/pages/Wishlist.jsx
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useUser } from "../context/UserContext";
 import { useMessages } from '../context/MessageContext';
-import { toast } from "react-toastify";
 import BookPreviewCard from "../components/BookPreviewCard";
 import MessageModal from "../components/MessageModal";
 
 const Wishlist = () => {
   const { user } = useUser();
+    const [wishlist, setwishlist] = useState([]);
   const { fetchMessages } = useMessages();
-  const [wishlist, setwishlist] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedBookId, setSelectedBookId] = useState(null);
 
@@ -19,7 +19,6 @@ const Wishlist = () => {
       const data = await res.json();
       setwishlist(data);
     };
-
     if (user) fetchwishlist();
   }, [user]);
 
@@ -27,6 +26,11 @@ const Wishlist = () => {
     setSelectedBookId(bookId); 
     setModalOpen(true);
   };
+
+
+  if (!user) {
+    return <p>Cargando...</p>;
+  }
 
   return (
     <div className="home">
@@ -47,22 +51,26 @@ const Wishlist = () => {
               _id={book._id}
               isWishlisted={true}
               onMessageRequest={() => openModal(book._id)} 
+              onRemovedFromWishlist={() =>
+              setwishlist(prev => prev.filter(b => b._id !== book._id))
+            }
             />
           ))
         )}
       </div>
 
       <p>¿Deseas pedir un deseo a la Biblioteca el Colibrí?</p>
-      <button onClick={() => openModal()}>Pedir deseo</button>
-
+      <button className="buton-deseo" onClick={() => openModal()}>Pedir deseo</button>
+      
       <MessageModal
         isOpen={modalOpen}
         onRequestClose={() => setModalOpen(false)}
-        userId={user._id}
+        userId={user?._id}  
         bookId={selectedBookId} 
       />
     </div>
   );
 };
+
 
 export default Wishlist;

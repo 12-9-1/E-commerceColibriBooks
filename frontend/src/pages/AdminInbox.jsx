@@ -81,8 +81,9 @@ const AdminInbox = () => {
     setRespuesta("");
   }}
   className="modal"
-  overlayClassName="overlay"
+  overlayClassName="modal-upload"
 >
+  <div className="modal-content">
   <h3>Mensaje de: {selectedMsg?.user?.nickname}</h3>
   <p><strong>Libro:</strong> {selectedMsg?.book?.title || "General"}</p>
   <p>{selectedMsg?.content}</p>
@@ -110,6 +111,7 @@ const AdminInbox = () => {
     <button onClick={handleDelete} disabled={loading}>🗑️ Eliminar mensaje</button>
     <button onClick={() => setModalOpen(false)}>❌ Cerrar</button>
   </div>
+</div>
 </Modal>
 
     </div>

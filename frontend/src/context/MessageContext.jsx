@@ -5,7 +5,7 @@ import { useUser } from "./UserContext";
 const MessageContext = createContext();
 
 export const MessageProvider = ({ children }) => {
-  const { user } = useUser(); // ✅ mover aquí
+  const { user } = useUser(); 
   const [messages, setMessages] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
 
@@ -26,7 +26,7 @@ export const MessageProvider = ({ children }) => {
 
   useEffect(() => {
     fetchMessages();
-  }, [user]); // ⚠️ importante: esperar a que `user` esté listo
+  }, [user]); 
 
   return (
     <MessageContext.Provider value={{ messages, unreadCount, fetchMessages }}>

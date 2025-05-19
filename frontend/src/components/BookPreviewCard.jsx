@@ -9,6 +9,7 @@ const BookPreviewCard = ({
   isFavorite: propIsFavorite = false,
   isWishlisted: propIsWishlisted = false,
   onRemovedFromFavorites,
+  onRemovedFromWishlist,
 }) => {
   const { user, updateFavorites, updateWishlist } = useUser();
 
@@ -38,10 +39,15 @@ const [showLoginModal, setShowLoginModal] = useState(false);
     }
   };
 
-  const toggleWishlist = async () => {
-    await updateWishlist(_id, isWishlisted ? "remove" : "add");
-    setIsWishlisted(!isWishlisted);
-  };
+const toggleWishlist = async () => {
+  await updateWishlist(_id, isWishlisted ? "remove" : "add");
+  setIsWishlisted(!isWishlisted);
+
+    if (isWishlisted && typeof onRemovedFromWishlist === "function") {
+      onRemovedFromWishlist();
+    }
+
+};
 
   return (
     <div className="book-card">

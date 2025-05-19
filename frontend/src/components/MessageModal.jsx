@@ -20,14 +20,23 @@ const MessageModal = ({ isOpen, onRequestClose, userId, bookId }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modal">
+    <Modal className="modal-upload" isOpen={isOpen} onRequestClose={onRequestClose} >
+      <div className="modal-content">
+
       <h2>Enviar mensaje al administrador</h2>
       <textarea
         value={mensaje}
         onChange={(e) => setMensaje(e.target.value)}
         placeholder="Escribe tu mensaje aquí..."
       />
-      <button onClick={handleSend}>Enviar</button>
+      <button onClick={handleSend} className="btn-close">Enviar</button>
+        <button
+          onClick={onRequestClose}
+          className="btn-close"
+        >
+          Cerrar Ventana
+        </button>
+      </div>
     </Modal>
   );
 };
