@@ -77,9 +77,6 @@
   color: var(--color-text);
 }
 
-.book-page {
-
-}
 /* ========== BOTONES ========= */
 .buttons-book {
   margin-top: 0.5rem;
@@ -147,6 +144,18 @@
   color: red;
 }
 
+.buton-deseo{
+  background-color: #ff914d;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.buton-deseo:hover {
+  background-color: #6c63ff;
+}
 
 @keyframes heartbeat {
   0% { transform: scale(1); }

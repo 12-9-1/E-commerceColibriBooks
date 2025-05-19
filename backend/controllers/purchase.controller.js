@@ -3,13 +3,15 @@ const Purchase = require("../models/Purchase");
 
 const createPurchase = async (req, res) => {
   try {
-    const { books, total } = req.body;
-    const userId = req.user.userId;  
+    const { books, total, shipping, payment } = req.body;
+    const userId = req.user.userId;
 
     const purchase = new Purchase({
       user: userId,
       books,
       total,
+      shipping,
+      payment
     });
 
     await purchase.save();

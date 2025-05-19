@@ -1,31 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import { FaCheckCircle, FaExclamationTriangle, FaSpinner } from 'react-icons/fa';
+import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from '../context/UserContext';
-import '../styles/Profile.css';
-
+import MessageModal from "../components/MessageModal";
+import { useNavigate } from "react-router-dom";
+import '../styles/AdminBookDashboard.css';
 
 const Profile = () => {
   const { user, userLoaded } = useUser();
-  const [userData, setUserData] = useState({});
   const [nickname, setNickname] = useState('');
   const [avatar, setAvatar] = useState('');
   const [editMode, setEditMode] = useState(false);
-  const [message, setMessage] = useState({ text: '', type: '' });
- const navigate = useNavigate();
+  const [message, setMessage] = useState('');
+  const [bookOpen, setBookOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!userLoaded || !user?._id) return;
-
-    axios.get(`http://localhost:3000/api/user/${user._id}/profile`)
-      .then(res => {
-        setUserData(res.data);
-        setNickname(res.data.nickname || '');
-        setAvatar(res.data.avatar || '');
-      })
-      .catch(err => console.error('Error cargando perfil:', err));
-  }, [userLoaded, user]);
+    if (user) {
+      setNickname(user.nickname || '');
+      setAvatar(user.avatar || '');
+    }
+  }, [user]);
 
   const handleUpdate = () => {
     axios.put(`http://localhost:3000/api/user/${user._id}/profile`, {
@@ -33,92 +30,117 @@ const Profile = () => {
       avatar
     })
     .then(res => {
-      setMessage({ text: 'Perfil actualizado con éxito 🎉', type: 'success' });
-      setUserData(res.data);
+      setMessage('Perfil actualizado con éxito 🎉');
       setEditMode(false);
-  
-      setTimeout(() => {
-        setMessage({ text: '', type: '' }); 
-      }, 3000);
     })
     .catch(err => {
       console.error('Error actualizando perfil:', err);
-      setMessage({ text: 'Ocurrió un error al actualizar.', type: 'error' });
+      setMessage('Ocurrió un error al actualizar.');
     });
   };
-  
 
-  if (!userLoaded) return (
-    <div className="profile-message loading">
-      <FaSpinner className="icon spin" /> Cargando perfil...
-    </div>
-  );
-  if (!user?._id) return (
-    <div className="profile-message error">
-      <FaExclamationTriangle className="icon" /> Usuario no identificado. Por favor, inicia sesión.
-    </div>
-  );
-  
+  if (!userLoaded) return <p className="profile-message">Cargando perfil...</p>;
+  if (!user?._id) return <p className="profile-message error">Usuario no identificado.</p>;
+
   return (
-    <div className="profile-container">
-    <h2>Mi Perfil</h2>
-  
-    <div className="profile-avatar">
-      {avatar ? (
-        <img src={avatar} alt="Avatar" />
-      ) : (
-        <p>Sin imagen de avatar</p>
-      )}
-    </div>
-  
-    <div className="profile-info">
-      <label>Email:</label>
-      <span>{userData.email}</span>
-  
-      {editMode ? (
-        <>
-          <label>Apodo:</label>
-          <input
-            type="text"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-          />
-          <label>Avatar URL:</label>
-          <input
-            type="text"
-            value={avatar}
-            onChange={(e) => setAvatar(e.target.value)}
-          />
-        </>
-      ) : (
-        <>
-          <label>Apodo:</label>
-          <span>{userData.nickname}</span>
-        </>
-      )}
-    </div>
-  
-    <div className="profile-buttons">
-      {editMode ? (
-        <>
-          <button onClick={handleUpdate}>Guardar</button>
-          <button onClick={() => setEditMode(false)}>Cancelar</button>
-        </>
-      ) : (
-        <button onClick={() => setEditMode(true)}>Editar</button>
-      )}
-    </div>
-    {message.text && (
-  <div className={`profile-message ${message.type}`}>
-    {message.type === 'success' && <FaCheckCircle className="icon" />}
-    {message.type === 'error' && <FaExclamationTriangle className="icon" />}
-    {message.type === 'loading' && <FaSpinner className="icon spin" />}
-    {message.text}
-  </div>
-)}
+    <div className="admin-dashboard-container">
+      {/* Tarjeta de perfil */}
+      <div className="admin-profile-card">
+        <img src={avatar || user?.avatar} alt="Avatar" className="avatar" />
+        <h3>{nickname || user?.nickname}</h3>
+        <p>{user?.email}</p>
+        <span className="user-badge">🧚 Usuario</span>
 
-  </div>
-  
+        {editMode ? (
+          <div className="edit-mode">
+            <input
+              type="text"
+              className="edit-input"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              placeholder="Nuevo apodo"
+            />
+            <input
+              type="text"
+              className="edit-input"
+              value={avatar}
+              onChange={(e) => setAvatar(e.target.value)}
+              placeholder="Nueva URL de avatar"
+            />
+            <div className="profile-buttons">
+              <button className="save-btn" onClick={handleUpdate}>Guardar</button>
+              <button className="cancel-btn" onClick={() => setEditMode(false)}>Cancelar</button>
+            </div>
+          </div>
+        ) : (
+          <div className="profile-buttons">
+            <button className="edit-btn" onClick={() => setEditMode(true)}>Editar</button>
+          </div>
+        )}
+
+        {message && <p>{message}</p>}
+      </div>
+
+      {/* Libro con secciones */}
+      <div className="admin-book-container">
+        <motion.div 
+          className={`book-cover-icon ${bookOpen ? 'open' : ''}`} 
+          onClick={() => setBookOpen(!bookOpen)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {bookOpen ? '📖' : '📕'}
+          <p>{bookOpen ? 'Cerrar libro' : 'Abrir libro'}</p>
+        </motion.div>
+
+        <AnimatePresence>
+          {bookOpen && (
+            <motion.div 
+              className="book-pages"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.4 }}
+            >
+              {/* Columna izquierda */}
+              <div className="book-page-column">
+                <div className="book-page">
+                  <h4>Mis libros deseados</h4>
+                  <p>Consulta los libros que agregaste a tu lista de deseos.</p>
+                  <button onClick={() => navigate("/wishlist")}>Ver deseos</button>
+                </div>
+                <div className="book-page">
+                  <h4>Correo</h4>
+                  <p>Tu dirección de correo registrada.</p>
+                  <span>{user.email}</span>
+                </div>
+              </div>
+
+              {/* Columna derecha */}
+              <div className="book-page-column">
+                <div className="book-page">
+                  <h4>Mis compras</h4>
+                  <p>Revisa el historial de tus compras.</p>
+                  <button onClick={() => navigate("/purchases")}>Ver compras</button>
+                </div>
+                <div className="book-page">
+                  <h4>Pedir un deseo</h4>
+                  <p>Envía una petición a la Biblioteca el Colibrí.</p>
+                  <button onClick={() => setModalOpen(true)}>Pedir deseo</button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Modal de deseo */}
+      <MessageModal
+        isOpen={modalOpen}
+        onRequestClose={() => setModalOpen(false)}
+        userId={user._id}
+      />
+    </div>
   );
 };
 

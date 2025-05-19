@@ -1,6 +1,6 @@
 // src/components/NavBar/Navbar.jsx
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { useCart } from "../context/CartContext";
 import { useMessages } from "../context/MessageContext";
@@ -26,6 +26,7 @@ const Navbar = ({ onCartClick }) => {
   const [searchGenre, setSearchGenre] = useState("");
 
   const [showMessageModal, setShowMessageModal] = useState(false);
+  const location = useLocation();
 
 
   const toggleSearch = () => setShowSearch(!showSearch);
@@ -72,24 +73,40 @@ const Navbar = ({ onCartClick }) => {
 
   return (
     <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
+      {location.pathname !== "/" && (
+        <button className="back-button" onClick={() => navigate(-1)}>
+          ⬅ Volver
+        </button>
+      )}
       <div className="navbar-logo" onClick={() => navigate("/")}>
         <img src={logoColibri} alt="Colibrí" className="logo1" />
       </div>
 
       <div className="navbar-icons">
-        <FaSearch className="search-icon" onClick={toggleSearch} />
+        <FaSearch className="search-icon colored-icon" onClick={toggleSearch} />
 
         {!user && (
           <button className="auth-button" onClick={() => setAuthModalOpen(true)}>
             Iniciar sesión / Registro
           </button>
         )}
+        
         <AuthModal
           isOpen={authModalOpen}
           onRequestClose={() => setAuthModalOpen(false)}
         />
 
+        
         <FaBars className="menu-icon" onClick={handleMenuToggle} />
+
+
+
+        <div className="cart-icon" onClick={onCartClick}> 
+          <FaShoppingCart />
+          {Array.isArray(cartItems) && cartItems.length > 0 && (
+            <span className="cart-count">{cartItems.length}</span>
+          )}
+        </div>
 
         {user && (
           <div className="favorites-icon" onClick={() => navigate("/favorites")}>
@@ -100,17 +117,12 @@ const Navbar = ({ onCartClick }) => {
           </div>
         )}
 
-        <div className="cart-icon" onClick={onCartClick}> 
-          <FaShoppingCart />
-          {Array.isArray(cartItems) && cartItems.length > 0 && (
-            <span className="cart-count">{cartItems.length}</span>
-          )}
-        </div>
-
         {user && (
-          <div className="message-icon" onClick={() => setShowMessageModal(true)}>
-          <IoMailUnread />
-          {unreadCount > 0 && <span className="message-count">{unreadCount}</span>}
+        <div className="message-icon" onClick={() => setShowMessageModal(true)}>
+          <IoMailUnread/>
+          {unreadCount > 0 && (
+            <span className="icon-counter">{unreadCount}</span>
+          )}
         </div>
         )}
         
@@ -167,15 +179,19 @@ const Navbar = ({ onCartClick }) => {
       {showMenu && (
         <div className="dropdown-menu" ref={menuRef}>
           <ul>
-            {user && (
+            {user && location.pathname !== "/library" &&(
+              <li onClick={() => { navigate("/library"); setShowMenu(false); }}>📚 Biblioteca</li>
+            )}
+            {user && location.pathname !== "/favorites" && (
               <li onClick={() => { navigate("/favorites"); setShowMenu(false); }}>❤️ Favoritos</li>
             )}
-            {user && (
+            {user && location.pathname !== "/wishlist" &&(
               <li onClick={() => { navigate("/wishlist"); setShowMenu(false); }}>⭐ Lista de deseos</li>
             )}
-            {user && (
+            {user && location.pathname !== "/purchases" &&(
               <li onClick={() => { navigate("/purchases"); setShowMenu(false); }}>🛒 Mis Compras</li>
             )}
+            
             <li onClick={() => { navigate("/about"); setShowMenu(false); }}>ℹ️ Sobre Nosotros</li>
             {user && (
               <li onClick={() => { handleLogout(); setShowMenu(false); }}>🚪 Cerrar Sesión</li>
