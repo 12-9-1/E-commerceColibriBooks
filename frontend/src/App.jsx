@@ -26,7 +26,7 @@ import { MessageProvider } from "./context/MessageContext";
 import AdminInbox from "./pages/AdminInbox";
 import UserMessages from "./pages/UserMessages";
 import ForgotPassword from "./pages/ForgotPassword";
-
+import NotFound from "./pages/NotFound"; 
 
 function App() {
   const [showCart, setShowCart] = useState(false); 
@@ -55,6 +55,7 @@ function App() {
     <Route path="/admininbox" element={<AdminInbox />} />
     <Route path="/usermessages" element={<UserMessages />} />
     <Route path="/forgot-password" element={<ForgotPassword />} />
+    <Route path="/notfound" element={<NotFound />} />
   </Routes>
     <Footer />
   <ToastContainer position="top-right" autoClose={3000} />
