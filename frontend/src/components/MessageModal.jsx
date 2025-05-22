@@ -9,7 +9,7 @@ const MessageModal = ({ isOpen, onRequestClose, userId, bookId }) => {
 
   const handleSend = async () => {
     if (!mensaje.trim()) return toast.error("Escribe un mensaje");
-    await fetch("http://localhost:3000/api/message", {
+    await fetch("${API_URL}/api/message", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user: userId, book: bookId, content: mensaje }),

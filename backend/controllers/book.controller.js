@@ -77,19 +77,19 @@ const deleteBook = async (req, res) => {
       return res.status(404).json({ message: 'Libro no encontrado' });
     }
 
-    // Eliminar imagen de Cloudinary
+ 
     if (book.cover) {
-      const publicIdCover = book.cover.split('/').pop().split('.')[0]; // Sacamos el public_id
+      const publicIdCover = book.cover.split('/').pop().split('.')[0]; 
       await cloudinary.uploader.destroy(`colibri_books/${publicIdCover}`);
     }
 
-    // Eliminar PDF de Cloudinary (si existe)
+
     if (book.pdf) {
       const publicIdPdf = book.pdf.split('/').pop().split('.')[0];
       await cloudinary.uploader.destroy(`colibri_books/${publicIdPdf}`, { resource_type: "raw" });
     }
 
-    // Eliminar de MongoDB
+    
     await book.deleteOne();
 
     res.json({ message: 'Libro eliminado correctamente' });

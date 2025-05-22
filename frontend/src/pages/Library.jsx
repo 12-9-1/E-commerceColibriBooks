@@ -34,7 +34,7 @@ const Library = () => {
 
   const fetchBooks = async (query = "") => {
     try {
-      const res = await fetch(`http://localhost:3000/api/books${query}`);
+      const res = await fetch(`${API_URL}/api/books${query}`);
       const data = await res.json();
       setBooks(data);
     } catch (error) {

@@ -37,7 +37,7 @@ const Register = ({ closeModal, onToggleForm }) => {
     };
 
     try {
-      const res = await axios.post(`http://localhost:3000/api/auth/register`, dataToSend);
+      const res = await axios.post(`${API_URL}/api/auth/register`, dataToSend);
 
      if (res.status === 201) {
         localStorage.setItem("user", JSON.stringify(res.data.user));

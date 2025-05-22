@@ -13,7 +13,7 @@ const MyPurchases = () => {
     const fetchPurchases = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:3000/api/purchases", {
+        const res = await fetch("${API_URL}/api/purchases", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error("Error al obtener compras");
@@ -36,7 +36,7 @@ const MyPurchases = () => {
     toast.info("Eliminando compra...");
 
     try {
-      const res = await fetch(`http://localhost:3000/api/purchases/${selectedId}`, {
+      const res = await fetch(`${API_URL}/api/purchases/${selectedId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

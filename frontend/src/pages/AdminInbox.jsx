@@ -18,7 +18,7 @@ const AdminInbox = () => {
     if (!respuesta.trim()) return toast.error("Escribe una respuesta");
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:3000/api/message/${selectedMsg._id}/respond`, {
+      const res = await fetch(`${API_URL}/api/message/${selectedMsg._id}/respond`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ response: respuesta }),
@@ -40,7 +40,7 @@ const AdminInbox = () => {
   const handleDelete = async () => {
     try {
       setLoading(true);
-      await fetch(`http://localhost:3000/api/message/${selectedMsg._id}`, {
+      await fetch(`${API_URL}/api/message/${selectedMsg._id}`, {
         method: "DELETE",
       });
       toast.success("Mensaje eliminado");

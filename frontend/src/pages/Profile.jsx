@@ -25,7 +25,7 @@ const Profile = () => {
   }, [user]);
 
   const handleUpdate = () => {
-    axios.put(`http://localhost:3000/api/user/${user._id}/profile`, {
+    axios.put(`${API_URL}/api/user/${user._id}/profile`, {
       nickname,
       avatar
     })
