@@ -1,0 +1,44 @@
+.admin-inbox {
+  padding: 8rem;
+}
+
+.message-item {
+  border: 1px solid #ccc;
+  border-left: 5px solid orange;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.message-item.respondido {
+  border-left-color: green;
+  background: #f2fff2;
+}
+
+.status-label {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  max-width: 500px;
+  margin: auto;
+  border-radius: 10px;
+  position: relative;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-actions button {
+  margin-right: 1rem;
+}

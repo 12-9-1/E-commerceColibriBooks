@@ -36,23 +36,25 @@ export const UserProvider = ({ children }) => {
 
   const fetchUserFavorites = async () => {
     if (!user) return;
-    const res = await fetch(`http://localhost:3000/api/user/${user._id}/favorites`);
+    const res = await fetch(`${API_URL}/api/user/${user._id}/favorites`);
     const data = await res.json();
-    setFavorites(data);
+    const ids = data.map(book => book._id);
+    setFavorites(ids);
   };
 
 
   const fetchUserWishlist = async () => {
     if (!user) return;
-    const res = await fetch(`http://localhost:3000/api/user/${user._id}/wishlist`);
+    const res = await fetch(`${API_URL}/api/user/${user._id}/wishlist`);
     const data = await res.json();
-    setWishlist(data);
+    const ids = data.map(book => book._id);
+    setWishlist(ids); 
   };
 
   const updateFavorites = async (bookId, action) => {
     if (!user) return;
     const method = action === "add" ? "POST" : "DELETE";
-    await fetch(`http://localhost:3000/api/user/${user._id}/favorites/${bookId}`, {
+    await fetch(`${API_URL}/api/user/${user._id}/favorites/${bookId}`, {
       method,
     });
     fetchUserFavorites(); 
@@ -61,11 +63,12 @@ export const UserProvider = ({ children }) => {
   const updateWishlist = async (bookId, action) => {
     if (!user) return;
     const method = action === "add" ? "POST" : "DELETE";
-    await fetch(`http://localhost:3000/api/user/${user._id}/wishlist/${bookId}`, {
+    await fetch(`${API_URL}/api/user/${user._id}/wishlist/${bookId}`, {
       method,
     });
     fetchUserWishlist(); 
   };
+  
 
   return (
     <UserContext.Provider
@@ -87,3 +90,4 @@ export const UserProvider = ({ children }) => {
 };
 
 export const useUser = () => useContext(UserContext);
+

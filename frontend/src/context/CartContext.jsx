@@ -20,8 +20,8 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const removeFromCart = (bookId) => {
-    setCartItems((prev) => prev.filter((item) => item._id !== bookId));
+  const removeFromCart = (id) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item._id !== id));
   };
 
   const clearCart = () => {
@@ -30,7 +30,7 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, clearCart }}
+      value={{ cartItems, setCartItems, addToCart, clearCart, removeFromCart }}
     >
       {children}
     </CartContext.Provider>

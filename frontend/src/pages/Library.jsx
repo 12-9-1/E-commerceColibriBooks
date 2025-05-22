@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { useCart } from "../context/CartContext";
-import '../styles/AdminBookDashboard.css';
+import '../styles/BookPreviewCard.css';
 import BookPreviewCard from "../components/BookPreviewCard";
+import { useLocation } from "react-router-dom";
+
 
 const Library = () => {
   const { user, userLoaded, favorites, wishlist } = useUser();
@@ -15,14 +17,24 @@ const Library = () => {
   const { addToCart } = useCart();
   const [showPreview, setShowPreview] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
-
   const [searchTitle, setSearchTitle] = useState("");
   const [searchAuthor, setSearchAuthor] = useState("");
   const [searchGenre, setSearchGenre] = useState("");
+  const location = useLocation();
+  const [currentPage, setCurrentPage] = useState(1);
+
+
+
+  const booksPerPage = 8;
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+  const totalPages = Math.ceil(books.length / booksPerPage);
+
 
   const fetchBooks = async (query = "") => {
     try {
-      const res = await fetch(`http://localhost:3000/api/books${query}`);
+      const res = await fetch(`${API_URL}/api/books${query}`);
       const data = await res.json();
       setBooks(data);
     } catch (error) {
@@ -43,37 +55,32 @@ const Library = () => {
     fetchBooks(query);
   };
 
-  if (!userLoaded || !Array.isArray(favorites) || !Array.isArray(wishlist)) return null;
+  useEffect(() => {
+  const searchParams = new URLSearchParams(location.search);
+  const title = searchParams.get("title") || "";
+  const author = searchParams.get("author") || "";
+  const genre = searchParams.get("genre") || "";
+
+  setSearchTitle(title);
+  setSearchAuthor(author);
+  setSearchGenre(genre);
+
+  const query = searchParams.toString() ? `/search?${searchParams}` : "";
+  fetchBooks(query);
+}, [location.search]);
+
+
+  const isDataReady = userLoaded && Array.isArray(favorites) && Array.isArray(wishlist);
+
+if (!isDataReady) return <div className="loading">Cargando libros...</div>;
+
 
   return (
     <div className="home">
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Buscar por título"
-          value={searchTitle}
-          onChange={(e) => setSearchTitle(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Buscar por autor"
-          value={searchAuthor}
-          onChange={(e) => setSearchAuthor(e.target.value)}
-        />
-        <select value={searchGenre} onChange={(e) => setSearchGenre(e.target.value)}>
-          <option value="">Todos los géneros</option>
-          <option value="fantasía">Fantasía</option>
-          <option value="ciencia ficción">Ciencia ficción</option>
-          <option value="romance">Romance</option>
-          <option value="terror">Terror</option>
-        </select>
-        <button onClick={handleSearch}>Buscar</button>
-      </div>
-
       <div className="book-section">
         <h2>Libros</h2>
         <div className="book-grid">
-          {books.map((book) => (
+          {currentBooks.map((book) => (
             <BookPreviewCard
               key={book._id}
               author={book.author}
@@ -93,6 +100,16 @@ const Library = () => {
           ))}
         </div>
       </div>
+      <div className="pagination">
+  <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+    ◀ Anterior
+  </button>
+  <span>Página {currentPage} de {totalPages}</span>
+  <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
+    Siguiente ▶
+  </button>
+</div>
+
 
      {/* Modal Info Mejorado */}
 {selectedBook && (

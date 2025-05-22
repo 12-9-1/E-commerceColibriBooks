@@ -34,7 +34,7 @@ const AdminBookList = () => {
 
   const fetchBooks = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/books');
+      const res = await axios.get('${API_URL}/api/books');
       setBooks(res.data);
       setLoading(false);
     } catch (error) {
@@ -49,7 +49,7 @@ const AdminBookList = () => {
   const handleDelete = async (id) => {
     if (confirm('¿Estás seguro que quieres eliminar este libro?')) {
       try {
-        await axios.delete(`http://localhost:3000/api/books/${id}`);
+        await axios.delete(`${API_URL}/api/books/${id}`);
         setBooks(books.filter(book => book._id !== id));
       } catch (error) {
         console.error('Error al eliminar libro:', error);
@@ -73,7 +73,7 @@ const AdminBookList = () => {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await axios.post('http://localhost:3000/api/books/upload-file', formData);
+    const response = await axios.post('${API_URL}/api/books/upload-file', formData);
     return response.data.secure_url;
   };
 
@@ -93,7 +93,7 @@ const AdminBookList = () => {
         updatedData.pdf = pdfUrl;
       }
 
-      await axios.put(`http://localhost:3000/api/books/${editBook._id}`, updatedData);
+      await axios.put(`${API_URL}/api/books/${editBook._id}`, updatedData);
 
       setEditBook(null);
       setNewCover(null);
@@ -131,7 +131,7 @@ const AdminBookList = () => {
     };
 
     try {
-      await axios.post('http://localhost:3000/api/books', newBookData);
+      await axios.post('${API_URL}/api/books', newBookData);
       setShowUploadModal(false);
       fetchBooks();
       setUploadForm({

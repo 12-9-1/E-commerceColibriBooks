@@ -19,7 +19,7 @@ const AuthPage = () => {
     const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
 
     try {
-      const res = await axios.post(`http://localhost:3000${endpoint}`, form);
+      const res = await axios.post(`${API_URL}${endpoint}`, form);
       alert(res.data.message);
     } catch (error) {
       alert(error.response?.data?.message || "Ocurrió un error");

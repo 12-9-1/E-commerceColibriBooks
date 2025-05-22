@@ -1,13 +1,13 @@
-.profile-container {
+.profile-container2 { 
     background-color: var(--color-card-bg);
     max-width: 600px;
-    margin: 3rem auto;
+    margin: 7rem auto;
     padding: 2rem;
     border-radius: 16px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     color: var(--color-text);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: all 0.3s ease-in-out;
+
   }
   
   .profile-container h2 {

@@ -1,9 +1,12 @@
+// /pages/AdminProfileCard.jsx
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import axios from 'axios'; 
 import { useNavigate } from "react-router-dom";
 import { useUser } from '../context/UserContext';
 import '../styles/AdminBookDashboard.css';
+import AdminInbox from "./AdminInbox";
+
 
 const AdminBookDashboard = () => {
   const { user } = useUser();
@@ -25,7 +28,7 @@ const AdminBookDashboard = () => {
   }, [user]);
 
   const handleUpdate = () => {
-    axios.put(`http://localhost:3000/api/user/${user._id}/profile`, {
+    axios.put(`${API_URL}/api/user/${user._id}/profile`, {
       nickname,
       avatar
     })
@@ -84,36 +87,56 @@ const AdminBookDashboard = () => {
 
       {/* Libro cerrado a la derecha */}
       <div className="admin-book-container">
-        <motion.div 
-          className={`book-cover-icon ${bookOpen ? 'open' : ''}`} 
-          onClick={() => setBookOpen(!bookOpen)}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          📕
-          <p>{bookOpen ? 'Cerrar libro' : 'Abrir libro'}</p>
-        </motion.div>
+      <motion.div 
+        className={`book-cover-icon ${bookOpen ? 'open' : ''}`} 
+        onClick={() => setBookOpen(!bookOpen)}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        {bookOpen ? '📖' : '📕'}
+        <p>{bookOpen ? 'Cerrar libro' : 'Abrir libro'}</p>
+      </motion.div>
+
 
         <AnimatePresence>
           {bookOpen && (
             <motion.div 
-              className="book-pages"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.4 }}
-            >
-              <div className="book-page">
-                <h4>Usuarios</h4>
-                <p>Administra todos los usuarios registrados.</p>
-                <button onClick={() => navigate("/adminusers")}>Ver usuarios</button>
-              </div>
-              <div className="book-page">
-                <h4>Libros</h4>
-                <p>Gestiona los libros disponibles.</p>
-                <button onClick={() => navigate("/adminbooks")}>Ver libros</button>
-              </div>
-            </motion.div>
+  className="book-pages"
+  initial={{ opacity: 0, scale: 0.9 }}
+  animate={{ opacity: 1, scale: 1 }}
+  exit={{ opacity: 0, scale: 0.9 }}
+  transition={{ duration: 0.4 }}
+>
+  {/* Columna izquierda */}
+  <div className="book-page-column">
+    <div className="book-page">
+      <h4>Usuarios</h4>
+      <p>Administra todos los usuarios registrados.</p>
+      <button onClick={() => navigate("/adminusers")}>Ver usuarios</button>
+    </div>
+    <div className="book-page">
+      <h4>Mensajes</h4>
+      <p>Revisa y responde los mensajes enviados por usuarios.</p>
+      <button onClick={() => navigate("/admininbox")}>Bandeja de mensajes</button>
+    </div>
+  </div>
+
+  {/* Columna derecha */}
+  <div className="book-page-column">
+    <div className="book-page">
+      <h4>Libros</h4>
+      <p>Gestiona los libros disponibles.</p>
+      <button onClick={() => navigate("/adminbooks")}>Ver libros</button>
+    </div>
+    <div className="book-page">
+      <h4>Mensajes</h4>
+      <p>Revisa y responde los mensajes enviados por usuarios.</p>
+      <button onClick={() => navigate("/admininbox")}>Bandeja de mensajes</button>
+    </div>
+  </div>
+  
+</motion.div>
+
           )}
         </AnimatePresence>
       </div>

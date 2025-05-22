@@ -1,0 +1,29 @@
+.about-me {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: #333;
+  text-align: center;
+}
+.about-me h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.about-me p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-section {
+  animation: fadeInUp 1s ease-out both;
+}

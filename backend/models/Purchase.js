@@ -22,6 +22,19 @@ const purchaseSchema = new mongoose.Schema(
     ],
     total: { type: Number, required: true },
     purchaseDate: { type: Date, default: Date.now },
+    
+    shipping: {
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      postalCode: { type: String, required: true },
+    },
+    payment: {
+      cardNumber: { type: String, required: true },
+      cardName: { type: String, required: true },
+      expiry: { type: String, required: true },
+      cvv: { type: String, required: true }
+    },
+
   },
   { timestamps: true }
 );

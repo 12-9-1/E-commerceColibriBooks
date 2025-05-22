@@ -1,12 +1,13 @@
 // File: backend/appjs
+
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const app = express();
 
+const app = express();
 app.use(cors({
-  origin: 'http://localhost:5173', // tu frontend
+  origin: 'http://localhost:5173', 
   credentials: true
 }));
 app.use(express.json());
@@ -25,7 +26,7 @@ const dotenv = require('dotenv');
 
 
 const connectDB = require('./config/db');
-connectDB(); // conecta a Mongo
+connectDB(); 
 
 const authRoutes = require('./routers/auth.routes');
 app.use('/api/auth', authRoutes);
@@ -39,4 +40,5 @@ app.use('/api/books', bookRoutes);
 const purchaseRoutes = require("./routers/purchase.routes");
 app.use("/api/purchases", purchaseRoutes);
 
-
+const messageRoutes = require("./routers/message.routes");
+app.use("/api/message", messageRoutes);
