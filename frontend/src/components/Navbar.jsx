@@ -192,7 +192,7 @@ const Navbar = ({ onCartClick }) => {
               <li onClick={() => { navigate("/purchases"); setShowMenu(false); }}>🛒 Mis Compras</li>
             )}
             
-            <li onClick={() => { navigate("/about"); setShowMenu(false); }}>ℹ️ Sobre Nosotros</li>
+            <li onClick={() => { navigate("/aboutme"); setShowMenu(false); }}>ℹ️ Sobre Nosotros</li>
             {user && (
               <li onClick={() => { handleLogout(); setShowMenu(false); }}>🚪 Cerrar Sesión</li>
             )}

@@ -9,7 +9,7 @@ const Favorites = () => {
 
   useEffect(() => {
     const fetchFavorites = async () => {
-      const res = await fetch(`http://localhost:3000/api/user/${user._id}/favorites`);
+      const res = await fetch(`${API_URL}/api/user/${user._id}/favorites`);
       const data = await res.json();
       setFavorites(data);
     };

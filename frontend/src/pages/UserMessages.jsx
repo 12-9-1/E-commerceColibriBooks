@@ -9,7 +9,7 @@ const UserMessages = () => {
   useEffect(() => {
     const fetchUserMessages = async () => {
       if (!user?._id) return;
-      const res = await fetch(`http://localhost:3000/api/message/user/${user._id}`);
+      const res = await fetch(`${API_URL}/api/message/user/${user._id}`);
       const data = await res.json();
       setMessages(data);
     };

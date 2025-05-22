@@ -3,17 +3,17 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
 
-// Obtener todos los usuarios
+
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}, '-password'); // excluye el campo 'password'
+    const users = await User.find({}, '-password');
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener usuarios', error });
   }
 };
 
-// Eliminar usuario por ID
+
 const deleteUser = async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
@@ -23,7 +23,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
-// Cambiar rol de usuario
+
 const updateUserRole = async (req, res) => {
   try {
     const { role } = req.body;
@@ -63,8 +63,6 @@ const updateUserProfile = async (req, res) => {
 };
 
 
-
-// Agregar libro a favoritos
 const addToFavorites = async (req, res) => {
   try {
     const { id, bookId } = req.params;
@@ -79,7 +77,7 @@ const addToFavorites = async (req, res) => {
   }
 };
 
-// Eliminar libro de favoritos
+
 const removeFromFavorites = async (req, res) => {
   try {
     const { id, bookId } = req.params;
@@ -94,7 +92,7 @@ const removeFromFavorites = async (req, res) => {
   }
 };
 
-// Obtener favoritos
+
 const getFavorites = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).populate('favorites');
@@ -104,7 +102,7 @@ const getFavorites = async (req, res) => {
   }
 };
 
-// Lo mismo para wishlist
+
 const addToWishlist = async (req, res) => {
   try {
     const { id, bookId } = req.params;
@@ -142,7 +140,7 @@ const getWishlist = async (req, res) => {
   }
 };
 
-// Solicitar recuperación
+
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
   try {
@@ -151,13 +149,13 @@ const forgotPassword = async (req, res) => {
 
     const token = crypto.randomBytes(20).toString("hex");
     user.resetPasswordToken = token;
-    user.resetPasswordExpires = Date.now() + 3600000; // 1 hora
+    user.resetPasswordExpires = Date.now() + 3600000; 
     await user.save();
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER, // ✅ mejor con variables de entorno
+        user: process.env.EMAIL_USER, 
         pass: process.env.EMAIL_PASS,
       },
     });
@@ -177,7 +175,7 @@ const forgotPassword = async (req, res) => {
   }
 };
 
-// Cambiar contraseña usando token
+
 const resetPassword = async (req, res) => {
   try {
     const user = await User.findOne({

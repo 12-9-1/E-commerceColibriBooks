@@ -17,7 +17,7 @@ const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // 👇 Lógica para detectar si es el email del admin
+
     const role = email === 'admin@libros.com' ? 'admin' : 'user';
 
     const newUser = new User({ email, password: hashedPassword, role });
@@ -39,14 +39,13 @@ const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: 'Contraseña incorrecta' });
 
-    // 👇 Generamos el token con el ID del usuario y la clave secreta
+
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
 
-    // 👇 Devolvemos el token junto con los datos del usuario
     res.status(200).json({
       message: 'Login exitoso',
       user: {
@@ -56,7 +55,7 @@ const login = async (req, res) => {
         nickname: user.nickname || '',
         avatar: user.avatar || ''
       },
-      token // 👈 importante
+      token 
     });
 
   } catch (error) {

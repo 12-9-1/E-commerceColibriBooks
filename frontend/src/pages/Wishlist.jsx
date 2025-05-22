@@ -15,7 +15,7 @@ const Wishlist = () => {
 
   useEffect(() => {
     const fetchwishlist = async () => {
-      const res = await fetch(`http://localhost:3000/api/user/${user._id}/wishlist`);
+      const res = await fetch(`${API_URL}/api/user/${user._id}/wishlist`);
       const data = await res.json();
       setwishlist(data);
     };

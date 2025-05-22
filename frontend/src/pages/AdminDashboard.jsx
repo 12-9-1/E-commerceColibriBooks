@@ -28,7 +28,7 @@ const handleConfirmedAction = async () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/user'); // ajustá según tu ruta
+      const res = await axios.get('${API_URL}/api/user'); 
       setUsers(res.data);
     } catch (error) {
       console.error('Error al obtener usuarios:', error);
@@ -36,13 +36,13 @@ const handleConfirmedAction = async () => {
   };
 
   const deleteUser = async (id) => {
-    await axios.delete(`http://localhost:3000/api/user/${id}`);
-    fetchUsers(); // actualizamos la lista
+    await axios.delete(`${API_URL}/api/user/${id}`);
+    fetchUsers();
   };
 
   const toggleAdmin = async (id, currentRole) => {
     const newRole = currentRole === 'admin' ? 'user' : 'admin';
-    await axios.put(`http://localhost:3000/api/user/${id}/role`, { role: newRole });
+    await axios.put(`${API_URL}/api/user/${id}/role`, { role: newRole });
     fetchUsers();
   };
 
