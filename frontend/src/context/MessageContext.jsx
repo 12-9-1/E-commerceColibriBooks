@@ -1,6 +1,7 @@
 // src/context/MessageContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 import { useUser } from "./UserContext";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const MessageContext = createContext();
 

@@ -1,6 +1,9 @@
 // context/UserContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {

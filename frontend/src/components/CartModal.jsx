@@ -3,6 +3,9 @@ import { useCart } from "../context/CartContext";
 import { useUser } from "../context/UserContext";
 import { toast } from "react-toastify";
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const CartModal = ({ onClose }) => {
   const [total, setTotal] = useState(0);
   const [showPaymentForm, setShowPaymentForm] = useState(false);

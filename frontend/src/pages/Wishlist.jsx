@@ -6,6 +6,9 @@ import { useMessages } from '../context/MessageContext';
 import BookPreviewCard from "../components/BookPreviewCard";
 import MessageModal from "../components/MessageModal";
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Wishlist = () => {
   const { user } = useUser();
     const [wishlist, setwishlist] = useState([]);

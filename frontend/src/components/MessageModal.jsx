@@ -4,6 +4,9 @@ import Modal from "react-modal";
 import { toast } from "react-toastify";
 import BookPreviewCard from "../components/BookPreviewCard";
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const MessageModal = ({ isOpen, onRequestClose, userId, bookId }) => {
   const [mensaje, setMensaje] = useState("");
 
