@@ -7,6 +7,7 @@ import { useUser } from '../context/UserContext';
 import '../styles/AdminBookDashboard.css';
 import AdminInbox from "./AdminInbox";
 
+const API_URL = import.meta.env.VITE_API_URL;
 
 const AdminBookDashboard = () => {
   const { user } = useUser();

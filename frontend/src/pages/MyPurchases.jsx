@@ -4,6 +4,9 @@ import autoTable from "jspdf-autotable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const MyPurchases = () => {
   const [purchases, setPurchases] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);

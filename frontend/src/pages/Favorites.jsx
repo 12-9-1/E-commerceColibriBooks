@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext";
 import BookPreviewCard from "../components/BookPreviewCard";
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Favorites = () => {
   const { user } = useUser();
   const [favorites, setFavorites] = useState([]);

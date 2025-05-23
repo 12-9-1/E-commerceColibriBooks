@@ -2,6 +2,9 @@ import { useState } from "react";
 import axios from "axios";
 import "../styles/AuthPage.css";
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [form, setForm] = useState({

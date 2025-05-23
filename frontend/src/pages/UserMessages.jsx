@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext"; 
 import "../styles/UserMessages.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
+
 const UserMessages = () => {
   const { user } = useUser(); 
   const [messages, setMessages] = useState([]);
