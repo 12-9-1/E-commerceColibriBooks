@@ -37,7 +37,6 @@ const Footer = () => {
             </div>
             <p>📧 contacto@web.com</p>
             <p>📄 Datos Fiscales</p>
-            <img src="/path-to-qr-code.png" alt="QR Code" className="qr-code" />
           </div>
         </div>
       </div>
