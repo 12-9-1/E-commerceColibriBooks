@@ -28,7 +28,7 @@ const handleConfirmedAction = async () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get('${API_URL}/api/user'); 
+      const res = await axios.get(`${API_URL}/api/user`); 
       setUsers(res.data);
     } catch (error) {
       console.error('Error al obtener usuarios:', error);
