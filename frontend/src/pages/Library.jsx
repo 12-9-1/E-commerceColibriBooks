@@ -7,6 +7,7 @@ import '../styles/BookPreviewCard.css';
 import BookPreviewCard from "../components/BookPreviewCard";
 import { useLocation } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Library = () => {
   const { user, userLoaded, favorites, wishlist } = useUser();

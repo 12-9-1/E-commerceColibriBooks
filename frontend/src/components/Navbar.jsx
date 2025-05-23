@@ -10,6 +10,9 @@ import logoColibri from "../assets/logoColibri.png";
 import AuthModal from "./AuthModal"; 
 import { FaShoppingCart, FaBars, FaHeart, FaSearch } from "react-icons/fa";
 import { IoMailUnread } from "react-icons/io5"; 
+import HelpModal from "./HelpModal";
+
+
 
 const Navbar = ({ onCartClick }) => {
   const { user, setUser, favorites } = useUser();
@@ -27,7 +30,7 @@ const Navbar = ({ onCartClick }) => {
 
   const [showMessageModal, setShowMessageModal] = useState(false);
   const location = useLocation();
-
+  const [showHelp, setShowHelp] = useState(false);
 
   const toggleSearch = () => setShowSearch(!showSearch);
 
@@ -81,6 +84,12 @@ const Navbar = ({ onCartClick }) => {
       <div className="navbar-logo" onClick={() => navigate("/")}>
         <img src={logoColibri} alt="Colibrí" className="logo1" />
       </div>
+      
+      <button onClick={() => setShowHelp(true)} className="hover:underline">
+          Ayuda / Help
+        </button>
+      <HelpModal isOpen={showHelp} onClose={() => setShowHelp(false)} />
+
 
       <div className="navbar-icons">
         <FaSearch className="search-icon colored-icon" onClick={toggleSearch} />

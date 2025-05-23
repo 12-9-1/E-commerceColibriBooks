@@ -6,6 +6,8 @@ import MessageModal from "../components/MessageModal";
 import { useNavigate } from "react-router-dom";
 import '../styles/AdminBookDashboard.css';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Profile = () => {
   const { user, userLoaded } = useUser();
   const [nickname, setNickname] = useState('');

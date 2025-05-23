@@ -12,7 +12,7 @@ const Home = () => {
   const [authModalOpen, setAuthModalOpen] = useState(false);
 
 
-  if (!userLoaded) return null; // o un loader si querés
+  if (!userLoaded) return null; 
 
   return (
     <div className="home-container">

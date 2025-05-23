@@ -3,6 +3,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "../styles/ForgotPassword.css"; 
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);

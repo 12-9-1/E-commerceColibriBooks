@@ -6,6 +6,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthModal from "../components/AuthModal";
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Register = ({ closeModal, onToggleForm }) => {
 
   const navigate = useNavigate();

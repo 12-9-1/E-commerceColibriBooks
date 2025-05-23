@@ -4,6 +4,9 @@ import axios from 'axios';
 import "../styles/AdminDashboard.css";
 import { useUser } from "../context/UserContext";
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);

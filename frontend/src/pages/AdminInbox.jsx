@@ -5,6 +5,9 @@ import Modal from "react-modal";
 import { toast } from "react-toastify";
 import "../styles/AdminInbox.css"; 
 
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 Modal.setAppElement('#root'); 
 
 const AdminInbox = () => {
