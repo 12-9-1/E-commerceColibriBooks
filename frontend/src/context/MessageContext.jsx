@@ -13,7 +13,7 @@ export const MessageProvider = ({ children }) => {
     if (!user) return;
 
     const endpoint = user.role === "admin"
-      ? "${API_URL}/api/message"
+      ? `${API_URL}/api/message`
       : `${API_URL}/api/message/user/${user._id}`;
 
     const res = await fetch(endpoint);

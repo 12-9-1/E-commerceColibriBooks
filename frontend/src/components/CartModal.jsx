@@ -43,7 +43,7 @@ const CartModal = ({ onClose }) => {
     };
 
     try {
-      const res = await fetch("${API_URL}/api/purchases", {
+      const res = await fetch(`${API_URL}/api/purchases`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

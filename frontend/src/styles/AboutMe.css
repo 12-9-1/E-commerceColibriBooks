@@ -1,29 +1,25 @@
 .about-me {
-  padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
   color: #333;
-  text-align: center;
-}
-.about-me h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-.about-me p {
-  margin-bottom: 1rem;
-  line-height: 1.6;
-}
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  padding: 9rem;
 }
 
-.fade-in-section {
-  animation: fadeInUp 1s ease-out both;
+.intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.intro img {
+  width: 200px;
+  height: 200px;
+  border-radius: 30%;
+  border: 3px solid var(--color-highlight);
+  object-fit: cover;
+}
+
+.intro p {
+  flex: 1;
+  line-height: 1.6;
 }
