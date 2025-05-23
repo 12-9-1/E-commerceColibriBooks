@@ -1,15 +1,28 @@
-// File: backend/appjs
-
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
+const app = express(); 
 
-const app = express();
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'https://e-commerce-colibri-books.vercel.app'
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173', 
+  origin: function(origin, callback) {
+    
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = `El CORS no está permitido para este origen: ${origin}`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   credentials: true
 }));
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -17,22 +30,21 @@ app.get('/', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`Servidor backend en http://localhost:${PORT}`);
 });
 
-
-const dotenv = require('dotenv');
-
-
+// Base de datos
 const connectDB = require('./config/db');
-connectDB(); 
+connectDB();
 
+// Rutas
 const authRoutes = require('./routers/auth.routes');
 app.use('/api/auth', authRoutes);
 
 const userRoutes = require('./routers/user.routes');
-app.use('/api/user', userRoutes); 
+app.use('/api/user', userRoutes);
 
 const bookRoutes = require('./routers/book.routes');
 app.use('/api/books', bookRoutes);
