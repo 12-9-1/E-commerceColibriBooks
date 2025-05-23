@@ -1,42 +1,68 @@
+// src/pages/AboutMe.jsx
 import React from "react";
 import colibriImg from "../assets/logoColibri2.png"; 
-import "../styles/AboutMe.css";
+import { motion } from "framer-motion";
+import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import "../styles/AboutMe.css"; 
 
 const AboutMe = () => {
   return (
-    <section className="max-w-6xl mx-auto my-16 px-6">
-      <div className="bg-white rounded-3xl shadow-2xl flex flex-col lg:flex-row items-center overflow-hidden fade-in-section">
-        
-        {/* Imagen */}
-        <div className="w-full lg:w-1/2 transition-transform duration-500 hover:scale-105">
-          <img
-            src={colibriImg}
-            alt="Colibrí representando la librería"
-            className="w-full max-h-[400px] object-contain p-4"
-          />
-        </div>
+    <motion.section
+      className="max-w-5xl mx-auto p-6 my-12 bg-white shadow-xl rounded-3xl flex flex-col md:flex-row items-center gap-6"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+<div className="about-me">
+  <h2>Mi nombre es Lia Lisbet Costilla</h2>
 
-        {/* Texto con fondo cálido */}
-        <div className="w-full lg:w-1/2 px-10 py-12 text-gray-800 bg-gradient-to-br from-[#fff7ed] via-[#fff1e6] to-[#fffdf8]">
-          <h2 className="text-4xl font-bold mb-6 text-orange-600">Sobre mí</h2>
-          <p className="mb-4 text-lg">
-            ¡Hola! Soy <strong>Lia Lisbet Costilla</strong> 💻📚
+  <div className="intro">
+    <img src={colibriImg} alt="Lia Lisbet Costilla" />
+    <p>
+          Soy la única persona detrás de este proyecto. Empecé a estudiar
+          programación porque siempre me interesó la tecnología. Así llegué a
+          RollingCode, donde aprendí muchísimo y desarrollé esta web como parte
+          de mi proyecto final.
+          También soy escritora de novelas, y noté que muchas librerías online
+          no ofrecían una experiencia completa. Por eso creé{" "}
+          <strong>Librería El Colibrí</strong>: una plataforma con una mejor
+          vista, más herramientas y una navegación clara y útil para lectores y
+          autores.
+        </p>
+        </div>
+         <p>
+            “Ya que los libros no solo se leen, también se viven. Y venderlos debería ser parte de esa experiencia.” — Lia
           </p>
-          <p className="mb-4 text-base leading-relaxed">
-            Empecé a estudiar programación por mi amor a la tecnología. Ingresé a <strong>RollingCode</strong>, donde aprendí muchísimo y desarrollé este sitio como parte de mi proyecto final.
-          </p>
-          <p className="mb-4 text-base leading-relaxed">
-            <strong>Librería El Colibrí</strong> nació de mi experiencia como <strong>escritora de novelas</strong>. Al ver que muchos sitios de librerías eran funcionales pero poco atractivos, decidí crear una experiencia distinta.
-          </p>
-          <p className="mb-4 text-base leading-relaxed">
-            Este e-commerce busca ir más allá: mostrar libros de forma cálida y profesional, permitir controlar tus gastos, descargar PDFs y explorar trailers literarios. Todo pensado con amor por la lectura.
-          </p>
-          <p className="italic text-orange-500 mt-6">
-            “Los libros no solo se leen, también se viven. Y venderlos debería ser parte de esa experiencia.” — Lia
-          </p>
+        {/* Redes sociales */}
+         <div className="mt-6 flex justify-center md:justify-start gap-4">
+          <a
+            href="https://github.com/12-9-1"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-800 hover:text-black text-xl"
+            title="GitHub"
+          >
+            <FaGithub />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/tu-linkedin"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-700 hover:text-blue-900 text-xl"
+            title="LinkedIn"
+          >
+            <FaLinkedin />
+          </a>
+          <a
+            href="mailto:tucorreo@example.com"
+            className="text-red-500 hover:text-red-700 text-xl"
+            title="Email"
+          >
+            <FaEnvelope />
+          </a>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

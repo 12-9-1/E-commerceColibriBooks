@@ -13,7 +13,7 @@ const MyPurchases = () => {
     const fetchPurchases = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("${API_URL}/api/purchases", {
+        const res = await fetch(`${API_URL}/api/purchases`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error("Error al obtener compras");

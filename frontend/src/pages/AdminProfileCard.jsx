@@ -12,15 +12,12 @@ const AdminBookDashboard = () => {
   const { user } = useUser();
   const navigate = useNavigate();
   const [bookOpen, setBookOpen] = useState(false);
-
-  // Estado para manejar los cambios del admin
   const [nickname, setNickname] = useState('');
   const [avatar, setAvatar] = useState('');
   const [editMode, setEditMode] = useState(false);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    // Cargar los datos del admin
     if (user) {
       setNickname(user.nickname || '');
       setAvatar(user.avatar || '');

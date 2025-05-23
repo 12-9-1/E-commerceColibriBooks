@@ -34,7 +34,7 @@ const AdminBookList = () => {
 
   const fetchBooks = async () => {
     try {
-      const res = await axios.get('${API_URL}/api/books');
+      const res = await axios.get(`${API_URL}/api/books`);
       setBooks(res.data);
       setLoading(false);
     } catch (error) {
@@ -73,7 +73,7 @@ const AdminBookList = () => {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await axios.post('${API_URL}/api/books/upload-file', formData);
+    const response = await axios.post(`${API_URL}/api/books/upload-file`, formData);
     return response.data.secure_url;
   };
 
@@ -131,7 +131,7 @@ const AdminBookList = () => {
     };
 
     try {
-      await axios.post('${API_URL}/api/books', newBookData);
+      await axios.post(`${API_URL}/api/books`, newBookData);
       setShowUploadModal(false);
       fetchBooks();
       setUploadForm({
