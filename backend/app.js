@@ -5,23 +5,24 @@ require('dotenv').config();
 const app = express(); 
 
 const allowedOrigins = [
-  'http://localhost:5173', 
-  'https://e-commerce-colibri-books.vercel.app'
+  'http://localhost:5173',
+  'https://e-commerce-colibri-books.vercel.app',
+  'https://e-commerce-colibri-books-git-develop-lias-projects-745cbed7.vercel.app'
 ];
 
 app.use(cors({
   origin: function(origin, callback) {
-    
-    if (!origin) return callback(null, true);
+    if (!origin) return callback(null, true); 
 
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = `El CORS no está permitido para este origen: ${origin}`;
-      return callback(new Error(msg), false);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS no permitido para origen: ${origin}`));
     }
-    return callback(null, true);
   },
-  credentials: true
+  credentials: true,
 }));
+
 
 app.use(express.json());
 
