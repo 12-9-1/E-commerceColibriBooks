@@ -200,7 +200,8 @@ const resetPassword = async (req, res) => {
     if (!user) return res.status(400).json({ message: 'Token inválido o expirado' });
 
     const { password } = req.body;
-    user.password = password;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
     await user.save();
