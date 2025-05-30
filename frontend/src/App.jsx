@@ -28,6 +28,7 @@ import UserMessages from "./pages/UserMessages";
 import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound"; 
 import AboutMe from "./pages/AboutMe";
+import FloatingHelpButton from "./components/FloatingHelpButton";
 
 function App() {
   const [showCart, setShowCart] = useState(false); 
@@ -59,6 +60,7 @@ function App() {
     <Route path="/notfound" element={<NotFound />} />
     <Route path="/aboutme" element={<AboutMe />} />
   </Routes>
+    <FloatingHelpButton />
     <Footer />
   <ToastContainer position="top-right" autoClose={3000} />
   </Router>

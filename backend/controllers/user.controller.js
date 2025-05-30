@@ -164,7 +164,7 @@ const forgotPassword = async (req, res) => {
       to: user.email,
       from: process.env.EMAIL_USER,
       subject: "Recuperación de contraseña",
-      text: `Hacé clic en este enlace para cambiar tu contraseña:\n\nhttp://localhost:5173/reset-password/${token}`,
+      text: `Hacé clic en este enlace para cambiar tu contraseña:\n\n${process.env.FRONTEND_URL}/reset-password/${token}`,
     };
 
     await transporter.sendMail(mailOptions);

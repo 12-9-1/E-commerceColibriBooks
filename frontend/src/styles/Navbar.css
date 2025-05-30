@@ -18,6 +18,7 @@
     backdrop-filter: blur(10px);
   }
   
+  
   .navbar-logo img {
     width: 80px; 
     margin-top: 25px;
@@ -28,7 +29,15 @@
   width: 120px;
   margin-bottom: 20px;
 }
-  
+
+.navbar-logo {
+  transition: margin-left 0.3s ease;
+}
+
+.logo-shifted {
+  margin-left: 25%;
+}
+
   .navbar-icons {
     display: flex;
     align-items: center;
@@ -226,11 +235,9 @@ position: absolute;
   margin-left: 1rem;
   border-radius: 999px;
   font-size: 0.9rem;
-  font-weight: 500;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
   transition: background-color 0.3s;
 }
 

@@ -42,14 +42,11 @@ const AdminBookDashboard = () => {
 
   return (
     <div className="admin-dashboard-container">
-      {/* Perfil del admin en un cuadro al costado izquierdo */}
       <div className="admin-profile-card">
         <img src={avatar || user?.avatar} alt="Avatar" className="avatar" />
         <h3>{nickname || user?.nickname}</h3>
         <p>{user?.email}</p>
         <span className="admin-badge">👑 Administrador</span>
-
-        {/* Mostrar modo de edición */}
         
         {editMode ? (
   <div className="edit-mode">
@@ -82,8 +79,6 @@ const AdminBookDashboard = () => {
         {message && <p>{message}</p>}
         
       </div>
-
-      {/* Libro cerrado a la derecha */}
       <div className="admin-book-container">
       <motion.div 
         className={`book-cover-icon ${bookOpen ? 'open' : ''}`} 

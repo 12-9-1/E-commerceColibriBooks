@@ -1,0 +1,115 @@
+/* styles/FloatingHelpButton.css */
+.floating-help-btn {
+  position: fixed;
+  top: 92%;
+  right: 1rem;
+  transform: translateY(-50%);
+  z-index: 9999;
+  background-color: #fde68a;
+  color: #15803d;
+  padding: 1rem;
+  border-radius: 9999px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border: 2px solid #16a34a; 
+  transition: all 0.3s ease-in-out;
+  animation: pulse 2s infinite;
+}
+
+.floating-help-btn:hover {
+  background-color: #fdba74; 
+  transform: translateY(-50%) scale(1.1);
+}
+
+
+
+.modal-content .buttonX {
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  color: #000000;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+}
+
+.modal-content .buttonX:hover {
+  color: #ef4444; 
+}
+
+
+.language-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.language-buttons button {
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  background-color: #f3f4f6;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.language-buttons button:hover {
+  background-color: #e5e7eb;
+}
+
+
+.help-section {
+  border-bottom: 1px solid #d1d5db;
+  padding-bottom: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.help-section button {
+  background: none;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  color: #1f2937;
+  display: flex;
+  justify-content: space-between;
+}
+
+.help-section .answer {
+  margin-top: 0.5rem;
+  color: #374151;
+}
+@keyframes pulse {
+  0%, 100% {
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.05);
+  }
+}
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 1.5rem 1rem;
+    max-width: 95%;
+  }
+
+  .language-buttons button {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .help-section button {
+    font-size: 0.95rem;
+  }
+
+  .modal-content .buttonX {
+    font-size: 1.3rem;
+    top: 0.8rem;
+    right: 0.8rem;
+  }
+}
