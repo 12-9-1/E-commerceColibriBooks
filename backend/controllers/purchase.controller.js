@@ -1,14 +1,29 @@
 // controllers/purchase.controller.js
 const Purchase = require("../models/Purchase");
+const Book = require("../models/modelBook");
 
 const createPurchase = async (req, res) => {
   try {
     const { books, total, shipping, payment } = req.body;
     const userId = req.user.userId;
 
+    const detailedBooks = await Promise.all(
+      books.map(async (b) => {
+        const bookData = await Book.findById(b.bookId);
+        return {
+          bookId: b.bookId,
+          title: b.title,
+          price: b.price,
+          quantity: b.quantity,
+          format: b.format,
+          downloadUrl: b.format === 'pdf' ? bookData.pdf : null
+        };
+      })
+    );
+
     const purchase = new Purchase({
       user: userId,
-      books,
+      books: detailedBooks,
       total,
       shipping,
       payment
@@ -21,6 +36,7 @@ const createPurchase = async (req, res) => {
     res.status(500).json({ message: "Error al registrar la compra", error });
   }
 };
+
 
 const getUserPurchases = async (req, res) => {
   try {

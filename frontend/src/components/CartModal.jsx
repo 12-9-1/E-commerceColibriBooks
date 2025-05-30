@@ -29,7 +29,7 @@ const CartModal = ({ onClose }) => {
         title: item.title,
         price: item.price,
         quantity: item.quantity,
-        format: item.format || "pdf" // Por defecto en caso de que falte
+        format: item.format || "pdf" 
       })),
       total,
       shipping: {
@@ -56,10 +56,23 @@ const CartModal = ({ onClose }) => {
       });
 
       if (res.ok) {
+        const purchase = await res.json();
+        purchase.books.forEach(book => {
+          if (book.format === "pdf" && book.downloadUrl) {
+            const link = document.createElement("a");
+            link.href = book.downloadUrl;
+            link.download = `${book.title}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }
+        });
+
         toast.success("¡Compra realizada con éxito!");
         clearCart();
         onClose();
-      } else {
+      }
+      else {
         toast.error("Error al procesar la compra");
       }
     } catch (error) {
@@ -82,7 +95,7 @@ const CartModal = ({ onClose }) => {
                   <span>{item.title} - ${item.price} x {item.quantity}</span>
 
                   {/* Selección de formato */}
-                  <div className="formato-selector">
+                  <div className="upload-form">
                     <label>
                       <input
                         type="radio"
