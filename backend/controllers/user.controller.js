@@ -161,11 +161,25 @@ const forgotPassword = async (req, res) => {
     });
 
     const mailOptions = {
-      to: user.email,
-      from: process.env.EMAIL_USER,
-      subject: "Recuperación de contraseña",
-      text: `Hacé clic en este enlace para cambiar tu contraseña:\n\n${process.env.FRONTEND_URL}/reset-password/${token}`,
-    };
+  to: user.email,
+  from: process.env.EMAIL_USER,
+  subject: "Recuperación de contraseña - Colibrí Books",
+  html: `
+    <div style="font-family: Arial, sans-serif; color: #333; padding: 20px; background-color: #f9f9f9;">
+      <h2 style="color: #e76f51;">Hola ${user.nickname || 'usuario'},</h2>
+      <p>Recibimos una solicitud para cambiar tu contraseña en <strong>Colibrí Books</strong>.</p>
+      <p>Hacé clic en el botón de abajo para continuar:</p>
+      <a href="${process.env.FRONTEND_URL}/reset-password/${token}" 
+         style="display: inline-block; padding: 10px 20px; background-color: #2a9d8f; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px;">
+        Cambiar Contraseña
+      </a>
+      <p style="margin-top: 20px;">Si no solicitaste este cambio, podés ignorar este correo.</p>
+      <hr style="margin-top: 30px;"/>
+      <p style="font-size: 0.9em; color: #999;">© 2025 Colibrí Books</p>
+    </div>
+  `
+};
+
 
     await transporter.sendMail(mailOptions);
     res.json({ message: "Correo enviado con instrucciones" });
