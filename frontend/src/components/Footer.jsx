@@ -1,11 +1,17 @@
+import { useState } from "react";
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
+import ContactOptionsModal from "./ContactOptionsModal";
 import '../styles/Footer.css';
 import logoColibri from "../assets/logoColibri.png";
 
-const Footer = () => {
+
+const Footer = ({ userId }) => {
+  const [contactModalOpen, setContactModalOpen] = useState(false);
+
   return (
-    <footer className="footer">
-      <div className="footer-content">
+    <>
+      <footer className="footer">
+        <div className="footer-content">
         <div className="footer-logo">
           <img src={logoColibri} alt="Colibrí de Letras" />
         </div>
@@ -15,7 +21,7 @@ const Footer = () => {
             <h4>Links</h4>
             <ul>
               <li><a href="/aboutme">Sobre Mi</a></li>
-              <li><a href="/contact">Contacto</a></li>
+              <li><button className="btn-link" onClick={() => setContactModalOpen(true)}>Contacto</button></li>
               <li><a href="/terms">Términos y Condiciones</a></li>
             </ul>
           </div>
@@ -45,6 +51,13 @@ const Footer = () => {
         <p>&copy; 2025 Tu Empresa. Todos los derechos reservados.</p>
       </div>
     </footer>
+
+      <ContactOptionsModal
+        isOpen={contactModalOpen}
+        onRequestClose={() => setContactModalOpen(false)}
+        userId={userId}
+      />
+    </>
   );
 };
 
