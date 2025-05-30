@@ -29,6 +29,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound"; 
 import AboutMe from "./pages/AboutMe";
 import FloatingHelpButton from "./components/FloatingHelpButton";
+import ResetPassword from "./pages/ResetPassword";
+
 
 function App() {
   const [showCart, setShowCart] = useState(false); 
@@ -59,6 +61,8 @@ function App() {
     <Route path="/forgot-password" element={<ForgotPassword />} />
     <Route path="/notfound" element={<NotFound />} />
     <Route path="/aboutme" element={<AboutMe />} />
+    <Route path="/reset-password/:token" element={<ResetPassword />} />
+
   </Routes>
     <FloatingHelpButton />
     <Footer />
