@@ -8,18 +8,20 @@ const purchaseSchema = new mongoose.Schema(
       ref: "User", 
       required: true,
     },
-    books: [
-      {
-        bookId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Book",  
-          required: true,
-        },
-        title: String,
-        price: Number,
-        quantity: { type: Number, default: 1 },
-      },
-    ],
+books: [
+  {
+    bookId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+      required: true,
+    },
+    title: String,
+    price: Number,
+    quantity: { type: Number, default: 1 },
+    format: { type: String, enum: ['pdf', 'fisico'], required: true },
+    downloadUrl: { type: String }
+  },
+],
     total: { type: Number, required: true },
     purchaseDate: { type: Date, default: Date.now },
     

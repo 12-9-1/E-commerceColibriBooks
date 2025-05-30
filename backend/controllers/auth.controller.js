@@ -2,12 +2,22 @@ const User = require('../models/modelUser')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+
+function isPasswordSecure(password) {
+  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+  return re.test(password);
+}
+
 const register = async (req, res) => {
   try {
     const { email, password, confirmPassword } = req.body;
 
     if (password !== confirmPassword) {
       return res.status(400).json({ message: 'Las contraseñas no coinciden' });
+    }
+
+    if (!isPasswordSecure(password)) {
+      return res.status(400).json({ message: 'La contraseña no es segura. Debe tener al menos 8 caracteres, incluyendo mayúsculas, minúsculas, números y símbolos.' });
     }
 
     const userExists = await User.findOne({ email });

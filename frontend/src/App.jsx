@@ -30,6 +30,7 @@ import NotFound from "./pages/NotFound";
 import AboutMe from "./pages/AboutMe";
 import FloatingHelpButton from "./components/FloatingHelpButton";
 import ResetPassword from "./pages/ResetPassword";
+import PrivateRoute from "./components/PrivateRoute";
 
 
 function App() {
@@ -42,27 +43,70 @@ function App() {
       <Router>
   <NavBar onCartClick={() => setShowCart(true)} />
   {showCart && <CartModal onClose={() => setShowCart(false)} />} 
-  <Routes>
-    <Route path="/" element={<Home />} />
-    <Route path="/adminusers" element={<AdminDashboard />} />
-    <Route path="/login" element={<Login />} />
-    <Route path="/register" element={<Register />} />
-    <Route path="/auth" element={<AuthPage />} />
-    <Route path="/profile" element={<Profile />} />
-    <Route path="/admin" element={<AdminProfileCard />} />
-    <Route path="/book/:id" element={<BookPreviewCard />} />
-    <Route path="/adminbooks" element={<AdminBookList />} />
-    <Route path="/library" element={<Library />} />
-    <Route path="/purchases" element={<MyPurchases />} />
-    <Route path="/favorites" element={<Favorites />} />
-    <Route path="/wishlist" element={<Wishlist />} />
-    <Route path="/admininbox" element={<AdminInbox />} />
-    <Route path="/usermessages" element={<UserMessages />} />
-    <Route path="/forgot-password" element={<ForgotPassword />} />
-    <Route path="/notfound" element={<NotFound />} />
-    <Route path="/aboutme" element={<AboutMe />} />
-    <Route path="/reset-password/:token" element={<ResetPassword />} />
-  </Routes>
+<Routes>
+  <Route path="/" element={<Home />} />
+
+  {/* Rutas públicas */}
+  <Route path="/login" element={<Login />} />
+  <Route path="/register" element={<Register />} />
+  <Route path="/auth" element={<AuthPage />} />
+  <Route path="/forgot-password" element={<ForgotPassword />} />
+  <Route path="/reset-password/:token" element={<ResetPassword />} />
+  <Route path="/notfound" element={<NotFound />} />
+  <Route path="/aboutme" element={<AboutMe />} />
+  <Route path="/library" element={<Library />} />
+
+  {/* Rutas privadas - cualquier usuario logueado */}
+  <Route path="/profile" element={
+    <PrivateRoute>
+      <Profile />
+    </PrivateRoute>
+  } />
+  <Route path="/purchases" element={
+    <PrivateRoute>
+      <MyPurchases />
+    </PrivateRoute>
+  } />
+  <Route path="/favorites" element={
+    <PrivateRoute>
+      <Favorites />
+    </PrivateRoute>
+  } />
+  <Route path="/wishlist" element={
+    <PrivateRoute>
+      <Wishlist />
+    </PrivateRoute>
+  } />
+  <Route path="/usermessages" element={
+    <PrivateRoute>
+      <UserMessages />
+    </PrivateRoute>
+  } />
+
+  {/* Rutas solo para admins */}
+  <Route path="/adminusers" element={
+    <PrivateRoute adminOnly={true}>
+      <AdminDashboard />
+    </PrivateRoute>
+  } />
+  <Route path="/admin" element={
+    <PrivateRoute adminOnly={true}>
+      <AdminProfileCard />
+    </PrivateRoute>
+  } />
+  <Route path="/adminbooks" element={
+    <PrivateRoute adminOnly={true}>
+      <AdminBookList />
+    </PrivateRoute>
+  } />
+  <Route path="/admininbox" element={
+    <PrivateRoute adminOnly={true}>
+      <AdminInbox />
+    </PrivateRoute>
+  } />
+
+  <Route path="/book/:id" element={<BookPreviewCard />} />
+</Routes>
     <FloatingHelpButton />
     <Footer />
   <ToastContainer position="top-right" autoClose={3000} />
