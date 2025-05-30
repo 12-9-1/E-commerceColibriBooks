@@ -61,7 +61,7 @@ function App() {
     <Route path="/forgot-password" element={<ForgotPassword />} />
     <Route path="/notfound" element={<NotFound />} />
     <Route path="/aboutme" element={<AboutMe />} />
-    <Route path="/reset-password/:token" element={<ResetPassword />} />
+    <Route path="/resetpassword" element={<ResetPassword />} />
 
   </Routes>
     <FloatingHelpButton />
