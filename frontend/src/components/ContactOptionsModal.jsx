@@ -10,13 +10,15 @@ const ContactOptionsModal = ({ isOpen, onRequestClose, userId, bookId }) => {
     onRequestClose();
   };
 
-  const openGmail = () => {
-    const email = "lisbetcostilla@gmail.com";
-    const subject = encodeURIComponent("Consulta desde Colibrí de Letras");
-    const body = encodeURIComponent("Hola, quisiera hacer una consulta...");
-    window.open(`mailto:${email}?subject=${subject}&body=${body}`, "_blank");
-    onRequestClose();
-  };
+const openGmail = () => {
+  const email = "lisbetcostilla@gmail.com";
+  const subject = encodeURIComponent("Consulta desde Colibrí de Letras");
+  const body = encodeURIComponent("Hola, quisiera hacer una consulta...");
+  const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
+  window.open(gmailUrl, "_blank");
+  onRequestClose();
+};
+
 
   if (showMessageModal) {
     return (

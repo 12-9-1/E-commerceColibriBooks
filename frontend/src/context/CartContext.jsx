@@ -28,9 +28,17 @@ export const CartProvider = ({ children }) => {
     setCartItems([]);
   };
 
+const updateCartItemFormat = (bookId, newFormat) => {
+  setCartItems(prev =>
+    prev.map(item =>
+      item._id === bookId ? { ...item, format: newFormat } : item
+    )
+  );
+};
+
   return (
     <CartContext.Provider
-      value={{ cartItems, setCartItems, addToCart, clearCart, removeFromCart }}
+      value={{ cartItems, addToCart, clearCart, removeFromCart, updateCartItemFormat }}
     >
       {children}
     </CartContext.Provider>
