@@ -30,7 +30,7 @@ const Navbar = ({ onCartClick }) => {
 
   const [showMessageModal, setShowMessageModal] = useState(false);
   const location = useLocation();
-  const [showHelp, setShowHelp] = useState(false);
+
 
   const toggleSearch = () => setShowSearch(!showSearch);
 
@@ -81,15 +81,12 @@ const Navbar = ({ onCartClick }) => {
           ⬅ Volver
         </button>
       )}
-      <div className="navbar-logo" onClick={() => navigate("/")}>
+      <div
+        className={`navbar-logo ${location.pathname !== "/" ? "logo-shifted" : ""}`}
+        onClick={() => navigate("/")}
+      >
         <img src={logoColibri} alt="Colibrí" className="logo1" />
       </div>
-      
-      <button onClick={() => setShowHelp(true)} className="hover:underline">
-          Ayuda / Help
-        </button>
-      <HelpModal isOpen={showHelp} onClose={() => setShowHelp(false)} />
-
 
       <div className="navbar-icons">
         <FaSearch className="search-icon colored-icon" onClick={toggleSearch} />
