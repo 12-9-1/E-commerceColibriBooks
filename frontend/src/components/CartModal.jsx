@@ -3,13 +3,12 @@ import { useCart } from "../context/CartContext";
 import { useUser } from "../context/UserContext";
 import { toast } from "react-toastify";
 
-
 const API_URL = import.meta.env.VITE_API_URL;
 
 const CartModal = ({ onClose }) => {
   const [total, setTotal] = useState(0);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
-  const { cartItems, clearCart, removeFromCart } = useCart();
+  const { cartItems, clearCart, removeFromCart, updateCartItemFormat } = useCart(); // <--- Agregado
   const { user } = useUser();
 
   useEffect(() => {
@@ -29,7 +28,8 @@ const CartModal = ({ onClose }) => {
         bookId: item._id,
         title: item.title,
         price: item.price,
-        quantity: item.quantity
+        quantity: item.quantity,
+        format: item.format || "pdf" // Por defecto en caso de que falte
       })),
       total,
       shipping: {
@@ -80,6 +80,31 @@ const CartModal = ({ onClose }) => {
               {cartItems.map((item, i) => (
                 <li key={i} className="cart-item">
                   <span>{item.title} - ${item.price} x {item.quantity}</span>
+
+                  {/* Selección de formato */}
+                  <div className="formato-selector">
+                    <label>
+                      <input
+                        type="radio"
+                        name={`format-${item._id}-${i}`}
+                        value="pdf"
+                        checked={item.format === "pdf"}
+                        onChange={() => updateCartItemFormat(item._id, "pdf")}
+                      />
+                      PDF
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        name={`format-${item._id}-${i}`}
+                        value="fisico"
+                        checked={item.format === "fisico"}
+                        onChange={() => updateCartItemFormat(item._id, "fisico")}
+                      />
+                      Físico
+                    </label>
+                  </div>
+
                   <button
                     className="btn-delete-item"
                     onClick={() => removeFromCart(item._id)}
@@ -114,7 +139,6 @@ const CartModal = ({ onClose }) => {
             )}
           </>
         )}
-
         <button className="btn-cancel" onClick={onClose}>Cerrar</button>
       </div>
     </div>
