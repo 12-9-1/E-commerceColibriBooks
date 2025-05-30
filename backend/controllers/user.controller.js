@@ -1,5 +1,6 @@
 const User = require('../models/modelUser');
 const crypto = require("crypto");
+const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
 
 
@@ -192,14 +193,22 @@ const forgotPassword = async (req, res) => {
 
 const resetPassword = async (req, res) => {
   try {
+    console.log("Token recibido:", req.params.token);
     const user = await User.findOne({
       resetPasswordToken: req.params.token,
       resetPasswordExpires: { $gt: Date.now() }
     });
 
-    if (!user) return res.status(400).json({ message: 'Token inválido o expirado' });
+    if (!user) {
+      console.log("Token inválido o expirado");
+      return res.status(400).json({ message: 'Token inválido o expirado' });
+    }
 
     const { password } = req.body;
+    if (!password) {
+      return res.status(400).json({ message: 'No se recibió la nueva contraseña' });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     user.password = hashedPassword;
     user.resetPasswordToken = undefined;
@@ -208,6 +217,7 @@ const resetPassword = async (req, res) => {
 
     res.json({ message: 'Contraseña actualizada correctamente' });
   } catch (error) {
+    console.error("Error en resetPassword:", error);
     res.status(500).json({ message: 'Error al cambiar contraseña', error });
   }
 };
