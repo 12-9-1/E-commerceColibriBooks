@@ -9,7 +9,7 @@ import '../styles/AdminBookDashboard.css';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Profile = () => {
-  const { user, userLoaded } = useUser();
+  const { user, userLoaded, setUser } = useUser();
   const [nickname, setNickname] = useState('');
   const [avatar, setAvatar] = useState('');
   const [editMode, setEditMode] = useState(false);
@@ -34,6 +34,7 @@ const Profile = () => {
     .then(res => {
       setMessage('Perfil actualizado con éxito 🎉');
       setEditMode(false);
+      setUser(res.data);
     })
     .catch(err => {
       console.error('Error actualizando perfil:', err);
@@ -46,7 +47,6 @@ const Profile = () => {
 
   return (
     <div className="admin-dashboard-container">
-      {/* Tarjeta de perfil */}
       <div className="admin-profile-card">
         <img src={avatar || user?.avatar} alt="Avatar" className="avatar" />
         <h3>{nickname || user?.nickname}</h3>

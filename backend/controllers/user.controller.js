@@ -209,6 +209,10 @@ const resetPassword = async (req, res) => {
       return res.status(400).json({ message: 'No se recibió la nueva contraseña' });
     }
 
+    if (!isPasswordSecure(password)) {
+      return res.status(400).json({ message: 'La contraseña no es segura. Debe tener al menos 8 caracteres, incluyendo mayúsculas, minúsculas, números y símbolos.' });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     user.password = hashedPassword;
     user.resetPasswordToken = undefined;

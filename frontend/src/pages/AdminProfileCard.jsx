@@ -10,7 +10,7 @@ import AdminInbox from "./AdminInbox";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const AdminBookDashboard = () => {
-  const { user } = useUser();
+  const { user, setUser  } = useUser();
   const navigate = useNavigate();
   const [bookOpen, setBookOpen] = useState(false);
   const [nickname, setNickname] = useState('');
@@ -33,6 +33,7 @@ const AdminBookDashboard = () => {
     .then(res => {
       setMessage('Perfil actualizado con éxito 🎉');
       setEditMode(false);
+      setUser(res.data); 
     })
     .catch(err => {
       console.error('Error actualizando perfil:', err);
@@ -124,7 +125,7 @@ const AdminBookDashboard = () => {
     <div className="book-page">
       <h4>Mensajes</h4>
       <p>Revisa y responde los mensajes enviados por usuarios.</p>
-      <button onClick={() => navigate("/admininbox")}>Bandeja de mensajes</button>
+      <button onClick={() => navigate("/")}>Bandeja de mensajes</button>
     </div>
   </div>
   
