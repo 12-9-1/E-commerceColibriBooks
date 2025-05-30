@@ -64,3 +64,16 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+@keyframes floaty {
+  0%, 100% {
+    transform: translateY(-50%) translateX(0);
+  }
+  50% {
+    transform: translateY(-50%) translateX(5px);
+  }
+}
+
+.floating-help {
+  animation: floaty 2s infinite ease-in-out;
+}

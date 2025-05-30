@@ -10,7 +10,6 @@
   --color-highlight: #27AE60;
 }
 
-/* ========== CONTENEDORES ========= */
 .home {
   padding: 7rem;
   background: #F6EDDC;
@@ -22,7 +21,6 @@
   width: 100%;
 }
 
-/* ========== LIBRERÍA ========= */
 
 .book-grid {
   display: grid;
@@ -32,7 +30,7 @@
 }
 
 
-/* ========== CARD ========= */
+
 .book-card {
   width: 100%;
   height: 100%;
@@ -77,7 +75,7 @@
   color: var(--color-text);
 }
 
-/* ========== BOTONES ========= */
+
 .buttons-book {
   margin-top: 0.5rem;
   display: flex;
@@ -208,7 +206,7 @@
 }
 
 
-/* ========== BUSCADOR ========= */
+
 .search-bar {
   display: flex;
   flex-wrap: wrap;
@@ -255,7 +253,7 @@
 }
 
 
-/* ========== MODAL ========= */
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -409,7 +407,7 @@
   }
 }
 
-/* ========== RESPONSIVE ========= */
+
 @media (max-width: 600px) {
   .book-grid {
     flex-direction: column;

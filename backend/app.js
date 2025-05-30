@@ -5,24 +5,35 @@ require('dotenv').config();
 const app = express(); 
 
 const allowedOrigins = [
-  'http://localhost:5173', 
-  'https://e-commerce-colibri-books.vercel.app'
+  'http://localhost:5173',
+  'https://e-commerce-colibri-books.vercel.app',
+  'https://e-commerce-colibri-books-git-develop-lias-projects-745cbed7.vercel.app'
 ];
 
+
+function isOriginAllowed(origin) {
+  if (allowedOrigins.includes(origin)) return true;
+
+  const vercelPreviewRegex = /^https:\/\/e-commerce-colibri-books-git-[a-z0-9-]+-lias-projects-745cbed7\.vercel\.app$/;
+  return vercelPreviewRegex.test(origin);
+}
+
+// 👉 Configuración del CORS
 app.use(cors({
   origin: function(origin, callback) {
-    
-    if (!origin) return callback(null, true);
+    if (!origin) return callback(null, true); 
 
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = `El CORS no está permitido para este origen: ${origin}`;
-      return callback(new Error(msg), false);
+    if (isOriginAllowed(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS no permitido para origen: ${origin}`));
     }
-    return callback(null, true);
   },
-  credentials: true
+  credentials: true,
 }));
 
+
+// Middleware y rutas
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -35,22 +46,12 @@ app.listen(PORT, () => {
   console.log(`Servidor backend en http://localhost:${PORT}`);
 });
 
-// Base de datos
+// DB y rutas
 const connectDB = require('./config/db');
 connectDB();
 
-// Rutas
-const authRoutes = require('./routers/auth.routes');
-app.use('/api/auth', authRoutes);
-
-const userRoutes = require('./routers/user.routes');
-app.use('/api/user', userRoutes);
-
-const bookRoutes = require('./routers/book.routes');
-app.use('/api/books', bookRoutes);
-
-const purchaseRoutes = require("./routers/purchase.routes");
-app.use("/api/purchases", purchaseRoutes);
-
-const messageRoutes = require("./routers/message.routes");
-app.use("/api/message", messageRoutes);
+app.use('/api/auth', require('./routers/auth.routes'));
+app.use('/api/user', require('./routers/user.routes'));
+app.use('/api/books', require('./routers/book.routes'));
+app.use('/api/purchases', require('./routers/purchase.routes'));
+app.use('/api/message', require('./routers/message.routes'));

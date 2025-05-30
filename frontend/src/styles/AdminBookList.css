@@ -140,7 +140,7 @@
   justify-content: center;
   align-items: center;
   z-index: 2000;
-  overflow-y: auto; /* Para que si hay mucho contenido puedas scrollear */
+  overflow-y: auto; 
   padding: 1rem;
 }
 
@@ -149,8 +149,8 @@
   padding: 1.5rem;
   border-radius: 12px;
   width: 90%;
-  max-width: 400px; /* Ahora más estrecho */
-  max-height: 80vh; /* Más compacto */
+  max-width: 400px; 
+  max-height: 80vh; 
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
   animation: fadeInZoom 0.4s ease;
   overflow-y: auto;
