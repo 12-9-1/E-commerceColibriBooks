@@ -21,7 +21,7 @@ const Footer = ({ userId }) => {
             <h4>Links</h4>
             <ul>
               <li><a href="/aboutme">Sobre Mi</a></li>
-              <li><button className="btn-link" onClick={() => setContactModalOpen(true)}>Contacto</button></li>
+              <li><a className="btn-link" onClick={() => setContactModalOpen(true)}>Contacto</a></li>
               <li><a href="/terms">Términos y Condiciones</a></li>
             </ul>
           </div>
