@@ -1,12 +1,85 @@
-# React + Vite
+# 📘 Frontend de E-commerce Colibrí Books
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este es el frontend del proyecto **Colibrí Books**, una plataforma de comercio electrónico especializada en la venta de libros. Desarrollado con React.js y Tailwind CSS, ofrece una experiencia de usuario fluida y atractiva.
 
-Currently, two official plugins are available:
+🔗 [Demo en vivo](https://e-commerce-colibri-books.vercel.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tecnologías Utilizadas
 
-## Expanding the ESLint configuration
+* **Framework:** React.js
+* **Enrutamiento:** React Router
+* **Estado global:** Context API
+* **Estilos:** Tailwind CSS
+* **Notificaciones:** React Toastify
+* **Gestión de imágenes:** Cloudinary
+* **Construcción y desarrollo:** Vite
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Instalación y Ejecución
+
+### Requisitos Previos
+
+* Node.js (versión 14 o superior)
+* npm o yarn
+
+### Pasos para Clonar y Ejecutar el Proyecto
+
+1. **Clonar el repositorio:**
+
+   ```bash
+   git clone https://github.com/12-9-1/E-commerceColibriBooks.git
+   cd E-commerceColibriBooks/frontend
+   ```
+
+2. **Instalar dependencias:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Iniciar la aplicación:**
+
+   ```bash
+   npm run dev
+   ```
+
+   La aplicación estará disponible en `http://localhost:5173`.
+
+## 🎨 Características Principales
+
+* Navegación intuitiva por categorías de libros.
+* Búsqueda y filtrado de productos.
+* Gestión de carrito de compras.
+* Registro e inicio de sesión de usuarios.
+* Descarga automática de libros en formato PDF tras la compra.
+* Lista de deseos con opción de enviar mensajes al administrador.
+* Personalización de perfil con borde y emoji.
+* Recuperación de contraseña por correo electrónico con token.
+
+## 📂 Estructura del Proyecto
+
+```
+frontend/
+├── public/
+│   └── index.html
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── context/
+│   ├── pages/
+│   ├── services/
+│   ├── App.jsx
+│   └── main.jsx
+├── tailwind.config.js
+├── postcss.config.js
+├── package.json
+└── vite.config.js
+```
+
+## 👩‍💻 Autor
+
+* **Nombre:** Lia Lisbet Costilla
+* **GitHub:** [@12-9-1](https://github.com/12-9-1)
+
+## 📄 Licencia
+
+Este proyecto está bajo la licencia MIT. Consulta el archivo [LICENSE](../LICENSE) para más detalles.
