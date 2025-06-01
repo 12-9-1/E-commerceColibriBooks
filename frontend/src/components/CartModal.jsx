@@ -19,7 +19,8 @@ const CartModal = ({ onClose }) => {
     setTotal(newTotal);
   }, [cartItems]);
 
-  if (!user) return null;
+  if (!user && !showDownloadModal) return null;
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,7 +59,7 @@ const CartModal = ({ onClose }) => {
         body: JSON.stringify(purchaseData)
       });
 
-      if (res.ok) {
+     if (res.ok) {
   const purchase = await res.json();
 
   const pdfBooks = purchase.books.filter(book => book.format === "pdf" && book.downloadUrl);
@@ -69,7 +70,7 @@ const CartModal = ({ onClose }) => {
   clearCart();
   onClose();
 }
-      else {
+else {
         toast.error("Error al procesar la compra");
       }
     } catch (error) {

@@ -11,33 +11,33 @@ const Home = () => {
   const navigate = useNavigate();
   const [authModalOpen, setAuthModalOpen] = useState(false);
 
-
-  if (!userLoaded) return null; 
+  if (!userLoaded) return null;
 
   return (
     <div className="home-container">
-    <div className="home-hero">
-      <img src={logoColibri} alt="Colibrí de Letras" className="logo2" />
-      <h1>¡Bienvenido a Estación El Colibrí!</h1>
-      <p>Boletos para mundos infinitos y reconstrucción infinita. 📖✨</p>
-      <div className="home-buttons">
-        {user ? (
-          <button onClick={() => navigate("/libros")}>Ver mis libros</button>
-        ) : (
-          <button onClick={() => setAuthModalOpen(true)}>Iniciar sesión</button>
-        )}
-      <AuthModal
-        isOpen={authModalOpen}
-        onRequestClose={() => setAuthModalOpen(false)}
-      />
-
-        <button onClick={() => navigate("library")}>Explorar libros</button>
+      <div className="home-hero">
+        <img src={logoColibri} alt="Colibrí de Letras" className="logo2" />
+        <h1>¡Bienvenido a la Biblioteca El Colibrí!</h1>
+        <p>Explora portales hacia mundos infinitos y vive historias que inspiran y transforman. 📚✨</p>
+        <div className="home-buttons">
+          {user ? (
+            <button onClick={() => navigate("/library")}>Ver mi biblioteca</button>
+          ) : (
+            <>
+              <button onClick={() => setAuthModalOpen(true)}>Iniciar sesión</button>
+              <button onClick={() => navigate("/library")}>Explorar libros</button>
+            </>
+          )}
+          <AuthModal
+            isOpen={authModalOpen}
+            onRequestClose={() => setAuthModalOpen(false)}
+          />
+        </div>
       </div>
     </div>
-  
-  </div>  
   );
 };
+
 
 
 export default Home;
