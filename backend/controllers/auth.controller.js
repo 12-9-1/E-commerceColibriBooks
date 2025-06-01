@@ -72,4 +72,14 @@ const login = async (req, res) => {
     res.status(500).json({ message: 'Error en el login', error });
   }
 };
-module.exports = { register, login };
+
+const validateToken = (req, res) => {
+  res.status(200).json({ user: req.user });
+};
+
+module.exports = {
+  register,
+  login,
+  validateToken,
+};
+
