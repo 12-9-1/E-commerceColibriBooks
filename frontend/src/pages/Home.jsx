@@ -21,11 +21,11 @@ const Home = () => {
         <p>Explora portales hacia mundos infinitos y vive historias que inspiran y transforman. 📚✨</p>
         <div className="home-buttons">
           {user ? (
-            <button onClick={() => navigate("/libros")}>Ver mi biblioteca</button>
+            <button onClick={() => navigate("/library")}>Ver mi biblioteca</button>
           ) : (
             <>
               <button onClick={() => setAuthModalOpen(true)}>Iniciar sesión</button>
-              <button onClick={() => navigate("/libros")}>Explorar libros</button>
+              <button onClick={() => navigate("/library")}>Explorar libros</button>
             </>
           )}
           <AuthModal

@@ -13,29 +13,40 @@ export const UserProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
+  const validateUser = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setUserLoaded(true);
+      return;
+    }
+
     try {
-      const storedUser = localStorage.getItem("user");
+      const res = await fetch(`${API_URL}/api/auth/validate`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      if (storedUser) {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-        console.log("Usuario cargado desde localStorage:", parsedUser);
+      if (!res.ok) {
+        throw new Error("Token inválido");
       }
+
+      const data = await res.json();
+      setUser(data.user);
     } catch (error) {
-      console.error("Error al parsear el usuario del localStorage:", error);
+      console.error("Error validando token:", error);
+      setUser(null);
+      localStorage.removeItem("token");
       localStorage.removeItem("user");
+    } finally {
+      setUserLoaded(true);
     }
+  };
 
-    setUserLoaded(true);
-  }, []);
+  validateUser();
+}, []);
 
-  useEffect(() => {
-    if (user) {
-      fetchUserFavorites();
-      fetchUserWishlist();
-    }
-  }, [user]);
-  
 
   useEffect(() => {
     if (user) {
