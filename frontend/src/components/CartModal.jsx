@@ -10,6 +10,9 @@ const CartModal = ({ onClose }) => {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const { cartItems, clearCart, removeFromCart, updateCartItemFormat } = useCart(); // <--- Agregado
   const { user } = useUser();
+  const [downloadableBooks, setDownloadableBooks] = useState([]);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+
 
   useEffect(() => {
     const newTotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -56,22 +59,16 @@ const CartModal = ({ onClose }) => {
       });
 
       if (res.ok) {
-        const purchase = await res.json();
-        purchase.books.forEach(book => {
-          if (book.format === "pdf" && book.downloadUrl) {
-            const link = document.createElement("a");
-            link.href = book.downloadUrl;
-            link.download = `${book.title}.pdf`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          }
-        });
+  const purchase = await res.json();
 
-        toast.success("¡Compra realizada con éxito!");
-        clearCart();
-        onClose();
-      }
+  const pdfBooks = purchase.books.filter(book => book.format === "pdf" && book.downloadUrl);
+  setDownloadableBooks(pdfBooks);
+  setShowDownloadModal(true);
+
+  toast.success("¡Compra realizada con éxito!");
+  clearCart();
+  onClose();
+}
       else {
         toast.error("Error al procesar la compra");
       }
@@ -153,6 +150,35 @@ const CartModal = ({ onClose }) => {
           </>
         )}
         <button className="btn-cancel" onClick={onClose}>Cerrar</button>
+
+      {showDownloadModal && (
+  <div className="modal-upload">
+    <div className="modal-content">
+      <h3>Descargas disponibles</h3>
+      {downloadableBooks.length > 0 ? (
+        <ul>
+          {downloadableBooks.map((book, i) => (
+            <li key={i}>
+              <a
+                href={book.downloadUrl}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                📥 Descargar {book.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No hay libros descargables.</p>
+      )}
+      <button className="btn-confirm" onClick={() => setShowDownloadModal(false)}>
+        Cerrar
+      </button>
+    </div>
+  </div>
+)}
       </div>
     </div>
   );
