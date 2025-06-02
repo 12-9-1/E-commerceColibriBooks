@@ -97,24 +97,8 @@ La app estará disponible en `http://localhost:5173`.
 
 ---
 
-## 📷 Capturas (opcional)
-
-> Agrega aquí imágenes de pantalla de tu app si lo deseas. Puedes usar Markdown como:
-
-```markdown
-![Home](./screenshots/home.png)
-![Carrito](./screenshots/cart.png)
-```
-
----
-
 ## 👩‍💻 Autor
 
 * **Nombre:** Lia Lisbet Costilla
 * **GitHub:** [@12-9-1](https://github.com/12-9-1)
 
----
-
-## 📄 Licencia
-
-Este proyecto está bajo la licencia MIT.
