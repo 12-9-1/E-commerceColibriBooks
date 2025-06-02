@@ -86,6 +86,3 @@ backend/
 * **Nombre:** Lia Lisbet Costilla
 * **GitHub:** [@12-9-1](https://github.com/12-9-1)
 
-## 📄 Licencia
-
-Este proyecto está bajo la licencia MIT. Consulta el archivo [LICENSE](../LICENSE) para más detalles.
