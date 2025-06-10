@@ -150,6 +150,7 @@ const Navbar = ({ onCartClick }) => {
               className="user-avatar"
             />
             {user.role === "admin" && <span className="admin-crown">👑</span>}
+            {user.role === "co-admin" && <span className="coadmin-armor">🛡️</span>}
             {user.nickname && (
               <span className="avatar-nickname">{user.nickname}</span>
             )}

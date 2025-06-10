@@ -15,6 +15,7 @@ const AdminInbox = () => {
   const [selectedMsg, setSelectedMsg] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [respuesta, setRespuesta] = useState("");
 
   const handleSendResponse = async () => {
@@ -105,16 +106,57 @@ const AdminInbox = () => {
         rows={4}
       />
       <button onClick={handleSendResponse} disabled={loading}>
-        📩 Enviar respuesta
+        📧 Enviar respuesta
       </button>
     </div>
   )}
 
   <div className="modal-actions">
-    <button onClick={handleDelete} disabled={loading}>🗑️ Eliminar mensaje</button>
+    <button onClick={() => setShowConfirmDelete(true)} disabled={loading}>
+  🗑️ Eliminar mensaje
+  </button>
     <button onClick={() => setModalOpen(false)}>❌ Cerrar</button>
   </div>
 </div>
+</Modal>
+
+<Modal
+  isOpen={showConfirmDelete}
+  onRequestClose={() => setShowConfirmDelete(false)}
+  className="modal"
+  overlayClassName="modal-upload"
+>
+  <div className="modal-content">
+    <h3>¿Eliminar mensaje?</h3>
+    <p style={{ fontSize: "2rem" }}>📜💧</p>
+    <p>Esta acción no se puede deshacer.</p>
+
+    <div className="modal-actions">
+      <button
+        onClick={async () => {
+          try {
+            setLoading(true);
+            await fetch(`${API_URL}/api/message/${selectedMsg._id}`, {
+              method: "DELETE",
+            });
+            toast.success("📜💧 Mensaje eliminado");
+            setShowConfirmDelete(false);
+            setModalOpen(false);
+            fetchMessages();
+          } catch (error) {
+            toast.error("Error al eliminar mensaje");
+          } finally {
+            setLoading(false);
+          }
+        }}
+        disabled={loading}
+      >
+        ✅ Sí, eliminar
+      </button>
+
+      <button onClick={() => setShowConfirmDelete(false)}>❌ Cancelar</button>
+    </div>
+  </div>
 </Modal>
 
     </div>
