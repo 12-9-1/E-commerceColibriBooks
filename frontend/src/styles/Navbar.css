@@ -132,6 +132,11 @@
   right: -5px;
   font-size: 14px;
 }
+.coadmin-armor {
+  margin-left: 4px;
+  font-size: 1.2rem;
+  color: rgb(192, 11, 11);
+}
 
 .auth-button{
   background-color:#27AE60;
