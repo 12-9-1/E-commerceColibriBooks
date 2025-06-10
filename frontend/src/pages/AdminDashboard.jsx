@@ -44,7 +44,7 @@ const handleConfirmedAction = async () => {
   };
 
   const toggleAdmin = async (id, currentRole) => {
-    const newRole = currentRole === 'admin' ? 'user' : 'admin';
+    const newRole = currentRole === 'co-admin' ? 'user' : 'co-admin';
     await axios.put(`${API_URL}/api/user/${id}/role`, { role: newRole });
     fetchUsers();
   };
@@ -62,19 +62,26 @@ const handleConfirmedAction = async () => {
             <img src={user.avatar} alt="Avatar" className="avatar" />
             <p><strong>Apodo:</strong> {user.nickname}</p>
             <p><strong>Email:</strong> {user.email}</p>
-            <p>
-              <strong>Rol:</strong>{' '}
-              <span className={`user-role-badge ${user.role === 'admin' ? 'admin-role' : ''}`}>
-                {user.role === 'admin' ? '👑 admin' : 'user'}
-              </span>
-            </p>
-            
-            <button onClick={() => confirmAction('toggleRole', user._id, user.role)}>
-              {user.role === 'admin' ? 'Quitar Admin' : 'Hacer Admin'}
-            </button>
-            <button onClick={() => confirmAction('delete', user._id)}>
-              Eliminar
-            </button>
+              <p>
+                <strong>Rol:</strong>{' '}
+                <span className={`user-role-badge ${
+                  user.email === 'admin@libros.com' ? 'superadmin-role' :
+                  user.role === 'co-admin' ? 'coadmin-role' :
+                  ''
+                }`}>
+                  {user.email === 'admin@libros.com' ? '👑 admin principal' :
+                  user.role === 'co-admin' ? '🛡️ co-admin' : 'user'}
+                </span>
+              </p>
+              
+              {user.email !== 'admin@libros.com' && (
+                <button onClick={() => confirmAction('toggleRole', user._id, user.role)}>
+                  {user.role === 'co-admin' ? 'Quitar co-admin' : 'Hacer co-admin'}
+                </button>
+              )}
+            {user.email !== 'admin@libros.com' && (
+              <button onClick={() => confirmAction('delete', user._id)}>Eliminar</button>
+            )}
           </div>
         ))}
       </div>
@@ -92,9 +99,10 @@ const handleConfirmedAction = async () => {
               <strong>
                 {modalData.action === 'delete'
                   ? 'eliminar este usuario'
-                  : modalData.role === 'admin'
-                  ? 'quitarle el rol de admin'
-                  : 'hacerlo admin'}
+                : modalData.role === 'co-admin'
+                  ? 'quitarle el rol de co-admin'
+                  : 'hacerlo co-admin'
+                }
               </strong>
             </p>
             <div className="modal-buttons">
