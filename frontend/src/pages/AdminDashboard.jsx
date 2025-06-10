@@ -90,8 +90,8 @@ const handleConfirmedAction = async () => {
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
-            {modalData.action === 'toggleRole' && modalData.role === 'admin' && (
-              <div className="sad-crown">👑💧</div>
+            {modalData.action === 'toggleRole' && modalData.role === 'co-admin' && (
+            <div className="sad-crown">👑💧</div>
             )}
             <h3>¿Estás seguro?</h3>
             <p>

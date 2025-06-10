@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/AdminBookList.css'; 
 
 
@@ -13,6 +15,8 @@ const AdminBookList = () => {
   const [newPdf, setNewPdf] = useState(null);
   const [updating, setUpdating] = useState(false);
   const [message, setMessage] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [bookToDelete, setBookToDelete] = useState(null);
   const [formData, setFormData] = useState({
     author: '',
     title: '',
@@ -49,16 +53,25 @@ const AdminBookList = () => {
     fetchBooks();
   }, []);
 
-  const handleDelete = async (id) => {
-    if (confirm('¿Estás seguro que quieres eliminar este libro?')) {
-      try {
-        await axios.delete(`${API_URL}/api/books/${id}`);
-        setBooks(books.filter(book => book._id !== id));
-      } catch (error) {
-        console.error('Error al eliminar libro:', error);
-      }
+  const confirmDeleteBook = (id) => {
+    setBookToDelete(id);
+    setShowDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`${API_URL}/api/books/${bookToDelete}`);
+      setBooks(books.filter(book => book._id !== bookToDelete));
+      toast.success('📘 Libro eliminado correctamente');
+    } catch (error) {
+      console.error('Error al eliminar libro:', error);
+      toast.error('Error al eliminar el libro');
+    } finally {
+      setShowDeleteModal(false);
+      setBookToDelete(null);
     }
   };
+
 
   const openEditModal = (book) => {
     setEditBook(book);
@@ -178,7 +191,7 @@ const AdminBookList = () => {
               </div>
               <div className="book-actions">
                 <button onClick={() => openEditModal(book)} className="book-actions1">✏️ Editar</button>
-                <button onClick={() => handleDelete(book._id)} className="book-actions2">🗑️ Eliminar</button>
+                <button onClick={() => confirmDeleteBook(book._id)} className="book-actions2">🗑️ Eliminar</button>
               </div>
             </div>
           ))}
@@ -276,8 +289,25 @@ const AdminBookList = () => {
       )}
             <button onClick={() => setShowUploadModal(false)}>❌ Cancelar</button>
           </div>
-        </div>
+        </div>       
       )}
+
+      {/* Modal de confirmación de eliminación */}
+      {showDeleteModal && (
+      <div className="modal-overlay">
+        <div className="modal-content">
+          <div className="sad-crown">📘💧</div>
+          <h3>¿Estás seguro?</h3>
+          <p>
+            Vas a <strong>eliminar este libro</strong>
+          </p>
+          <div className="modal-buttons">
+            <button onClick={handleDelete} className="confirm">Sí</button>
+            <button onClick={() => setShowDeleteModal(false)} className="cancel">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    )}
     </div>
   );
 };
