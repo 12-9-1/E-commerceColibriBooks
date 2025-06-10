@@ -37,6 +37,12 @@
   display: inline-block;
 }
 
+.superadmin-role {
+  background-color: gold;
+  color: black;
+  font-weight: bold;
+}
+
 .admin-book-container {
   flex-grow: 1;
   display: flex;

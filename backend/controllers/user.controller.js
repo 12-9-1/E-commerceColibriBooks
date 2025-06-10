@@ -17,8 +17,20 @@ const getAllUsers = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    await User.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Usuario eliminado correctamente' });
+    const userToDelete = await User.findById(req.params.id);
+    if (!userToDelete) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+
+    if (userToDelete.email === 'admin@libros.com') {
+      return res.status(403).json({
+        message: 'No se puede eliminar al administrador principal',
+      });
+    }
+
+    await userToDelete.deleteOne();
+    res.status(200).json({ message: 'Usuario eliminado correctamente' });
   } catch (error) {
     res.status(500).json({ message: 'Error al eliminar usuario', error });
   }
@@ -27,15 +39,25 @@ const deleteUser = async (req, res) => {
 
 const updateUserRole = async (req, res) => {
   try {
+    const { id } = req.params;
     const { role } = req.body;
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-      { role },
-      { new: true }
-    );
-    res.json(updatedUser);
+
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+    
+    if (user.email === 'admin@libros.com') {
+      return res.status(403).json({
+        message: 'No se puede modificar el rol del administrador principal',
+      });
+    }
+
+    user.role = role === 'co-admin' ? 'user' : 'co-admin';
+    await user.save();
+
+    res.status(200).json({ message: 'Rol actualizado correctamente', newRole: user.role });
   } catch (error) {
-    res.status(500).json({ message: 'Error al actualizar rol', error });
+    res.status(500).json({ message: 'Error al actualizar el rol', error });
   }
 };
 
