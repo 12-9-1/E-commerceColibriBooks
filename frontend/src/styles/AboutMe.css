@@ -1,6 +1,6 @@
 .about-me {
   color: #333;
-  padding: 9rem;
+  padding: 8rem;
 }
 
 .intro {
@@ -22,4 +22,17 @@
 .intro p {
   flex: 1;
   line-height: 1.6;
+}
+
+.buton-es-en{
+  background-color: #ff914d;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.buton-es-en:hover {
+  background-color: #6c63ff;
 }
