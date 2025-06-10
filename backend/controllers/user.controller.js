@@ -52,7 +52,7 @@ const updateUserRole = async (req, res) => {
       });
     }
 
-    user.role = role === 'co-admin' ? 'user' : 'co-admin';
+    user.role = role;
     await user.save();
 
     res.status(200).json({ message: 'Rol actualizado correctamente', newRole: user.role });
