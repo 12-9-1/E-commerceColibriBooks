@@ -39,6 +39,10 @@ const AdminBookList = () => {
     pdf: null,
   });
 
+  if (user.role === 'co-admin' && !user.permissions.canUploadBooks) {
+  return <p>No tienes permiso para subir libros</p>;
+}
+
   const fetchBooks = async () => {
     try {
       const res = await axios.get(`${API_URL}/api/books`);

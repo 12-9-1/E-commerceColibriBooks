@@ -147,4 +147,12 @@
     50% { transform: rotate(5deg); }
     100% { transform: rotate(-5deg); }
   }
-  
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+.checkbox-group label {
+  margin-bottom: 0.5rem;
+}
