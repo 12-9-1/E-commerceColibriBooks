@@ -10,23 +10,54 @@ const API_URL = import.meta.env.VITE_API_URL;
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
-const [modalData, setModalData] = useState({ action: '', userId: '', role: '' });
+  const [modalData, setModalData] = useState({ action: '', userId: '', role: '' });
+  const initialPermissions = {
+    canUploadBooks: false,
+    canAccessUsers: false,
+    canEditUsers: false,
+    canReplyMessages: false,
+  };
+
+  const [permissions, setPermissions] = useState(initialPermissions);
+  const [showPermissionsModal, setShowPermissionsModal] = useState(false);
 
 
 const confirmAction = (action, userId, role) => {
   setModalData({ action, userId, role });
   setShowModal(true);
 };
-const handleConfirmedAction = async () => {
+
+const handleConfirmedAction = () => {
   const { action, userId, role } = modalData;
 
   if (action === 'delete') {
-    await deleteUser(userId);
-  } else if (action === 'toggleRole') {
-    await toggleAdmin(userId, role);
+    deleteUser(userId);
+    setShowModal(false);
+  } else if (action === 'toggleRole' && role !== 'co-admin') {
+    setShowModal(false);
+    setPermissions(initialPermissions); 
+    setShowPermissionsModal(true);     
+  } else {
+    toggleAdmin(userId, role);         
+    setShowModal(false);
   }
+};
 
-  setShowModal(false);
+const handleAssignPermissions = async () => {
+  try {
+
+    await axios.put(`${API_URL}/api/user/${modalData.userId}/role`, {
+      role: 'co-admin'
+    });
+
+    
+    await axios.put(`${API_URL}/api/user/${modalData.userId}/permissions`, permissions);
+
+    fetchUsers();
+    setShowPermissionsModal(false);
+  } catch (error) {
+    console.error('Error al asignar permisos:', error);
+  }
 };
 
   const fetchUsers = async () => {
@@ -116,6 +147,53 @@ const handleConfirmedAction = async () => {
           </div>
         </div>
       )}
+
+      {showPermissionsModal && (
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <h3>Selecciona los permisos del co-admin</h3>
+      <div className="checkbox-group">
+        {Object.entries(permissions).map(([key, value]) => (
+          <label key={key}>
+            <input
+              type="checkbox"
+              checked={value}
+              onChange={() =>
+                setPermissions(prev => ({ ...prev, [key]: !prev[key] }))
+              }
+            />
+            {key === 'canUploadBooks' && 'Puede subir libros'}
+            {key === 'canAccessUsers' && 'Puede ver usuarios'}
+            {key === 'canEditUsers' && 'Puede editar usuarios'}
+            {key === 'canReplyMessages' && 'Puede responder mensajes'}
+          </label>
+        ))}
+      </div>
+
+      <label>
+        <input
+          type="checkbox"
+          onChange={(e) => {
+            const checked = e.target.checked;
+            setPermissions({
+              canUploadBooks: checked,
+              canAccessUsers: checked,
+              canEditUsers: checked,
+              canReplyMessages: checked
+            });
+          }}
+        />
+        Seleccionar todo
+      </label>
+
+      <div className="modal-buttons">
+        <button onClick={handleAssignPermissions} className="confirm">Asignar</button>
+        <button onClick={() => setShowPermissionsModal(false)} className="cancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
   

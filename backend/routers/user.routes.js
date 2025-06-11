@@ -14,7 +14,8 @@ const {
   removeFromWishlist,
   getWishlist,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  updateUserPermissions
 } = require('../controllers/user.controller');
 
 // Rutas 
@@ -31,6 +32,8 @@ router.delete('/:id/wishlist/:bookId', removeFromWishlist);
 router.get('/:id/wishlist', getWishlist);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password/:token', resetPassword);
+router.put('/:id/permissions', updateUserPermissions);
+
 
 
 module.exports = router;
