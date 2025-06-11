@@ -67,11 +67,16 @@ const updateUserPermissions = async (req, res) => {
     const permissions = req.body;
 
     const user = await User.findById(id);
-    if (!user || user.role !== 'co-admin') {
-      return res.status(404).json({ message: 'Co-admin no encontrado' });
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
-    user.permissions = { ...user.permissions, ...permissions };
+
+    if (user.role !== 'co-admin') {
+      return res.status(403).json({ message: 'Solo los co-admin pueden tener permisos personalizados.' });
+    }
+
+    user.permissions = { ...permissions };
     await user.save();
 
     res.json({ message: 'Permisos actualizados', permissions: user.permissions });
@@ -79,6 +84,7 @@ const updateUserPermissions = async (req, res) => {
     res.status(500).json({ message: 'Error al actualizar permisos', error });
   }
 };
+
 
 const getUserProfile = async (req, res) => {
   try {
