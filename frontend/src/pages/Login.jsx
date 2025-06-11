@@ -30,30 +30,36 @@ const Login = ({ closeModal, onToggleForm }) => {
         password: form.password
       });
   
-      if (res.data?.user) {
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        localStorage.setItem("token", res.data.token); 
-  
-        setUser(res.data.user);
-  
-        if (res.data.user.role === "admin") {
-          navigate("/admin");
-        } else {
-          navigate("/");
-        }
-  
-        toast.success("Login exitoso");
-        closeModal?.();
-      } else {
-        toast.warning("Credenciales incorrectas");
+    if (res.data?.user) {
+      const userData = res.data.user;
+
+      if (userData.role === 'co-admin' && !userData.permissions) {
+        userData.permissions = {};
       }
+
+      localStorage.setItem("user", JSON.stringify(userData));
+      localStorage.setItem("token", res.data.token);
+
+      setUser(userData);
+
+      if (userData.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+
+      toast.success("Login exitoso");
+      closeModal?.();
+    } else {
+      toast.warning("Credenciales incorrectas");
+    }
+
     } catch (error) {
       console.error("Error en el login", error);
       toast.error(error.response?.data?.message || "Error al iniciar sesión");
     }
   };
   
-
   return (
     <form className="auth-form" onSubmit={handleSubmit}>
       <h3>Iniciar Sesión</h3>

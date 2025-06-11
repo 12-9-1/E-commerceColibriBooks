@@ -60,11 +60,12 @@ const login = async (req, res) => {
       message: 'Login exitoso',
       user: {
         _id: user._id,
-        email: user.email,
-        role: user.role,
-        nickname: user.nickname || '',
-        avatar: user.avatar || ''
-      },
+      email: user.email,
+      role: user.role,
+      nickname: user.nickname || '',
+      avatar: user.avatar || '',
+      permissions: user.role === 'co-admin' ? user.permissions || {} : undefined
+    },
       token 
     });
 
