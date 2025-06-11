@@ -61,6 +61,24 @@ const updateUserRole = async (req, res) => {
   }
 };
 
+const updateUserPermissions = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const permissions = req.body;
+
+    const user = await User.findById(id);
+    if (!user || user.role !== 'co-admin') {
+      return res.status(404).json({ message: 'Co-admin no encontrado' });
+    }
+
+    user.permissions = { ...user.permissions, ...permissions };
+    await user.save();
+
+    res.json({ message: 'Permisos actualizados', permissions: user.permissions });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al actualizar permisos', error });
+  }
+};
 
 const getUserProfile = async (req, res) => {
   try {
@@ -263,5 +281,6 @@ module.exports = {
   removeFromWishlist,
   getWishlist,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  updateUserPermissions
 };
