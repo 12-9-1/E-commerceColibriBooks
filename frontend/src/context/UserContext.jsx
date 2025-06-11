@@ -18,6 +18,11 @@ export const UserProvider = ({ children }) => {
 
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);
+
+        if (parsedUser.role === 'co-admin' && !parsedUser.permissions) {
+          parsedUser.permissions = {};
+        }
+
         setUser(parsedUser);
         console.log("Usuario cargado desde localStorage:", parsedUser);
       }
@@ -35,15 +40,6 @@ export const UserProvider = ({ children }) => {
       fetchUserWishlist();
     }
   }, [user]);
-  
-
-  useEffect(() => {
-    if (user) {
-      fetchUserFavorites();
-      fetchUserWishlist();
-    }
-  }, [user]);
-  
 
   const fetchUserFavorites = async () => {
     if (!user) return;
