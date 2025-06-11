@@ -5,7 +5,6 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useUser } from '../context/UserContext';
 import '../styles/AdminBookDashboard.css';
-import AdminInbox from "./AdminInbox";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -41,96 +40,109 @@ const AdminBookDashboard = () => {
     });
   };
 
+
+  const hasPermissions = user?.role === 'admin' || user?.permissions?.canAccessUsers || user?.permissions?.canReplyMessages || user?.permissions?.canUploadBooks;
+
   return (
     <div className="admin-dashboard-container">
       <div className="admin-profile-card">
         <img src={avatar || user?.avatar} alt="Avatar" className="avatar" />
         <h3>{nickname || user?.nickname}</h3>
         <p>{user?.email}</p>
-        <span className="admin-badge">👑 Administrador</span>
-        
-        {editMode ? (
-  <div className="edit-mode">
-    <input
-      type="text"
-      className="edit-input"
-      value={nickname}
-      onChange={(e) => setNickname(e.target.value)}
-      placeholder="Nuevo apodo"
-    />
-    <input
-      type="text"
-      className="edit-input"
-      value={avatar}
-      onChange={(e) => setAvatar(e.target.value)}
-      placeholder="Nueva URL de avatar"
-    />
-    <div className="profile-buttons">
-      <button className="save-btn" onClick={handleUpdate}>Guardar</button>
-      <button className="cancel-btn" onClick={() => setEditMode(false)}>Cancelar</button>
-    </div>
-  </div>
-) : (
-  <div className="profile-buttons">
-    <button className="edit-btn" onClick={() => setEditMode(true)}>Editar</button>
-  </div>
-)}
+        {user?.role === 'admin' ? (
+          <span className="admin-badge">👑 Administrador</span>
+        ) : (
+          <span className="admin-badge">🛡️ Co-Admin</span>
+        )}
 
+        {editMode ? (
+          <div className="edit-mode">
+            <input
+              type="text"
+              className="edit-input"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              placeholder="Nuevo apodo"
+            />
+            <input
+              type="text"
+              className="edit-input"
+              value={avatar}
+              onChange={(e) => setAvatar(e.target.value)}
+              placeholder="Nueva URL de avatar"
+            />
+            <div className="profile-buttons">
+              <button className="save-btn" onClick={handleUpdate}>Guardar</button>
+              <button className="cancel-btn" onClick={() => setEditMode(false)}>Cancelar</button>
+            </div>
+          </div>
+        ) : (
+          <div className="profile-buttons">
+            <button className="edit-btn" onClick={() => setEditMode(true)}>Editar</button>
+          </div>
+        )}
 
         {message && <p>{message}</p>}
-        
       </div>
-      <div className="admin-book-container">
-      <motion.div 
-        className={`book-cover-icon ${bookOpen ? 'open' : ''}`} 
-        onClick={() => setBookOpen(!bookOpen)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        {bookOpen ? '📖' : '📕'}
-        <p>{bookOpen ? 'Cerrar libro' : 'Abrir libro'}</p>
-      </motion.div>
 
+      <div className="admin-book-container">
+        <motion.div 
+          className={`book-cover-icon ${bookOpen ? 'open' : ''}`} 
+          onClick={() => hasPermissions && setBookOpen(!bookOpen)}
+          whileHover={{ scale: hasPermissions ? 1.05 : 1 }}
+          whileTap={{ scale: hasPermissions ? 0.95 : 1 }}
+          style={{ opacity: hasPermissions ? 1 : 0.4, cursor: hasPermissions ? 'pointer' : 'not-allowed' }}
+        >
+          {bookOpen ? '📖' : '📕'}
+          <p>{bookOpen ? 'Cerrar libro' : 'Abrir libro'}</p>
+        </motion.div>
 
         <AnimatePresence>
           {bookOpen && (
             <motion.div 
-  className="book-pages"
-  initial={{ opacity: 0, scale: 0.9 }}
-  animate={{ opacity: 1, scale: 1 }}
-  exit={{ opacity: 0, scale: 0.9 }}
-  transition={{ duration: 0.4 }}
->
-  {/* Columna izquierda */}
-  <div className="book-page-column">
-    <div className="book-page">
-      <h4>Usuarios</h4>
-      <p>Administra todos los usuarios registrados.</p>
-      <button onClick={() => navigate("/adminusers")}>Ver usuarios</button>
-    </div>
-    <div className="book-page">
-      <h4>Mensajes</h4>
-      <p>Revisa y responde los mensajes enviados por usuarios.</p>
-      <button onClick={() => navigate("/admininbox")}>Bandeja de mensajes</button>
-    </div>
-  </div>
+              className="book-pages"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.4 }}
+            >
+              <div className="book-page-column">
+                {(user?.role === 'admin' || user?.permissions?.canAccessUsers) && (
+                  <div className="book-page">
+                    <h4>Usuarios</h4>
+                    <p>Administra todos los usuarios registrados.</p>
+                    <button onClick={() => navigate("/adminusers")}>Ver usuarios</button>
+                  </div>
+                )}
 
-  {/* Columna derecha */}
-  <div className="book-page-column">
-    <div className="book-page">
-      <h4>Libros</h4>
-      <p>Gestiona los libros disponibles.</p>
-      <button onClick={() => navigate("/adminbooks")}>Ver libros</button>
-    </div>
-    <div className="book-page">
-      <h4>Mensajes</h4>
-      <p>Revisa y responde los mensajes enviados por usuarios.</p>
-      <button onClick={() => navigate("/")}>Bandeja de mensajes</button>
-    </div>
-  </div>
-  
-</motion.div>
+                {(user?.role === 'admin' || user?.permissions?.canReplyMessages) && (
+                  <div className="book-page">
+                    <h4>Mensajes</h4>
+                    <p>Revisa y responde los mensajes enviados por usuarios.</p>
+                    <button onClick={() => navigate("/admininbox")}>Bandeja de mensajes</button>
+                  </div>
+                )}
+              </div>
 
+              <div className="book-page-column">
+                {(user?.role === 'admin' || user?.permissions?.canUploadBooks) && (
+                  <div className="book-page">
+                    <h4>Libros</h4>
+                    <p>Gestiona los libros disponibles.</p>
+                    <button onClick={() => navigate("/adminbooks")}>Ver libros</button>
+                  </div>
+                )}
+              </div>
+
+              {user?.role === 'co-admin' &&
+                !user?.permissions?.canAccessUsers &&
+                !user?.permissions?.canReplyMessages &&
+                !user?.permissions?.canUploadBooks && (
+                  <p style={{ padding: '1rem', textAlign: 'center', color: 'gray' }}>
+                    No tienes permisos asignados aún. Contacta al administrador principal.
+                  </p>
+              )}
+            </motion.div>
           )}
         </AnimatePresence>
       </div>
