@@ -1,4 +1,3 @@
-// src/pages/AdminDashboard.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import "../styles/AdminDashboard.css";
@@ -14,10 +13,11 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(false); 
   const [error, setError] = useState(null);      
 
-  const confirmDelete = (userId) => {
-    setModalData({ userId });
-    setShowModal(true);
-  };
+const confirmDelete = (userId, role) => {
+  setModalData({ userId, role });
+  setShowModal(true);
+};
+
 
   const handleDelete = async () => {
     const userId = modalData.userId;
@@ -34,6 +34,24 @@ const AdminDashboard = () => {
     } finally {
       setLoading(false);
       setShowModal(false);
+    }
+  };
+
+  const toggleAdminRole = async (userId, currentRole) => {
+    const userToToggle = users.find(u => u._id === userId);
+    if (userToToggle?.email === 'admin@libros.com') return;
+
+    const newRole = currentRole === 'admin' ? 'user' : 'admin';
+
+    try {
+      setLoading(true);
+      await axios.put(`${API_URL}/api/user/${userId}/role`, { role: newRole });
+      fetchUsers();
+    } catch (error) {
+      console.error('Error al cambiar rol:', error);
+      setError("Error al cambiar el rol.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,18 +81,30 @@ const AdminDashboard = () => {
             <p><strong>Apodo:</strong> {user.nickname}</p>
             <p><strong>Email:</strong> {user.email}</p>
             <p>
-              <strong>Rol:</strong>{' '}
-              <span className={`user-role-badge ${
-                user.email === 'admin@libros.com' ? 'superadmin-role' : ''
-              }`}>
-                {user.email === 'admin@libros.com' ? '👑 admin principal' : 'user'}
-              </span>
-            </p>
-
+                <strong>Rol:</strong>{' '}
+                <span className={`user-role-badge ${
+                  user.email === 'admin@libros.com' ? 'superadmin-role' :
+                  user.role === 'admin' ? 'admin-role' : ''
+                }`}>
+                  {user.email === 'admin@libros.com'
+                    ? '👑 admin principal'
+                    : user.role === 'admin'
+                    ? '🛡️ admin'
+                    : 'user'}
+                </span>
+              </p>
             {user.email !== 'admin@libros.com' && (
-              <button onClick={() => confirmDelete(user._id)} disabled={loading}>
-                Eliminar
-              </button>
+              <>
+                <button
+                  onClick={() => toggleAdminRole(user._id, user.role)}
+                  disabled={loading}
+                >
+                  {user.role === 'admin' ? 'Quitar admin' : 'Hacer admin'}
+                </button>
+              <button onClick={() => confirmDelete(user._id, user.role)} disabled={loading}>
+                    Eliminar
+                  </button>
+              </>
             )}
           </div>
         ))}
@@ -84,8 +114,15 @@ const AdminDashboard = () => {
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
+            {modalData.role === 'admin' && <div className="sad-crown">📘💧</div>}
             <h3>¿Estás seguro?</h3>
-            <p>¿Estás seguro de eliminar este usuario? Esta acción no se puede revertir.</p>
+            <p>
+              {modalData.role === 'admin' ? (
+                <>Vas a <strong>eliminar un administrador</strong>.</>
+              ) : (
+                <>¿Estás seguro de eliminar este usuario? Esta acción no se puede revertir.</>
+              )}
+            </p>
             <div className="modal-buttons">
               <button onClick={handleDelete} className="confirm" disabled={loading}>
                 {loading ? 'Eliminando...' : 'Sí'}

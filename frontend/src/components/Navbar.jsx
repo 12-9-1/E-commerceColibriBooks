@@ -138,23 +138,28 @@ const Navbar = ({ onCartClick }) => {
           isAdmin={user?.role === "admin"}
         />
 
-        {user && (
-          <div
-            className={`avatar-wrapper ${user.role === "admin" ? "admin" : ""}`}
-            onClick={() => navigate(user.role === "admin" ? "/admin" : "/profile")}
-          >
-            <img
-              src={user.avatar || "/default-avatar.png"}
-              alt="avatar"
-              className="user-avatar"
-            />
-            {user.role === "admin" && <span className="admin-crown">👑</span>}
-            {user.nickname && (
-              <span className="avatar-nickname">{user.nickname}</span>
-            )}
-          </div>
-        )}
+          {user && (
+            <div
+              className={`avatar-wrapper ${user.role === "admin" ? "admin" : ""}`}
+              onClick={() => navigate(user.role === "admin" ? "/admin" : "/profile")}
+            >
+              <img
+                src={user.avatar || "/default-avatar.png"}
+                alt="avatar"
+                className="user-avatar"
+              />
 
+              
+              {user.email === "admin@libros.com" && <span className="admin-crown superadmin">👑</span>}
+              {user.role === "admin" && user.email !== "admin@libros.com" && (
+                <span className="admin-crown normaladmin">🛡️</span> 
+              )}
+
+              {user.nickname && (
+                <span className="avatar-nickname">{user.nickname}</span>
+              )}
+            </div>
+          )}
       </div>
 
       {showSearch && (
