@@ -1,141 +1,104 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from "framer-motion";
-import axios from 'axios'; 
-import { useNavigate } from "react-router-dom";
-import { useUser } from '../context/UserContext';
-import '../styles/AdminBookDashboard.css';
+// src/pages/AdminDashboard.jsx
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import "../styles/AdminDashboard.css";
+import { useUser } from "../context/UserContext";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const AdminBookDashboard = () => {
-  const { user, setUser } = useUser();
-  const navigate = useNavigate();
-  const [bookOpen, setBookOpen] = useState(false);
-  const [nickname, setNickname] = useState('');
-  const [avatar, setAvatar] = useState('');
-  const [editMode, setEditMode] = useState(false);
-  const [message, setMessage] = useState('');
+const AdminDashboard = () => {
+  const [users, setUsers] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState({ userId: '' });
 
-  useEffect(() => {
-    if (user) {
-      setNickname(user.nickname || '');
-      setAvatar(user.avatar || '');
-    }
-  }, [user]);
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(null);      
 
-  const handleUpdate = () => {
-    axios.put(`${API_URL}/api/user/${user._id}/profile`, {
-      nickname,
-      avatar
-    })
-    .then(res => {
-      setMessage('Perfil actualizado con éxito 🎉');
-      setEditMode(false);
-      setUser(res.data); 
-    })
-    .catch(err => {
-      console.error('Error actualizando perfil:', err);
-      setMessage('Ocurrió un error al actualizar.');
-    });
+  const confirmDelete = (userId) => {
+    setModalData({ userId });
+    setShowModal(true);
   };
 
-  // Solo admin puede abrir el libro
-  const hasPermissions = user?.role === 'admin';
+  const handleDelete = async () => {
+    const userId = modalData.userId;
+    const userToDelete = users.find(u => u._id === userId);
+    if (userToDelete?.email === 'admin@libros.com') return;
+
+    try {
+      setLoading(true);
+      await axios.delete(`${API_URL}/api/user/${userId}`);
+      fetchUsers();
+    } catch (error) {
+      console.error('Error al eliminar usuario:', error);
+      setError("Error al eliminar usuario.");
+    } finally {
+      setLoading(false);
+      setShowModal(false);
+    }
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/api/user`);
+      setUsers(res.data);
+    } catch (error) {
+      console.error('Error al obtener usuarios:', error);
+      setError("Error al obtener usuarios.");
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   return (
-    <div className="admin-dashboard-container">
-      <div className="admin-profile-card">
-        <img src={avatar || user?.avatar} alt="Avatar" className="avatar" />
-        <h3>{nickname || user?.nickname}</h3>
-        <p>{user?.email}</p>
-        {user?.role === 'admin' && (
-          <span className="admin-badge">👑 Administrador</span>
-        )}
+    <div className="admin-container">
+      <h2>Panel de Administración</h2>
+      {error && <p className="error-message">{error}</p>}
 
-        {editMode ? (
-          <div className="edit-mode">
-            <input
-              type="text"
-              className="edit-input"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              placeholder="Nuevo apodo"
-            />
-            <input
-              type="text"
-              className="edit-input"
-              value={avatar}
-              onChange={(e) => setAvatar(e.target.value)}
-              placeholder="Nueva URL de avatar"
-            />
-            <div className="profile-buttons">
-              <button className="save-btn" onClick={handleUpdate}>Guardar</button>
-              <button className="cancel-btn" onClick={() => setEditMode(false)}>Cancelar</button>
+      <div className="user-list">
+        {users.map(user => (
+          <div key={user._id} className="user-card">
+            <img src={user.avatar} alt="Avatar" className="avatar" />
+            <p><strong>Apodo:</strong> {user.nickname}</p>
+            <p><strong>Email:</strong> {user.email}</p>
+            <p>
+              <strong>Rol:</strong>{' '}
+              <span className={`user-role-badge ${
+                user.email === 'admin@libros.com' ? 'superadmin-role' : ''
+              }`}>
+                {user.email === 'admin@libros.com' ? '👑 admin principal' : 'user'}
+              </span>
+            </p>
+
+            {user.email !== 'admin@libros.com' && (
+              <button onClick={() => confirmDelete(user._id)} disabled={loading}>
+                Eliminar
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* MODAL CONFIRMACIÓN */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>¿Estás seguro?</h3>
+            <p>¿Estás seguro de eliminar este usuario? Esta acción no se puede revertir.</p>
+            <div className="modal-buttons">
+              <button onClick={handleDelete} className="confirm" disabled={loading}>
+                {loading ? 'Eliminando...' : 'Sí'}
+              </button>
+              <button onClick={() => setShowModal(false)} className="cancel">
+                Cancelar
+              </button>
             </div>
           </div>
-        ) : (
-          <div className="profile-buttons">
-            <button className="edit-btn" onClick={() => setEditMode(true)}>Editar</button>
-          </div>
-        )}
-
-        {message && <p>{message}</p>}
-      </div>
-
-      <div className="admin-book-container">
-        <motion.div 
-          className={`book-cover-icon ${bookOpen ? 'open' : ''}`} 
-          onClick={() => hasPermissions && setBookOpen(!bookOpen)}
-          whileHover={{ scale: hasPermissions ? 1.05 : 1 }}
-          whileTap={{ scale: hasPermissions ? 0.95 : 1 }}
-          style={{ opacity: hasPermissions ? 1 : 0.4, cursor: hasPermissions ? 'pointer' : 'not-allowed' }}
-        >
-          {bookOpen ? '📖' : '📕'}
-          <p>{bookOpen ? 'Cerrar libro' : 'Abrir libro'}</p>
-        </motion.div>
-
-        <AnimatePresence>
-          {bookOpen && (
-            <motion.div 
-              className="book-pages"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.4 }}
-            >
-              <div className="book-page-column">
-                {user?.role === 'admin' && (
-                  <div className="book-page">
-                    <h4>Usuarios</h4>
-                    <p>Administra todos los usuarios registrados.</p>
-                    <button onClick={() => navigate("/adminusers")}>Ver usuarios</button>
-                  </div>
-                )}
-
-                {user?.role === 'admin' && (
-                  <div className="book-page">
-                    <h4>Mensajes</h4>
-                    <p>Revisa y responde los mensajes enviados por usuarios.</p>
-                    <button onClick={() => navigate("/admininbox")}>Bandeja de mensajes</button>
-                  </div>
-                )}
-              </div>
-
-              <div className="book-page-column">
-                {user?.role === 'admin' && (
-                  <div className="book-page">
-                    <h4>Libros</h4>
-                    <p>Gestiona los libros disponibles.</p>
-                    <button onClick={() => navigate("/adminbooks")}>Ver libros</button>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default AdminBookDashboard;
+export default AdminDashboard;
