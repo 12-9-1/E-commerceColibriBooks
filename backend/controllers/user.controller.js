@@ -2,6 +2,7 @@ const User = require('../models/modelUser');
 const crypto = require("crypto");
 const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
+const { isPasswordSecure } = require('../utils/passwordValidator');
 
 
 
