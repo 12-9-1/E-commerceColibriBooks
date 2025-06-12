@@ -1,4 +1,3 @@
-// /pages/AdminProfileCard.jsx
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import axios from 'axios'; 
@@ -38,6 +37,13 @@ const AdminBookDashboard = () => {
   };
 
   const isAdmin = user?.role === 'admin';
+  const isSuperAdmin = user?.email === 'admin@libros.com';
+
+  const renderAdminBadge = () => {
+    if (isSuperAdmin) return <span className="admin-badge">👑 Administrador principal</span>;
+    if (isAdmin) return <span className="admin-badge">🛡️ Administrador</span>;
+    return null;
+  };
 
   return (
     <div className="admin-dashboard-container">
@@ -45,7 +51,7 @@ const AdminBookDashboard = () => {
         <img src={avatar || user?.avatar} alt="Avatar" className="avatar" />
         <h3>{nickname || user?.nickname}</h3>
         <p>{user?.email}</p>
-        <span className="admin-badge">👑 Administrador</span>
+        {renderAdminBadge()}
 
         {editMode ? (
           <div className="edit-mode">
