@@ -64,7 +64,6 @@ const login = async (req, res) => {
       role: user.role,
       nickname: user.nickname || '',
       avatar: user.avatar || '',
-      permissions: user.role === 'co-admin' ? user.permissions || {} : undefined
     },
       token 
     });

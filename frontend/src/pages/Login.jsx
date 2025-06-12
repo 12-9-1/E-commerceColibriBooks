@@ -33,10 +33,6 @@ const Login = ({ closeModal, onToggleForm }) => {
     if (res.data?.user) {
       const userData = res.data.user;
 
-      if (userData.role === 'co-admin' && !userData.permissions) {
-        userData.permissions = {};
-      }
-
       localStorage.setItem("user", JSON.stringify(userData));
       localStorage.setItem("token", res.data.token);
 

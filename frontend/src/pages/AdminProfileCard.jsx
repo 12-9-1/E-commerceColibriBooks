@@ -9,7 +9,7 @@ import '../styles/AdminBookDashboard.css';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const AdminBookDashboard = () => {
-  const { user, setUser  } = useUser();
+  const { user, setUser } = useUser();
   const navigate = useNavigate();
   const [bookOpen, setBookOpen] = useState(false);
   const [nickname, setNickname] = useState('');
@@ -25,23 +25,19 @@ const AdminBookDashboard = () => {
   }, [user]);
 
   const handleUpdate = () => {
-    axios.put(`${API_URL}/api/user/${user._id}/profile`, {
-      nickname,
-      avatar
-    })
-    .then(res => {
-      setMessage('Perfil actualizado con éxito 🎉');
-      setEditMode(false);
-      setUser(res.data); 
-    })
-    .catch(err => {
-      console.error('Error actualizando perfil:', err);
-      setMessage('Ocurrió un error al actualizar.');
-    });
+    axios.put(`${API_URL}/api/user/${user._id}/profile`, { nickname, avatar })
+      .then(res => {
+        setMessage('Perfil actualizado con éxito 🎉');
+        setEditMode(false);
+        setUser(res.data);
+      })
+      .catch(err => {
+        console.error('Error actualizando perfil:', err);
+        setMessage('Ocurrió un error al actualizar.');
+      });
   };
 
-
-  const hasPermissions = user?.role === 'admin' || user?.permissions?.canAccessUsers || user?.permissions?.canReplyMessages || user?.permissions?.canUploadBooks;
+  const isAdmin = user?.role === 'admin';
 
   return (
     <div className="admin-dashboard-container">
@@ -49,11 +45,7 @@ const AdminBookDashboard = () => {
         <img src={avatar || user?.avatar} alt="Avatar" className="avatar" />
         <h3>{nickname || user?.nickname}</h3>
         <p>{user?.email}</p>
-        {user?.role === 'admin' ? (
-          <span className="admin-badge">👑 Administrador</span>
-        ) : (
-          <span className="admin-badge">🛡️ Co-Admin</span>
-        )}
+        <span className="admin-badge">👑 Administrador</span>
 
         {editMode ? (
           <div className="edit-mode">
@@ -88,17 +80,16 @@ const AdminBookDashboard = () => {
       <div className="admin-book-container">
         <motion.div 
           className={`book-cover-icon ${bookOpen ? 'open' : ''}`} 
-          onClick={() => hasPermissions && setBookOpen(!bookOpen)}
-          whileHover={{ scale: hasPermissions ? 1.05 : 1 }}
-          whileTap={{ scale: hasPermissions ? 0.95 : 1 }}
-          style={{ opacity: hasPermissions ? 1 : 0.4, cursor: hasPermissions ? 'pointer' : 'not-allowed' }}
+          onClick={() => setBookOpen(!bookOpen)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           {bookOpen ? '📖' : '📕'}
           <p>{bookOpen ? 'Cerrar libro' : 'Abrir libro'}</p>
         </motion.div>
 
         <AnimatePresence>
-          {bookOpen && (
+          {bookOpen && isAdmin && (
             <motion.div 
               className="book-pages"
               initial={{ opacity: 0, scale: 0.9 }}
@@ -107,41 +98,26 @@ const AdminBookDashboard = () => {
               transition={{ duration: 0.4 }}
             >
               <div className="book-page-column">
-                {(user?.role === 'admin' || user?.permissions?.canAccessUsers) && (
-                  <div className="book-page">
-                    <h4>Usuarios</h4>
-                    <p>Administra todos los usuarios registrados.</p>
-                    <button onClick={() => navigate("/adminusers")}>Ver usuarios</button>
-                  </div>
-                )}
+                <div className="book-page">
+                  <h4>Usuarios</h4>
+                  <p>Administra todos los usuarios registrados.</p>
+                  <button onClick={() => navigate("/adminusers")}>Ver usuarios</button>
+                </div>
 
-                {(user?.role === 'admin' || user?.permissions?.canReplyMessages) && (
-                  <div className="book-page">
-                    <h4>Mensajes</h4>
-                    <p>Revisa y responde los mensajes enviados por usuarios.</p>
-                    <button onClick={() => navigate("/admininbox")}>Bandeja de mensajes</button>
-                  </div>
-                )}
+                <div className="book-page">
+                  <h4>Mensajes</h4>
+                  <p>Revisa y responde los mensajes enviados por usuarios.</p>
+                  <button onClick={() => navigate("/admininbox")}>Bandeja de mensajes</button>
+                </div>
               </div>
 
               <div className="book-page-column">
-                {(user?.role === 'admin' || user?.permissions?.canUploadBooks) && (
-                  <div className="book-page">
-                    <h4>Libros</h4>
-                    <p>Gestiona los libros disponibles.</p>
-                    <button onClick={() => navigate("/adminbooks")}>Ver libros</button>
-                  </div>
-                )}
+                <div className="book-page">
+                  <h4>Libros</h4>
+                  <p>Gestiona los libros disponibles.</p>
+                  <button onClick={() => navigate("/adminbooks")}>Ver libros</button>
+                </div>
               </div>
-
-              {user?.role === 'co-admin' &&
-                !user?.permissions?.canAccessUsers &&
-                !user?.permissions?.canReplyMessages &&
-                !user?.permissions?.canUploadBooks && (
-                  <p style={{ padding: '1rem', textAlign: 'center', color: 'gray' }}>
-                    No tienes permisos asignados aún. Contacta al administrador principal.
-                  </p>
-              )}
             </motion.div>
           )}
         </AnimatePresence>
