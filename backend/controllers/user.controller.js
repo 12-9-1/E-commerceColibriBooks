@@ -36,16 +36,20 @@ const deleteUser = async (req, res) => {
   }
 };
 
-
 const updateUserRole = async (req, res) => {
   try {
     const { id } = req.params;
     const { role } = req.body;
 
-    const user = await User.findById(id);
-    if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+    if (!['user', 'admin'].includes(role)) {
+      return res.status(400).json({ message: 'Rol no válido. Solo se permite "user" o "admin"' });
+    }
 
-    
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
     if (user.email === 'admin@libros.com') {
       return res.status(403).json({
         message: 'No se puede modificar el rol del administrador principal',
@@ -58,30 +62,6 @@ const updateUserRole = async (req, res) => {
     res.status(200).json({ message: 'Rol actualizado correctamente', newRole: user.role });
   } catch (error) {
     res.status(500).json({ message: 'Error al actualizar el rol', error });
-  }
-};
-
-const updateUserPermissions = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const permissions = req.body;
-
-    const user = await User.findById(id);
-    if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
-    }
-
-
-    if (user.role !== 'co-admin') {
-      return res.status(403).json({ message: 'Solo los co-admin pueden tener permisos personalizados.' });
-    }
-
-    user.permissions = { ...permissions };
-    await user.save();
-
-    res.json({ message: 'Permisos actualizados', permissions: user.permissions });
-  } catch (error) {
-    res.status(500).json({ message: 'Error al actualizar permisos', error });
   }
 };
 
@@ -288,5 +268,4 @@ module.exports = {
   getWishlist,
   forgotPassword,
   resetPassword,
-  updateUserPermissions
 };
