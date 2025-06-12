@@ -1,6 +1,4 @@
-// context/UserContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
-
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -18,11 +16,6 @@ export const UserProvider = ({ children }) => {
 
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);
-
-        if (parsedUser.role === 'co-admin' && !parsedUser.permissions) {
-          parsedUser.permissions = {};
-        }
-
         setUser(parsedUser);
         console.log("Usuario cargado desde localStorage:", parsedUser);
       }
@@ -49,33 +42,27 @@ export const UserProvider = ({ children }) => {
     setFavorites(ids);
   };
 
-
   const fetchUserWishlist = async () => {
     if (!user) return;
     const res = await fetch(`${API_URL}/api/user/${user._id}/wishlist`);
     const data = await res.json();
     const ids = data.map(book => book._id);
-    setWishlist(ids); 
+    setWishlist(ids);
   };
 
   const updateFavorites = async (bookId, action) => {
     if (!user) return;
     const method = action === "add" ? "POST" : "DELETE";
-    await fetch(`${API_URL}/api/user/${user._id}/favorites/${bookId}`, {
-      method,
-    });
+    await fetch(`${API_URL}/api/user/${user._id}/favorites/${bookId}`, { method });
     fetchUserFavorites(); 
   };
 
   const updateWishlist = async (bookId, action) => {
     if (!user) return;
     const method = action === "add" ? "POST" : "DELETE";
-    await fetch(`${API_URL}/api/user/${user._id}/wishlist/${bookId}`, {
-      method,
-    });
+    await fetch(`${API_URL}/api/user/${user._id}/wishlist/${bookId}`, { method });
     fetchUserWishlist(); 
   };
-  
 
   return (
     <UserContext.Provider
@@ -97,4 +84,3 @@ export const UserProvider = ({ children }) => {
 };
 
 export const useUser = () => useContext(UserContext);
-
