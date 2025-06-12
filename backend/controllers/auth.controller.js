@@ -1,12 +1,7 @@
 const User = require('../models/modelUser')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
-
-function isPasswordSecure(password) {
-  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-  return re.test(password);
-}
+const { isPasswordSecure } = require('../utils/passwordValidator');
 
 const register = async (req, res) => {
   try {
